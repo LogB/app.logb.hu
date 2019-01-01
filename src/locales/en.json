@@ -1,3 +1,11 @@
 {
-  "message": "hello i18n !!"
+  "message": "hello i18n !!",
+  "homePage": "Home",
+  "sharedMeasurements": "Shared Measurements",
+  "downloadedMeasurements": "Downloaded Measurements",
+  "or": "OR",
+  "logIn": "LogIn",
+  "register": "Register",
+  "myMeasurements": "My Measurements",
+  "TEST": "ENGLISH!"
 }

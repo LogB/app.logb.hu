@@ -1,3 +1,11 @@
 {
-  "message": "hello i18n !!"
+  "message": "hello i18n !!",
+  "homePage": "Kezdőlap",
+  "sharedMeasurements": "Nyilvános Mérések",
+  "downloadedMeasurements": "Letöltött Mérések",
+  "or": "Vagy",
+  "logIn": "Bejelentkezés",
+  "register": "Regisztáció",
+  "myMeasurements": "Saját méréseim",
+  "TEST": "MAGYAR!"
 }
