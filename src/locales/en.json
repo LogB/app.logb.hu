@@ -4,8 +4,13 @@
   "sharedMeasurements": "Shared Measurements",
   "downloadedMeasurements": "Downloaded Measurements",
   "or": "OR",
-  "logIn": "LogIn",
+  "logIn": "Log In",
   "register": "Register",
   "myMeasurements": "My Measurements",
-  "TEST": "ENGLISH!"
+  "TEST": "ENGLISH!",
+  "language": "Language",
+  "email":"Email",
+  "passwordAgain":"Password Again",
+  "password": "Password",
+  "username":"Username"
 }

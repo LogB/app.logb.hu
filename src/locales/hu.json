@@ -7,5 +7,10 @@
   "logIn": "Bejelentkezés",
   "register": "Regisztáció",
   "myMeasurements": "Saját méréseim",
-  "TEST": "MAGYAR!"
+  "TEST": "MAGYAR!",
+  "language":"Nyelv",
+  "email":"Email",
+  "passwordAgain":"Jelszó Újra",
+  "password": "Jelszó",
+  "username":"Felhasználónév"
 }

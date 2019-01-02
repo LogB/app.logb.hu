@@ -20,8 +20,23 @@ function loadLocaleMessages() {
   return messages;
 }
 
+function getLocale() {
+  if (localStorage.getItem("lang") == null) {
+    localStorage.setItem("lang", navigator.language.substr(0, 2));
+    return navigator.language.substr(0, 2);
+    //this.$i18n.locale = this.$offlineStorage.get("lang");
+  } else {
+    if (localStorage.getItem("lang")[0] == '"') {
+      return localStorage.getItem("lang").substr(1, 2);
+    } else {
+      return localStorage.getItem("lang").substr(0, 2);
+    }
+    //this.$i18n.locale = this.$offlineStorage.get("lang");
+  }
+}
+
 export default new VueI18n({
-  locale: process.env.VUE_APP_I18N_LOCALE || "en",
+  locale: getLocale(),
   fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || "en",
   messages: loadLocaleMessages()
 });
