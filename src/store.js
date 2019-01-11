@@ -16,7 +16,7 @@ export default new Vuex.Store({
     locale: navigator.language.substr(0, 2),
     user: {
       username: "Remenyo",
-      email: "remenyo@logb.com"
+      email: "remenyo@gmail.com"
     }
   },
   mutations: {
