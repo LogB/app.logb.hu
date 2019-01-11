@@ -296,18 +296,19 @@ export default {
       !this.$v.registerPasswordAgain.sameAs && errors.push("=!");
       return errors;
     },
-    stateLocale() {
-      return this.$store.state.locale;
-    },
     ...mapState({
       user: state => state.user,
-      loggedIn: state => state.loggedIn
+      loggedIn: state => state.loggedIn,
+      activeLocale: state => state.locale
     })
   },
   watch: {
     activeLocale: function() {
       this.$i18n.locale = this.$store.state.locale;
     }
+  },
+  mounted: function() {
+    this.$i18n.locale = this.$store.state.locale;
   },
   methods: {
     ...mapMutations(["CHANGE_LOCALE"]),
