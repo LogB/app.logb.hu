@@ -7,25 +7,23 @@
       :width="drawerWidth"
       style="height: auto"
     >
-      <v-list class="pa-0 mb-1 mt-1" v-if="loggedIn">
+      <v-list class="pa-0 mb-1 mt-1">
         <v-list-tile avatar>
           <v-list-tile-avatar>
-            <userIcon :name="username"/>
+            <userIcon v-if="loggedIn&&isOnline"/>
+            <v-icon v-if="!loggedIn&&isOnline" x-large>account_circle</v-icon>
+            <v-icon v-if="isOffline" x-large>sync_disabled</v-icon>
           </v-list-tile-avatar>
-
-          <v-list-tile-content>
-            <v-list-tile-title>{{username}}</v-list-tile-title>
-            <v-list-tile-sub-title>{{email}}</v-list-tile-sub-title>
+          <v-list-tile-content v-if="loggedIn&&isOnline">
+            <v-list-tile-title>{{user.username}}</v-list-tile-title>
+            <v-list-tile-sub-title>{{user.email}}</v-list-tile-sub-title>
           </v-list-tile-content>
-        </v-list-tile>
-      </v-list>
-      <v-list class="pa-0 mb-1 mt-1" v-else-if="isOnline">
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <v-icon x-large>account_circle</v-icon>
-          </v-list-tile-avatar>
-          <v-layout row align-center>
-            <v-menu offset-y v-model="loginMenu" :nudge-width="240" :close-on-content-click="false">
+          <v-list-tile-content v-if="isOffline">
+            <v-list-tile-title>{{$t('offline')}}</v-list-tile-title>
+            <v-list-tile-sub-title>{{$t('noInternet')}}</v-list-tile-sub-title>
+          </v-list-tile-content>
+          <v-layout v-if="!loggedIn&&isOnline" row align-center>
+            <v-menu v-model="loginMenu" offset-y :nudge-width="240" :close-on-content-click="false">
               <v-btn slot="activator" outline color="primary">{{ $t('logIn') }}</v-btn>
               <v-card>
                 <v-card-title class="headline lighten-2">{{ $t('logIn') }}</v-card-title>
@@ -58,7 +56,12 @@
                 </v-card-actions>
               </v-card>
             </v-menu>
-            <v-menu offset-y v-model="registerMenu" :nudge-width="230" :close-on-content-click="false">
+            <v-menu
+              v-model="registerMenu"
+              offset-y
+              :nudge-width="230"
+              :close-on-content-click="false"
+            >
               <v-btn slot="activator" outline>{{ $t('register') }}</v-btn>
               <v-card>
                 <v-card-title class="headline lighten-2">{{ $t('register') }}</v-card-title>
@@ -107,17 +110,6 @@
                 </v-card-actions>
               </v-card>
             </v-menu>
-          </v-layout>
-        </v-list-tile>
-      </v-list>
-      <v-list class="pa-0 mb-1 mt-1" v-else>
-        <v-list-tile avatar>
-          <v-list-tile-avatar>
-            <v-icon x-large>sync_disabled</v-icon>
-          </v-list-tile-avatar>
-          <v-layout row align-center>
-            <v-btn outline color="primary" disabled>{{ $t('logIn') }}</v-btn>
-            <v-btn outline disabled>{{ $t('register') }}</v-btn>
           </v-layout>
         </v-list-tile>
       </v-list>
@@ -180,8 +172,15 @@ import {
   sameAs
 } from "vuelidate/lib/validators";
 import userIcon from "./components/Jdenticon.vue";
+import { VueOfflineMixin } from "vue-offline";
+import { mapMutations } from "vuex";
+import { mapState } from "vuex";
 export default {
   name: "App",
+  components: {
+    userIcon
+  },
+  mixins: [VueOfflineMixin],
   data() {
     return {
       drawer: null,
@@ -245,22 +244,7 @@ export default {
       sameAs: sameAs("registerPassword")
     }
   },
-  components: {
-    userIcon
-  },
   computed: {
-    loggedIn() {
-      return this.$store.state.loggedIn;
-    },
-    username() {
-      return this.$store.state.user.username;
-    },
-    email() {
-      return this.$store.state.user.email;
-    },
-    activeLocale() {
-      return this.$i18n.locale;
-    },
     drawerWidth() {
       switch (this.$i18n.locale) {
         case "hu":
@@ -311,12 +295,24 @@ export default {
       if (!this.$v.registerPasswordAgain.$dirty) return errors;
       !this.$v.registerPasswordAgain.sameAs && errors.push("=!");
       return errors;
+    },
+    stateLocale() {
+      return this.$store.state.locale;
+    },
+    ...mapState({
+      user: state => state.user,
+      loggedIn: state => state.loggedIn
+    })
+  },
+  watch: {
+    activeLocale: function() {
+      this.$i18n.locale = this.$store.state.locale;
     }
   },
   methods: {
+    ...mapMutations(["CHANGE_LOCALE"]),
     changeLocale: function(lang) {
-      this.$offlineStorage.set("lang", lang);
-      this.$i18n.locale = this.$offlineStorage.get("lang");
+      this.CHANGE_LOCALE(lang);
     }
   }
 };

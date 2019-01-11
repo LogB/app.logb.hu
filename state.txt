@@ -1,0 +1,29 @@
+Added lots of things, rapid early development:
++ Added App shell
++ Added content to drawer, and customized it.
++ Added Offline watchers to prevent login
++ Integrated Vuex
++ Integrated Offline Local Storage
++ Added i18n to the App shell
++ Added guessing the right language with navigator.language
+  and saving it as default at first start with i18n.
++ Added the chance to change the localization
+  (without reloading the page).
++ Added LogB + font branding.
++ Added copyright footer in the drawer.
++ Added full Hungarian language support
++ Added Jdenticons to personal user picture.
+
+- Removed some HelloWord content.
+- Removed some icons.
+
+#TODO
+  remove unused i18n words
+  vuetify i18n
+  remove more HelloWord content
+  replace icons
+  customize manifest.json
+  add pages, & routing
+  add ajax things into router
+  add ajax into firstload
+  make save new states, in vuex as well as localstorage.

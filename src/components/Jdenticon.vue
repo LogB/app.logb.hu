@@ -1,16 +1,16 @@
 <template>
-    <div v-html='identicon' :name='name'></div>
+    <div v-html='identicon'></div>
 </template>
 <script>
 import jdenticon from "jdenticon";
 export default {
-  props: ["name"],
   computed: {
+    name: function() {
+      return this.$store.state.user;
+    },
     identicon: function() {
-      return jdenticon.toSvg(this.name, 48);
+      return jdenticon.toSvg(name, 48);
     }
   }
 };
 </script>
-<style>
-</style>

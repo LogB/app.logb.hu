@@ -1,16 +1,17 @@
 {
-  "message": "hello i18n !!",
   "homePage": "Home",
   "sharedMeasurements": "Shared Measurements",
   "downloadedMeasurements": "Downloaded Measurements",
   "or": "OR",
   "logIn": "Log In",
-  "register": "Register",
+  "register": "Sign Up",
   "myMeasurements": "My Measurements",
   "TEST": "ENGLISH!",
   "language": "Language",
   "email":"Email",
   "passwordAgain":"Password Again",
   "password": "Password",
-  "username":"Username"
+  "username":"Username",
+  "offline": "Offline",
+  "noInternet": "There isn't internet right now."
 }

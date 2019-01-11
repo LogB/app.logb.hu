@@ -1,5 +1,4 @@
 {
-  "message": "hello i18n !!",
   "homePage": "Kezdőlap",
   "sharedMeasurements": "Nyilvános Mérések",
   "downloadedMeasurements": "Letöltött Mérések",
@@ -12,5 +11,7 @@
   "email":"Email",
   "passwordAgain":"Jelszó Újra",
   "password": "Jelszó",
-  "username":"Felhasználónév"
+  "username":"Felhasználónév",
+  "offline": "Offline",
+  "noInternet": "Jelenleg nincs internetkapcsolat"
 }
