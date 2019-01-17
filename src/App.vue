@@ -15,7 +15,7 @@
       <v-list class="pa-0">
         <v-footer color="transparent">
           <v-layout justify-center>
-            2018 -&nbsp;
+            2019 -&nbsp;
             <strong class="logb_type">
               LogB
               <sup>&copy;</sup>

@@ -7,7 +7,7 @@
         <v-icon v-if="isOffline" x-large>sync_disabled</v-icon>
       </v-list-tile-avatar>
       <v-list-tile-content v-if="loggedIn&&isOnline">
-        <v-list-tile-title>{{user.username}}</v-list-tile-title>
+        <v-list-tile-title>{{user.name}}</v-list-tile-title>
         <v-list-tile-sub-title>{{user.email}}</v-list-tile-sub-title>
       </v-list-tile-content>
       <v-list-tile-content v-if="isOffline">
@@ -44,7 +44,7 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" flat @click="loginMenu = false">{{ $t('logIn') }}</v-btn>
+              <v-btn color="primary" :loading="loading" outline :disabled="this.$v.logInCheck.$invalid" @click="login()">{{ $t('logIn') }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -93,7 +93,7 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" flat @click="registerMenu = false">{{ $t('register') }}</v-btn>
+              <v-btn color="primary" :loading="loading" outline :disabled="this.$v.registerCheck.$invalid" @click="register()">{{ $t('register') }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -126,7 +126,8 @@ export default {
       registerUsername: "",
       registerEmail: "",
       registerPassword: "",
-      registerPasswordAgain: ""
+      registerPasswordAgain: "",
+      loading: false
     };
   },
   validations: {
@@ -154,7 +155,14 @@ export default {
     },
     registerPasswordAgain: {
       sameAs: sameAs("registerPassword")
-    }
+    },
+    logInCheck: ["logInUsername", "logInPassword"],
+    registerCheck: [
+      "registerUsername",
+      "registerEmail",
+      "registerPassword",
+      "registerPasswordAgain"
+    ]
   },
   computed: {
     logInUsernameError() {
@@ -204,6 +212,14 @@ export default {
       user: state => state.user,
       loggedIn: state => state.loggedIn
     })
+  },
+  methods: {
+    login: function() {
+      //console.log(this.$v.logInCheck.$invalid);
+    },
+    register: function() {
+      //console.log(this.$v.registerCheck.$invalid);
+    }
   }
 };
 </script>

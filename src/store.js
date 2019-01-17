@@ -12,12 +12,13 @@ const vuexPersist = new VuexPersist({
 export default new Vuex.Store({
   state: {
     // color: "#4895CB",
-    loggedIn: true,
+    loggedIn: false,
     locale: navigator.language.substr(0, 2),
     user: {
-      username: "Remenyo",
-      email: "remenyo@logb.com"
-    }
+      name: "",
+      email: ""
+    },
+    loggingOrSigning: false
   },
   mutations: {
     CHANGE_LOCALE(state, locale) {

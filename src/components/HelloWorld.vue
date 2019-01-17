@@ -1,7 +1,5 @@
-<i18n src="./enm.json"></i18n>
-
 <template>
-<div>{{$t('data.1')}}</div>
+<div>{{$t('TEST')}}</div>
 </template>
 
 <script>
