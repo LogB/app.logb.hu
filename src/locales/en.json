@@ -14,7 +14,5 @@
   "username":"Username",
   "offline": "Offline",
   "noInternet": "There isn't internet right now.",
-  "dat": {
-    "data1": "dataisworking"
-  }
+  "fillItBeforeSubmit": "Please fill out all the fields."
 }

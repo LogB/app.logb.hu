@@ -1,17 +1,20 @@
 <template>
   <v-app>
     <v-navigation-drawer
+    ref="drawerRef"
       v-model="drawer"
+      app
       absolute
       temporary
       :width="drawerWidth"
-      style="height: auto"
+      style="height: auto;"
     >
       <LoginReg/>
       <v-divider></v-divider>
       <DrawerItems/>
       <v-divider></v-divider>
       <LocaleChanger/>
+      <v-divider></v-divider>
       <v-list class="pa-0">
         <v-footer color="transparent">
           <v-layout justify-center>

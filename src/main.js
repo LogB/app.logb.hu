@@ -8,7 +8,11 @@ import "roboto-fontface/css/roboto/roboto-fontface.css";
 import "material-design-icons-iconfont/dist/material-design-icons.css";
 import i18n from "./i18n";
 import Vuelidate from "vuelidate";
+import axios from "axios";
+import VueAxios from "vue-axios";
+axios.defaults.baseURL = "https://cloud.logb.hu/cloud.php";
 Vue.config.productionTip = false;
+Vue.use(VueAxios, axios);
 Vue.use(Vuelidate);
 Vue.filter("upperCase", function(word) {
   return word.toUpperCase();

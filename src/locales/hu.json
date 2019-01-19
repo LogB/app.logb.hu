@@ -13,5 +13,6 @@
   "password": "Jelszó",
   "username":"Felhasználónév",
   "offline": "Offline",
-  "noInternet": "Jelenleg nincs internetkapcsolat"
+  "noInternet": "Jelenleg nincs internetkapcsolat",
+  "fillItBeforeSubmit": "Kérem töltse ki az összes mezőt."
 }

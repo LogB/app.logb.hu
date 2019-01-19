@@ -44,7 +44,17 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" :loading="loading" outline :disabled="this.$v.logInCheck.$invalid" @click="login()">{{ $t('logIn') }}</v-btn>
+              <div
+                v-if="this.$v.logInCheck.$invalid&&this.$v.logInCheck.$anyDirty"
+                class="pr-1"
+              >{{ $t('fillItBeforeSubmit') }}</div>
+              <v-btn
+                color="primary"
+                :loading="loading"
+                outline
+                :disabled="this.$v.logInCheck.$invalid&&this.$v.logInCheck.$anyDirty"
+                @click="login()"
+              >{{ $t('logIn') }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -93,7 +103,17 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" :loading="loading" outline :disabled="this.$v.registerCheck.$invalid" @click="register()">{{ $t('register') }}</v-btn>
+              <div
+                v-if="this.$v.registerCheck.$invalid&&this.$v.registerCheck.$anyDirty"
+                class="pr-1"
+              >{{ $t('fillItBeforeSubmit') }}</div>
+              <v-btn
+                color="primary"
+                :loading="loading"
+                outline
+                :disabled="this.$v.registerCheck.$invalid&&this.$v.registerCheck.$anyDirty"
+                @click="register()"
+              >{{ $t('register') }}</v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -138,7 +158,7 @@ export default {
     },
     logInPassword: {
       required,
-      minLength: minLength(6)
+      minLength: minLength(2)
     },
     registerUsername: {
       required,
@@ -215,9 +235,20 @@ export default {
   },
   methods: {
     login: function() {
+      this.loading = true;
+      this.axios
+        .post("/", {
+          function: "WLI",
+          un: this.logInUsername,
+          pw: this.logInPassword,
+          withCredentials: true
+        })
+        .then((this.loading = false))
+        .then((this.loginMenu = false));
       //console.log(this.$v.logInCheck.$invalid);
     },
     register: function() {
+      this.api.login(this.logInUsername, this.logInPassword);
       //console.log(this.$v.registerCheck.$invalid);
     }
   }
