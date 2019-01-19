@@ -1,5 +1,5 @@
 <template>
-  <v-list class="pa-0 mb-1 mt-1">
+  <v-list ref="loginWidth" class="pa-0 mb-1 mt-1">
     <v-list-tile avatar>
       <v-list-tile-avatar>
         <userIcon v-if="loggedIn&&isOnline"/>
@@ -233,22 +233,25 @@ export default {
       loggedIn: state => state.loggedIn
     })
   },
+  updated() {
+    this.$emit("updateDrawerWidth");
+  },
   methods: {
     login: function() {
       this.loading = true;
       this.axios
-        .post("/", {
-          function: "WLI",
-          un: this.logInUsername,
-          pw: this.logInPassword,
-          withCredentials: true
+        .post(
+          "/",
+          "function=WLI&un=" + this.logInUsername + "&pw=" + this.logInPassword
+        )
+        .then(response => {
+          this.loading = false;
+          return console.log(response);
         })
-        .then((this.loading = false))
-        .then((this.loginMenu = false));
-      //console.log(this.$v.logInCheck.$invalid);
+        .catch(error => console.log(error));
     },
     register: function() {
-      this.api.login(this.logInUsername, this.logInPassword);
+      //this.api.login(this.logInUsername, this.logInPassword);
       //console.log(this.$v.registerCheck.$invalid);
     }
   }
