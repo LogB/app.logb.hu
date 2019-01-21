@@ -23,11 +23,19 @@ export default new Vuex.Store({
   mutations: {
     CHANGE_LOCALE(state, locale) {
       state.locale = locale;
+    },
+    LOG_IN(state, payload) {
+      state.loggedIn = true;
+      state.user.name = payload.username;
+      state.user.email = payload.email;
+    },
+    LOG_OUT(state, payload) {
+      state.loggedIn = false;
+      state.user.name = null;
+      state.user.email = null;
     }
   },
-  getters: {
-
-  },
+  getters: {},
   actions: {},
   plugins: [vuexPersist.plugin]
 });

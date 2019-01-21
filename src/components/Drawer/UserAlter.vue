@@ -122,6 +122,8 @@
   </v-list>
 </template>
 <script>
+import { mapMutations } from "vuex";
+import api from "@/api.js";
 import {
   required,
   maxLength,
@@ -233,34 +235,41 @@ export default {
       loggedIn: state => state.loggedIn
     })
   },
-  updated() {
-    this.$emit("updateDrawerWidth");
-  },
   methods: {
-    login: function() {
-      this.loading = true;
-      this.axios
-        .post(
-          "/",
-          "function=WLI&un="+ this.logInUsername +"&pw="+ this.logInPassword,
-          {
-            withCredentials: true
-          }
-        )
-        .then(response => {
-          this.loading = false;
-          this.axios
-            .post("/", "function=LMMF&id=kyj893", {
-              withCredentials: true
-            })
-            .then(response => console.log(response));
-          return console.log(response);
-        })
-        .catch(error => console.log(error));
+    ...mapMutations(["LOG_IN"]),
+    loginState(un, pw, email) {
+      this.LOG_IN(un, pw, email);
     },
-    register: function() {
-      //this.api.login(this.logInUsername, this.logInPassword);
-      //console.log(this.$v.registerCheck.$invalid);
+    login() {
+      if (!this.$v.logInCheck.$invalid) {
+        this.loading = true;
+        api
+          .login(this.logInUsername, this.logInPassword)
+          .then(data => {
+            this.loading = false;
+            api.viewUserMeta().then(data => {
+              loginState({ username: data.username, email: data.email });
+            });
+            console.log(data);
+          })
+          .catch(error => console.log(error));
+      }
+    },
+    register() {
+      if (!this.$v.registerCheck.$invalid) {
+        this.loading = true;
+        api
+          .register(
+            this.registerUsername,
+            this.registerPassword,
+            this.registerEmail
+          )
+          .then(response => {
+            this.loading = false;
+            return console.log(response);
+          })
+          .catch(error => console.log(error));
+      }
     }
   }
 };
