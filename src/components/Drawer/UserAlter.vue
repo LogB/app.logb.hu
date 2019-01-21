@@ -242,10 +242,18 @@ export default {
       this.axios
         .post(
           "/",
-          "function=WLI&un=" + this.logInUsername + "&pw=" + this.logInPassword
+          "function=WLI&un="+ this.logInUsername +"&pw="+ this.logInPassword,
+          {
+            withCredentials: true
+          }
         )
         .then(response => {
           this.loading = false;
+          this.axios
+            .post("/", "function=LMMF&id=kyj893", {
+              withCredentials: true
+            })
+            .then(response => console.log(response));
           return console.log(response);
         })
         .catch(error => console.log(error));

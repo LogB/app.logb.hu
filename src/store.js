@@ -25,6 +25,9 @@ export default new Vuex.Store({
       state.locale = locale;
     }
   },
+  getters: {
+
+  },
   actions: {},
   plugins: [vuexPersist.plugin]
 });

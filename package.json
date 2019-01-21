@@ -66,8 +66,6 @@
     "not ie 9-12"
   ],
   "gitHooks": {
-    
-    "pre-push": "surge --project ./dist --domain logb.surge.sh"
   },
   "lint-staged": {
     "*.js": [

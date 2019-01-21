@@ -1,8 +1,10 @@
 module.exports = {
   pwa: {
-    name: "LogB Cloud",
-    themeColor: "#367AF6",
-    msTileColor: "#367AF6"
+    name: 'LogB Cloud',
+    themeColor: '#4895CB',
+    msTileColor: '#4895CB',
+    appleMobileWebAppStatusBarStyle: 'black-translucent',
+    appleMobileWebAppCapable: 'yes'
   },
 
   pluginOptions: {
