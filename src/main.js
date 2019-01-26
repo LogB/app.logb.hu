@@ -11,7 +11,7 @@ import Vuelidate from "vuelidate";
 import axios from "axios";
 import VueAxios from "vue-axios";
 import SmoothScrollbar from 'vue-smooth-scrollbar'
-axios.defaults.baseURL = "https://cloud.logb.hu/cloud/cloudFORlocalhost.php";
+axios.defaults.baseURL = "https://cloud.logb.hu/cloud";
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(Vuelidate);

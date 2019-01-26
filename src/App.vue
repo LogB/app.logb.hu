@@ -30,7 +30,7 @@
     </v-toolbar>
     <v-content>
       <v-layout fill-height>
-        <router-view/>
+        <router-view class="px-5"/>
       </v-layout>
     </v-content>
   </v-app>

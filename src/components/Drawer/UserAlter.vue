@@ -37,7 +37,7 @@
             <v-form>
               <v-container>
                 <v-text-field
-                  v-model.trim.lazy="logInUsername"
+                  v-model.trim="logInUsername"
                   counter="15"
                   :error-messages="logInUsernameError"
                   :label="$t('username')"
@@ -46,7 +46,7 @@
                   @blur="$v.logInUsername.$touch()"
                 ></v-text-field>
                 <v-text-field
-                  v-model.trim.lazy="logInPassword"
+                  v-model.trim="logInPassword"
                   :error-messages="logInPasswordError"
                   :label="$t('password')"
                   required
@@ -88,7 +88,7 @@
             <v-form>
               <v-container>
                 <v-text-field
-                  v-model.trim.lazy="registerEmail"
+                  v-model.trim="registerEmail"
                   :error-messages="registerEmailError"
                   :label="$t('email')"
                   required
@@ -96,7 +96,7 @@
                   @blur="$v.registerEmail.$touch()"
                 ></v-text-field>
                 <v-text-field
-                  v-model.trim.lazy="registerUsername"
+                  v-model.trim="registerUsername"
                   counter="15"
                   :error-messages="registerUsernameError"
                   :label="$t('username')"
@@ -105,7 +105,7 @@
                   @blur="$v.registerUsername.$touch()"
                 ></v-text-field>
                 <v-text-field
-                  v-model.trim.lazy="registerPassword"
+                  v-model.trim="registerPassword"
                   :error-messages="registerPasswordError"
                   :label="$t('password')"
                   required
@@ -113,7 +113,7 @@
                   @blur="$v.registerPassword.$touch()"
                 ></v-text-field>
                 <v-text-field
-                  v-model.trim.lazy="registerPasswordAgain"
+                  v-model.trim="registerPasswordAgain"
                   :error-messages="registerPasswordAgainError"
                   :label="$t('passwordAgain')"
                   required
