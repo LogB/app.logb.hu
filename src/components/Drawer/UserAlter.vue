@@ -15,9 +15,12 @@
         <v-list-tile-sub-title>{{$t('noInternet')}}</v-list-tile-sub-title>
       </v-list-tile-content>
       <v-list-tile-action v-if="loggedIn&&isOnline">
-        <v-btn icon ripple @click="LOG_OUT()">
-          <v-icon>power_settings_new</v-icon>
-        </v-btn>
+        <v-tooltip bottom>
+          <v-btn icon ripple slot="activator" @click="LOG_OUT()">
+            <v-icon>power_settings_new</v-icon>
+          </v-btn>
+          <span>{{$t('logOut')}}</span>
+        </v-tooltip>
       </v-list-tile-action>
       <v-slide-x-reverse-transition mode="in-out" hide-on-leave>
         <v-layout v-if="!loggedIn&&isOnline" row align-center>

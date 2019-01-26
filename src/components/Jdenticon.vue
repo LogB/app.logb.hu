@@ -5,11 +5,8 @@
 import jdenticon from "jdenticon";
 export default {
   computed: {
-    name: function() {
-      return this.$store.state.user;
-    },
     identicon: function() {
-      return jdenticon.toSvg(name, 48);
+      return jdenticon.toSvg(this.$store.state.user.name, 48);
     }
   }
 };

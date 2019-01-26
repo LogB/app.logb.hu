@@ -22,5 +22,6 @@
     "yes": "Igen",
     "no": "Nem",
     "badHappened": "Valami hiba történt. Próbáld meg újra."
-  }
+  },
+  "logOut": "Kijelentkezés"
 }

@@ -22,5 +22,6 @@
     "yes": "Yes",
     "no": "No, thanks",
     "badHappened": "Something bad happened. Please try again."
-  }
+  },
+  "logOut": "Log Out"
 }
