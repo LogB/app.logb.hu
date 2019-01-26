@@ -15,7 +15,7 @@
     </v-list-tile-content>
     <v-list-tile-action v-if="loggedIn&&isOnline">
       <v-tooltip bottom>
-        <v-btn icon ripple slot="activator" @click="LOG_OUT()">
+        <v-btn slot="activator" icon ripple @click="LOG_OUT()">
           <v-icon>power_settings_new</v-icon>
         </v-btn>
         <span>{{$t('logOut')}}</span>
@@ -289,12 +289,12 @@ export default {
       return errors;
     },
     darkAccent() {
-      if (this.$store.state.dark) return 'accent';
-      else return 'primary'
+      if (this.$store.state.dark) return "accent";
+      else return "primary";
     },
     ...mapState({
       user: state => state.user,
-      loggedIn: state => state.loggedIn,
+      loggedIn: state => state.loggedIn
     })
   },
   methods: {

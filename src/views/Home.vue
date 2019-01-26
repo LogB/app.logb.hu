@@ -1,13 +1,209 @@
+<i18n>
+  {
+    "en": {
+      "slogan": "View remotely, Analyze and Share Your LogB Measurements.",
+      "learnMore": "Learn More"
+    },
+    "hu": {
+      "slogan": "Tekintsd meg távolról, elemezd és oszd meg LogB méréseid.",
+      "learnMore": "Tudj meg többet"
+    }
+  }
+</i18n>
 <template>
-  <HelloWorld />
+  <v-layout align-center justify-center column>
+    <h1 v-t="'slogan'" class="display-2 mb-5 center"></h1>
+    <LoginReg/>
+    <v-btn v-t="'learnMore'" flat></v-btn>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>a
+      <br>
+  </v-layout>
 </template>
-
 <script>
-import HelloWorld from "../components/HelloWorld";
-
+import LoginReg from "../components/Drawer/UserAlter.vue";
 export default {
   components: {
-    HelloWorld
+    LoginReg
   }
 };
 </script>
+
+
+
+
+

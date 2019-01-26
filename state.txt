@@ -3,3 +3,7 @@ PasteBin-like...
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
+
+  {{$t('')}}
+  
+  v-t="''"

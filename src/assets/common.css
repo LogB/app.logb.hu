@@ -1,0 +1,17 @@
+html {
+  overflow:hidden;
+}
+
+@font-face {
+  font-family: Arciformi;
+  src: url(./Arciformi.woff2);
+}
+
+.logb_type {
+  font-family: Arciformi, Roboto;
+}
+
+.center {
+  text-align: center;
+  justify-content: center;
+}
