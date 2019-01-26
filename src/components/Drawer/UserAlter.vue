@@ -1,185 +1,175 @@
 <template>
-  <v-list class="pa-0 mb-1 mt-1">
-    <v-list-tile avatar>
-      <v-list-tile-avatar>
-        <userIcon v-if="loggedIn&&isOnline"/>
-        <v-icon v-if="!loggedIn&&isOnline" x-large>account_circle</v-icon>
-        <v-icon v-if="isOffline" x-large>sync_disabled</v-icon>
-      </v-list-tile-avatar>
-      <v-list-tile-content v-if="loggedIn&&isOnline">
-        <v-list-tile-title>{{user.name}}</v-list-tile-title>
-        <v-list-tile-sub-title>{{user.email}}</v-list-tile-sub-title>
-      </v-list-tile-content>
-      <v-list-tile-content v-if="isOffline">
-        <v-list-tile-title>{{$t('offline')}}</v-list-tile-title>
-        <v-list-tile-sub-title>{{$t('noInternet')}}</v-list-tile-sub-title>
-      </v-list-tile-content>
-      <v-list-tile-action v-if="loggedIn&&isOnline">
-        <v-tooltip bottom>
-          <v-btn icon ripple slot="activator" @click="LOG_OUT()">
-            <v-icon>power_settings_new</v-icon>
-          </v-btn>
-          <span>{{$t('logOut')}}</span>
-        </v-tooltip>
-      </v-list-tile-action>
-      <v-slide-x-reverse-transition mode="in-out" hide-on-leave>
-        <v-layout v-if="!loggedIn&&isOnline" row align-center>
-          <v-dialog
-            v-model="loginMenu"
-            fullscreen
-            hide-overlay
-            transition="dialog-bottom-transition"
-          >
-            <v-btn slot="activator" outline color="primary">{{ $t('logIn')}}</v-btn>
-            <v-card>
-              <v-card-title class="headline lighten-2">
-                {{ $t('logIn') }}
-                <v-spacer></v-spacer>
-                <v-btn icon @click="loginMenu = false">
-                  <v-icon medium>close</v-icon>
-                </v-btn>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-form>
-                <v-container>
-                  <v-text-field
-                    v-model.trim.lazy="logInUsername"
-                    counter="15"
-                    :error-messages="logInUsernameError"
-                    :label="$t('username')"
-                    required
-                    @input="$v.logInUsername.$touch()"
-                    @blur="$v.logInUsername.$touch()"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model.trim.lazy="logInPassword"
-                    :error-messages="logInPasswordError"
-                    :label="$t('password')"
-                    required
-                    @input="$v.logInPassword.$touch()"
-                    @blur="$v.logInPassword.$touch()"
-                  ></v-text-field>
-                </v-container>
-              </v-form>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <div v-if="this.$v.logInCheck.$invalid" class="pr-1">{{ $t('fillItBeforeSubmit') }}</div>
-                <v-btn
-                  color="primary"
-                  :loading="loading"
-                  outline
-                  :disabled="this.$v.logInCheck.$invalid"
-                  @click="login(logInUsername, logInPassword)"
-                >{{ $t('logIn') }}</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-          <v-dialog
-            v-model="registerMenu"
-            fullscreen
-            hide-overlay
-            transition="dialog-bottom-transition"
-          >
-            <v-btn slot="activator" outline>{{ $t('register') }}</v-btn>
-            <v-card>
-              <v-card-title class="headline lighten-2">
-                {{ $t('register') }}
-                <v-spacer></v-spacer>
-                <v-btn icon @click="registerMenu = false">
-                  <v-icon medium>close</v-icon>
-                </v-btn>
-              </v-card-title>
-              <v-divider></v-divider>
-              <v-form>
-                <v-container>
-                  <v-text-field
-                    v-model.trim.lazy="registerEmail"
-                    :error-messages="registerEmailError"
-                    :label="$t('email')"
-                    required
-                    @input="$v.registerEmail.$touch()"
-                    @blur="$v.registerEmail.$touch()"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model.trim.lazy="registerUsername"
-                    counter="15"
-                    :error-messages="registerUsernameError"
-                    :label="$t('username')"
-                    required
-                    @input="$v.registerUsername.$touch()"
-                    @blur="$v.registerUsername.$touch()"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model.trim.lazy="registerPassword"
-                    :error-messages="registerPasswordError"
-                    :label="$t('password')"
-                    required
-                    @input="$v.registerPassword.$touch()"
-                    @blur="$v.registerPassword.$touch()"
-                  ></v-text-field>
-                  <v-text-field
-                    v-model.trim.lazy="registerPasswordAgain"
-                    :error-messages="registerPasswordAgainError"
-                    :label="$t('passwordAgain')"
-                    required
-                    @input="$v.registerPasswordAgain.$touch()"
-                    @blur="$v.registerPasswordAgain.$touch()"
-                  ></v-text-field>
-                </v-container>
-              </v-form>
-              <v-divider></v-divider>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <div
-                  v-if="this.$v.registerCheck.$invalid"
-                  class="pr-1"
-                >{{ $t('fillItBeforeSubmit') }}</div>
-                <v-btn
-                  color="primary"
-                  :loading="loading"
-                  outline
-                  :disabled="this.$v.registerCheck.$invalid"
-                  @click="register(registerUsername, registerPassword, registerEmail)"
-                >{{ $t('register') }}</v-btn>
-              </v-card-actions>
+  <v-list-tile avatar>
+    <v-list-tile-avatar>
+      <userIcon v-if="loggedIn&&isOnline"/>
+      <v-icon v-if="!loggedIn&&isOnline" x-large>account_circle</v-icon>
+      <v-icon v-if="isOffline" x-large>sync_disabled</v-icon>
+    </v-list-tile-avatar>
+    <v-list-tile-content v-if="loggedIn&&isOnline">
+      <v-list-tile-title>{{user.name}}</v-list-tile-title>
+      <v-list-tile-sub-title>{{user.email}}</v-list-tile-sub-title>
+    </v-list-tile-content>
+    <v-list-tile-content v-if="isOffline">
+      <v-list-tile-title>{{$t('offline')}}</v-list-tile-title>
+      <v-list-tile-sub-title>{{$t('noInternet')}}</v-list-tile-sub-title>
+    </v-list-tile-content>
+    <v-list-tile-action v-if="loggedIn&&isOnline">
+      <v-tooltip bottom>
+        <v-btn icon ripple slot="activator" @click="LOG_OUT()">
+          <v-icon>power_settings_new</v-icon>
+        </v-btn>
+        <span>{{$t('logOut')}}</span>
+      </v-tooltip>
+    </v-list-tile-action>
+    <v-slide-x-reverse-transition mode="in-out" hide-on-leave>
+      <v-layout v-if="!loggedIn&&isOnline" row align-center>
+        <v-dialog v-model="loginMenu" fullscreen hide-overlay transition="dialog-bottom-transition">
+          <v-btn slot="activator" outline :color="darkAccent">{{ $t('logIn')}}</v-btn>
+          <v-card>
+            <v-card-title class="headline lighten-2">
+              {{ $t('logIn') }}
+              <v-spacer></v-spacer>
+              <v-btn icon @click="loginMenu = false">
+                <v-icon medium>close</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-form>
               <v-container>
-                <v-alert
-                  v-model="loginAfterReg"
-                  transition="slide-y-transition"
-                  outlined
-                  type="success"
-                  color="success"
-                  class="elevation-5"
-                >
-                  {{$t('dialog.alsoLogin')}}
-                  <v-btn
-                    :loading="loading"
-                    outline
-                    color="white"
-                    @click="login(registerUsername, registerPassword)"
-                  >{{$t('dialog.yes')}}</v-btn>
-                  <v-btn
-                    flat
-                    color="white"
-                    @click="loginAfterReg=false; registerMenu=false"
-                  >{{$t('dialog.no')}}</v-btn>
-                </v-alert>
-                <v-alert
-                  v-model="errorOccured"
-                  transition="slide-y-transition"
-                  outlined
-                  dismissible
-                  type="error"
-                  class="elevation-5"
-                >{{$t('dialog.badHappened')}}</v-alert>
+                <v-text-field
+                  v-model.trim.lazy="logInUsername"
+                  counter="15"
+                  :error-messages="logInUsernameError"
+                  :label="$t('username')"
+                  required
+                  @input="$v.logInUsername.$touch()"
+                  @blur="$v.logInUsername.$touch()"
+                ></v-text-field>
+                <v-text-field
+                  v-model.trim.lazy="logInPassword"
+                  :error-messages="logInPasswordError"
+                  :label="$t('password')"
+                  required
+                  @input="$v.logInPassword.$touch()"
+                  @blur="$v.logInPassword.$touch()"
+                ></v-text-field>
               </v-container>
-            </v-card>
-          </v-dialog>
-        </v-layout>
-      </v-slide-x-reverse-transition>
-    </v-list-tile>
-  </v-list>
+            </v-form>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <div v-if="this.$v.logInCheck.$invalid" class="pr-1">{{ $t('fillItBeforeSubmit') }}</div>
+              <v-btn
+                color="primary"
+                :loading="loading"
+                outline
+                :disabled="this.$v.logInCheck.$invalid"
+                @click="login(logInUsername, logInPassword)"
+              >{{ $t('logIn') }}</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog
+          v-model="registerMenu"
+          fullscreen
+          hide-overlay
+          transition="dialog-bottom-transition"
+        >
+          <v-btn slot="activator" outline>{{ $t('register') }}</v-btn>
+          <v-card>
+            <v-card-title class="headline lighten-2">
+              {{ $t('register') }}
+              <v-spacer></v-spacer>
+              <v-btn icon @click="registerMenu = false">
+                <v-icon medium>close</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-form>
+              <v-container>
+                <v-text-field
+                  v-model.trim.lazy="registerEmail"
+                  :error-messages="registerEmailError"
+                  :label="$t('email')"
+                  required
+                  @input="$v.registerEmail.$touch()"
+                  @blur="$v.registerEmail.$touch()"
+                ></v-text-field>
+                <v-text-field
+                  v-model.trim.lazy="registerUsername"
+                  counter="15"
+                  :error-messages="registerUsernameError"
+                  :label="$t('username')"
+                  required
+                  @input="$v.registerUsername.$touch()"
+                  @blur="$v.registerUsername.$touch()"
+                ></v-text-field>
+                <v-text-field
+                  v-model.trim.lazy="registerPassword"
+                  :error-messages="registerPasswordError"
+                  :label="$t('password')"
+                  required
+                  @input="$v.registerPassword.$touch()"
+                  @blur="$v.registerPassword.$touch()"
+                ></v-text-field>
+                <v-text-field
+                  v-model.trim.lazy="registerPasswordAgain"
+                  :error-messages="registerPasswordAgainError"
+                  :label="$t('passwordAgain')"
+                  required
+                  @input="$v.registerPasswordAgain.$touch()"
+                  @blur="$v.registerPasswordAgain.$touch()"
+                ></v-text-field>
+              </v-container>
+            </v-form>
+            <v-divider></v-divider>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <div v-if="this.$v.registerCheck.$invalid" class="pr-1">{{ $t('fillItBeforeSubmit') }}</div>
+              <v-btn
+                color="primary"
+                :loading="loading"
+                outline
+                :disabled="this.$v.registerCheck.$invalid"
+                @click="register(registerUsername, registerPassword, registerEmail)"
+              >{{ $t('register') }}</v-btn>
+            </v-card-actions>
+            <v-container>
+              <v-alert
+                v-model="loginAfterReg"
+                transition="slide-y-transition"
+                outlined
+                type="success"
+                color="success"
+                class="elevation-5"
+              >
+                {{$t('dialog.alsoLogin')}}
+                <v-btn
+                  :loading="loading"
+                  outline
+                  color="white"
+                  @click="login(registerUsername, registerPassword)"
+                >{{$t('dialog.yes')}}</v-btn>
+                <v-btn
+                  flat
+                  color="white"
+                  @click="loginAfterReg=false; registerMenu=false"
+                >{{$t('dialog.no')}}</v-btn>
+              </v-alert>
+              <v-alert
+                v-model="errorOccured"
+                transition="slide-y-transition"
+                outlined
+                dismissible
+                type="error"
+                class="elevation-5"
+              >{{$t('dialog.badHappened')}}</v-alert>
+            </v-container>
+          </v-card>
+        </v-dialog>
+      </v-layout>
+    </v-slide-x-reverse-transition>
+  </v-list-tile>
 </template>
 <script>
 import { mapMutations } from "vuex";
@@ -298,9 +288,13 @@ export default {
       !this.$v.registerPasswordAgain.sameAs && errors.push("=!");
       return errors;
     },
+    darkAccent() {
+      if (this.$store.state.dark) return 'accent';
+      else return 'primary'
+    },
     ...mapState({
       user: state => state.user,
-      loggedIn: state => state.loggedIn
+      loggedIn: state => state.loggedIn,
     })
   },
   methods: {

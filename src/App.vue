@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app :dark="dark">
     <v-navigation-drawer
       v-model="drawer"
       app
@@ -8,11 +8,16 @@
       :width="drawerWidth"
       style="height: auto;"
     >
-      <LoginReg/>
+      <v-list class="pa-0 mb-1 mt-1">
+        <LoginReg/>
+      </v-list>
       <v-divider></v-divider>
       <DrawerItems/>
       <v-divider></v-divider>
-      <LocaleChanger/>
+      <v-layout row align-center>
+        <LocaleChanger/>
+        <DarkMode/>
+      </v-layout>
       <v-divider></v-divider>
       <v-list class="pa-0">
         <v-footer color="transparent">
@@ -26,7 +31,7 @@
         </v-footer>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar app>
+    <v-toolbar app :color="darkOrPrimary" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
         <span class="logb_type">LogB Cloud</span>
@@ -41,6 +46,7 @@
 
 <script>
 import LoginReg from "./components/Drawer/UserAlter.vue";
+import DarkMode from "./components/Drawer/DarkModeSwitch.vue";
 import DrawerItems from "./components/Drawer/DrawerItems.vue";
 import LocaleChanger from "./components/Drawer/LocaleChanger.vue";
 export default {
@@ -48,7 +54,8 @@ export default {
   components: {
     LoginReg,
     DrawerItems,
-    LocaleChanger
+    LocaleChanger,
+    DarkMode
   },
   data() {
     return {
@@ -63,6 +70,13 @@ export default {
         default:
           return 300;
       }
+    },
+    dark() {
+      return this.$store.state.dark;
+    },
+    darkOrPrimary() {
+      if (this.$store.state.dark) return;
+      else return "primary";
     }
   }
 };

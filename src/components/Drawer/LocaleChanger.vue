@@ -1,6 +1,6 @@
 <template>
   <v-menu offset-y>
-    <v-btn slot="activator" flat>{{$t('language')}}: {{activeLocale}}</v-btn>
+    <v-btn slot="activator">{{$t('language')}}: {{activeLocale}}</v-btn>
     <v-list>
       <v-list-tile v-for="lang in locales" :key="lang" @click="changeLocale(lang)">
         <v-list-tile-title>{{lang|upperCase}}</v-list-tile-title>

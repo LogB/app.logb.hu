@@ -12,6 +12,7 @@ const vuexPersist = new VuexPersist({
 export default new Vuex.Store({
   state: {
     // color: "#4895CB",
+    dark: false,
     loggedIn: false,
     locale: navigator.language.substr(0, 2),
     user: {
@@ -36,6 +37,9 @@ export default new Vuex.Store({
     },
     DRAWER(state, payload) {
       state.drawer = payload;
+    },
+    CHANGE_DARK(state, payload) {
+      state.dark = payload;
     }
   },
   getters: {},

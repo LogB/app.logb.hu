@@ -23,5 +23,6 @@
     "no": "Nem",
     "badHappened": "Valami hiba történt. Próbáld meg újra."
   },
-  "logOut": "Kijelentkezés"
+  "logOut": "Kijelentkezés",
+  "darkMode": "Sötét mód"
 }
