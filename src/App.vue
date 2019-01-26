@@ -1,40 +1,38 @@
 <template>
   <v-app :dark="dark">
-    <v-layout fill-height>
-      <v-navigation-drawer ref="drawer" v-model="drawer" app absolute :width="drawerWidth">
-        <v-list class="pa-0 mb-1 mt-1">
-          <LoginReg/>
-        </v-list>
-        <v-divider></v-divider>
-        <DrawerItems/>
-        <v-divider></v-divider>
-        <v-layout row align-center>
-          <LocaleChanger/>
-          <DarkMode/>
-        </v-layout>
-        <v-divider></v-divider>
-        <v-layout class="pa-0" justify-center>
-          <v-footer color="transparent">
-            2019 -&nbsp;
-            <strong class="logb_type">
-              LogB
-              <sup>&copy;</sup>
-            </strong>
-          </v-footer>
-        </v-layout>
-      </v-navigation-drawer>
-      <v-toolbar app :color="darkOrPrimary" dark>
-        <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title>
-          <span class="logb_type">LogB Cloud</span>
-        </v-toolbar-title>
-      </v-toolbar>
-      <v-content id="scroll-area">
-        <smooth-scrollbar :options="{delegateTo: false}">
-          <router-view/>
-        </smooth-scrollbar>
-      </v-content>
-    </v-layout>
+    <v-navigation-drawer ref="drawer" v-model="drawer" app absolute :width="drawerWidth">
+      <v-list class="pa-0 mb-1 mt-1">
+        <LoginReg/>
+      </v-list>
+      <v-divider></v-divider>
+      <DrawerItems/>
+      <v-divider></v-divider>
+      <v-layout row align-center>
+        <LocaleChanger/>
+        <DarkMode/>
+      </v-layout>
+      <v-divider></v-divider>
+      <v-layout class="pa-0" justify-center>
+        <v-footer color="transparent">
+          2019 -&nbsp;
+          <strong class="logb_type">
+            LogB
+            <sup>&copy;</sup>
+          </strong>
+        </v-footer>
+      </v-layout>
+    </v-navigation-drawer>
+    <v-toolbar app :color="darkOrPrimary" dark>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-title>
+        <span class="logb_type">LogB Cloud</span>
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-content>
+      <v-layout fill-height>
+        <router-view/>
+      </v-layout>
+    </v-content>
   </v-app>
 </template>
 
@@ -77,7 +75,4 @@ export default {
 </script>
 <style>
 @import url(./assets/common.css);
-#scroll-area {
-  height: 500px;
-}
 </style>
