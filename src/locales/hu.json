@@ -14,5 +14,13 @@
   "username":"Felhasználónév",
   "offline": "Offline",
   "noInternet": "Jelenleg nincs internetkapcsolat",
-  "fillItBeforeSubmit": "Kérem töltse ki az összes mezőt."
+  "fillItBeforeSubmit": "Kérem töltse ki az összes mezőt.",
+  "cantBeEmpty": "Ez a mező nem lehet üres.",
+  "dialog": {
+    "succesfulReg": "Sikeres Regisztráció",
+    "alsoLogin": "Hamarosan küldünk egy igazóló emailt. Addig is, be szeretnél jelentkezni?",
+    "yes": "Igen",
+    "no": "Nem",
+    "badHappened": "Valami hiba történt. Próbáld meg újra."
+  }
 }

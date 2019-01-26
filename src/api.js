@@ -13,5 +13,8 @@ export default {
   },
   viewUserMeta() {
     return axios.post("/", "function=VUM").then(response => response.data);
+  },
+  async isUnique(un) {
+    return axios.post("/", "function=IUU&un=" + un);
   }
 };

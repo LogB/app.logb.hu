@@ -14,5 +14,13 @@
   "username":"Username",
   "offline": "Offline",
   "noInternet": "There isn't internet right now.",
-  "fillItBeforeSubmit": "Please fill out all the fields."
+  "fillItBeforeSubmit": "Please fill out all the fields.",
+  "cantBeEmpty": "This field cannot be empty.",
+  "dialog": {
+    "succesfulReg": "Sucessful Registration",
+    "alsoLogin": "You will get a confirmation email soon. Do you also want to login now?",
+    "yes": "Yes",
+    "no": "No, thanks",
+    "badHappened": "Something bad happened. Please try again."
+  }
 }

@@ -29,10 +29,13 @@ export default new Vuex.Store({
       state.user.name = payload.username;
       state.user.email = payload.email;
     },
-    LOG_OUT(state, payload) {
+    LOG_OUT(state) {
       state.loggedIn = false;
       state.user.name = null;
       state.user.email = null;
+    },
+    DRAWER(state, payload) {
+      state.drawer = payload;
     }
   },
   getters: {},

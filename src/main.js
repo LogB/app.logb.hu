@@ -10,7 +10,7 @@ import i18n from "./i18n";
 import Vuelidate from "vuelidate";
 import axios from "axios";
 import VueAxios from "vue-axios";
-axios.defaults.baseURL = "https://cloud.logb.hu/cloud/cloud.php";
+axios.defaults.baseURL = "https://cloud.logb.hu/cloud/cloudFORlocalhost.php";
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(Vuelidate);

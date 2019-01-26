@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-navigation-drawer
-    ref="drawerRef"
       v-model="drawer"
       app
       absolute

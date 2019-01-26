@@ -1,5 +1,5 @@
 <template>
-  <v-list ref="loginWidth" class="pa-0 mb-1 mt-1">
+  <v-list class="pa-0 mb-1 mt-1">
     <v-list-tile avatar>
       <v-list-tile-avatar>
         <userIcon v-if="loggedIn&&isOnline"/>
@@ -14,110 +14,167 @@
         <v-list-tile-title>{{$t('offline')}}</v-list-tile-title>
         <v-list-tile-sub-title>{{$t('noInternet')}}</v-list-tile-sub-title>
       </v-list-tile-content>
-      <v-layout v-if="!loggedIn&&isOnline" row align-center>
-        <v-menu v-model="loginMenu" offset-y :nudge-width="240" :close-on-content-click="false">
-          <v-btn slot="activator" outline color="primary">{{ $t('logIn') }}</v-btn>
-          <v-card>
-            <v-card-title class="headline lighten-2">{{ $t('logIn') }}</v-card-title>
-            <v-divider></v-divider>
-            <v-form>
+      <v-list-tile-action v-if="loggedIn&&isOnline">
+        <v-btn icon ripple @click="LOG_OUT()">
+          <v-icon>power_settings_new</v-icon>
+        </v-btn>
+      </v-list-tile-action>
+      <v-slide-x-reverse-transition mode="in-out" hide-on-leave>
+        <v-layout v-if="!loggedIn&&isOnline" row align-center>
+          <v-dialog
+            v-model="loginMenu"
+            fullscreen
+            hide-overlay
+            transition="dialog-bottom-transition"
+          >
+            <v-btn slot="activator" outline color="primary">{{ $t('logIn')}}</v-btn>
+            <v-card>
+              <v-card-title class="headline lighten-2">
+                {{ $t('logIn') }}
+                <v-spacer></v-spacer>
+                <v-btn icon @click="loginMenu = false">
+                  <v-icon medium>close</v-icon>
+                </v-btn>
+              </v-card-title>
+              <v-divider></v-divider>
+              <v-form>
+                <v-container>
+                  <v-text-field
+                    v-model.trim.lazy="logInUsername"
+                    counter="15"
+                    :error-messages="logInUsernameError"
+                    :label="$t('username')"
+                    required
+                    @input="$v.logInUsername.$touch()"
+                    @blur="$v.logInUsername.$touch()"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model.trim.lazy="logInPassword"
+                    :error-messages="logInPasswordError"
+                    :label="$t('password')"
+                    required
+                    @input="$v.logInPassword.$touch()"
+                    @blur="$v.logInPassword.$touch()"
+                  ></v-text-field>
+                </v-container>
+              </v-form>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <div v-if="this.$v.logInCheck.$invalid" class="pr-1">{{ $t('fillItBeforeSubmit') }}</div>
+                <v-btn
+                  color="primary"
+                  :loading="loading"
+                  outline
+                  :disabled="this.$v.logInCheck.$invalid"
+                  @click="login(logInUsername, logInPassword)"
+                >{{ $t('logIn') }}</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+          <v-dialog
+            v-model="registerMenu"
+            fullscreen
+            hide-overlay
+            transition="dialog-bottom-transition"
+          >
+            <v-btn slot="activator" outline>{{ $t('register') }}</v-btn>
+            <v-card>
+              <v-card-title class="headline lighten-2">
+                {{ $t('register') }}
+                <v-spacer></v-spacer>
+                <v-btn icon @click="registerMenu = false">
+                  <v-icon medium>close</v-icon>
+                </v-btn>
+              </v-card-title>
+              <v-divider></v-divider>
+              <v-form>
+                <v-container>
+                  <v-text-field
+                    v-model.trim.lazy="registerEmail"
+                    :error-messages="registerEmailError"
+                    :label="$t('email')"
+                    required
+                    @input="$v.registerEmail.$touch()"
+                    @blur="$v.registerEmail.$touch()"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model.trim.lazy="registerUsername"
+                    counter="15"
+                    :error-messages="registerUsernameError"
+                    :label="$t('username')"
+                    required
+                    @input="$v.registerUsername.$touch()"
+                    @blur="$v.registerUsername.$touch()"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model.trim.lazy="registerPassword"
+                    :error-messages="registerPasswordError"
+                    :label="$t('password')"
+                    required
+                    @input="$v.registerPassword.$touch()"
+                    @blur="$v.registerPassword.$touch()"
+                  ></v-text-field>
+                  <v-text-field
+                    v-model.trim.lazy="registerPasswordAgain"
+                    :error-messages="registerPasswordAgainError"
+                    :label="$t('passwordAgain')"
+                    required
+                    @input="$v.registerPasswordAgain.$touch()"
+                    @blur="$v.registerPasswordAgain.$touch()"
+                  ></v-text-field>
+                </v-container>
+              </v-form>
+              <v-divider></v-divider>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <div
+                  v-if="this.$v.registerCheck.$invalid"
+                  class="pr-1"
+                >{{ $t('fillItBeforeSubmit') }}</div>
+                <v-btn
+                  color="primary"
+                  :loading="loading"
+                  outline
+                  :disabled="this.$v.registerCheck.$invalid"
+                  @click="register(registerUsername, registerPassword, registerEmail)"
+                >{{ $t('register') }}</v-btn>
+              </v-card-actions>
               <v-container>
-                <v-text-field
-                  v-model="logInUsername"
-                  counter="15"
-                  :error-messages="logInUsernameError"
-                  :label="$t('username')"
-                  required
-                  @input="$v.logInUsername.$touch()"
-                  @blur="$v.logInUsername.$touch()"
-                ></v-text-field>
-                <v-text-field
-                  v-model="logInPassword"
-                  :error-messages="logInPasswordError"
-                  :label="$t('password')"
-                  required
-                  @input="$v.logInPassword.$touch()"
-                  @blur="$v.logInPassword.$touch()"
-                ></v-text-field>
+                <v-alert
+                  v-model="loginAfterReg"
+                  transition="slide-y-transition"
+                  outlined
+                  type="success"
+                  color="success"
+                  class="elevation-5"
+                >
+                  {{$t('dialog.alsoLogin')}}
+                  <v-btn
+                    :loading="loading"
+                    outline
+                    color="white"
+                    @click="login(registerUsername, registerPassword)"
+                  >{{$t('dialog.yes')}}</v-btn>
+                  <v-btn
+                    flat
+                    color="white"
+                    @click="loginAfterReg=false; registerMenu=false"
+                  >{{$t('dialog.no')}}</v-btn>
+                </v-alert>
+                <v-alert
+                  v-model="errorOccured"
+                  transition="slide-y-transition"
+                  outlined
+                  dismissible
+                  type="error"
+                  class="elevation-5"
+                >{{$t('dialog.badHappened')}}</v-alert>
               </v-container>
-            </v-form>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <div
-                v-if="this.$v.logInCheck.$invalid&&this.$v.logInCheck.$anyDirty"
-                class="pr-1"
-              >{{ $t('fillItBeforeSubmit') }}</div>
-              <v-btn
-                color="primary"
-                :loading="loading"
-                outline
-                :disabled="this.$v.logInCheck.$invalid&&this.$v.logInCheck.$anyDirty"
-                @click="login()"
-              >{{ $t('logIn') }}</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-        <v-menu v-model="registerMenu" offset-y :nudge-width="230" :close-on-content-click="false">
-          <v-btn slot="activator" outline>{{ $t('register') }}</v-btn>
-          <v-card>
-            <v-card-title class="headline lighten-2">{{ $t('register') }}</v-card-title>
-            <v-divider></v-divider>
-            <v-form>
-              <v-container>
-                <v-text-field
-                  v-model="registerEmail"
-                  :error-messages="registerEmailError"
-                  :label="$t('email')"
-                  required
-                  @input="$v.registerEmail.$touch()"
-                  @blur="$v.registerEmail.$touch()"
-                ></v-text-field>
-                <v-text-field
-                  v-model="registerUsername"
-                  counter="15"
-                  :error-messages="registerUsernameError"
-                  :label="$t('username')"
-                  required
-                  @input="$v.registerUsername.$touch()"
-                  @blur="$v.registerUsername.$touch()"
-                ></v-text-field>
-                <v-text-field
-                  v-model="registerPassword"
-                  :error-messages="registerPasswordError"
-                  :label="$t('password')"
-                  required
-                  @input="$v.registerPassword.$touch()"
-                  @blur="$v.registerPassword.$touch()"
-                ></v-text-field>
-                <v-text-field
-                  v-model="registerPasswordAgain"
-                  :error-messages="registerPasswordAgainError"
-                  :label="$t('passwordAgain')"
-                  required
-                  @input="$v.registerPasswordAgain.$touch()"
-                  @blur="$v.registerPasswordAgain.$touch()"
-                ></v-text-field>
-              </v-container>
-            </v-form>
-            <v-divider></v-divider>
-            <v-card-actions>
-              <v-spacer></v-spacer>
-              <div
-                v-if="this.$v.registerCheck.$invalid&&this.$v.registerCheck.$anyDirty"
-                class="pr-1"
-              >{{ $t('fillItBeforeSubmit') }}</div>
-              <v-btn
-                color="primary"
-                :loading="loading"
-                outline
-                :disabled="this.$v.registerCheck.$invalid&&this.$v.registerCheck.$anyDirty"
-                @click="register()"
-              >{{ $t('register') }}</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-      </v-layout>
+            </v-card>
+          </v-dialog>
+        </v-layout>
+      </v-slide-x-reverse-transition>
     </v-list-tile>
   </v-list>
 </template>
@@ -141,6 +198,8 @@ export default {
   mixins: [VueOfflineMixin],
   data() {
     return {
+      errorOccured: null,
+      loginAfterReg: null,
       loginMenu: null,
       registerMenu: null,
       logInUsername: "",
@@ -160,12 +219,17 @@ export default {
     },
     logInPassword: {
       required,
-      minLength: minLength(2)
+      minLength: minLength(5)
     },
     registerUsername: {
       required,
       minLength: minLength(2),
-      maxLength: maxLength(15)
+      maxLength: maxLength(15),
+      isUnique: async value => {
+        if (value === "") return true;
+        const data = await api.isUnique(value);
+        return data.data;
+      }
     },
     registerEmail: {
       required,
@@ -173,7 +237,7 @@ export default {
     },
     registerPassword: {
       required,
-      minLength: minLength(6)
+      minLength: minLength(5)
     },
     registerPasswordAgain: {
       sameAs: sameAs("registerPassword")
@@ -190,7 +254,7 @@ export default {
     logInUsernameError() {
       const errors = [];
       if (!this.$v.logInUsername.$dirty) return errors;
-      !this.$v.logInUsername.required && errors.push(">0");
+      !this.$v.logInUsername.required && errors.push(this.$t("cantBeEmpty"));
       !this.$v.logInUsername.minLength && errors.push(">2");
       !this.$v.logInUsername.maxLength && errors.push("<15");
       return errors;
@@ -208,6 +272,7 @@ export default {
       !this.$v.registerUsername.required && errors.push(">0");
       !this.$v.registerUsername.minLength && errors.push(">2");
       !this.$v.registerUsername.maxLength && errors.push("<15");
+      !this.$v.registerUsername.isUnique && errors.push("vanmárilyen");
       return errors;
     },
     registerEmailError() {
@@ -236,40 +301,49 @@ export default {
     })
   },
   methods: {
-    ...mapMutations(["LOG_IN"]),
-    loginState(un, pw, email) {
-      this.LOG_IN(un, pw, email);
-    },
-    login() {
-      if (!this.$v.logInCheck.$invalid) {
-        this.loading = true;
-        api
-          .login(this.logInUsername, this.logInPassword)
-          .then(data => {
-            this.loading = false;
+    ...mapMutations(["LOG_IN", "LOG_OUT"]),
+    login(un, pw) {
+      this.loading = true;
+      this.errorOccured = false;
+      api
+        .login(un, pw)
+        .then(data => {
+          if (data.error == 20) {
             api.viewUserMeta().then(data => {
-              loginState({ username: data.username, email: data.email });
+              this.LOG_IN({ username: data.username, email: data.email });
             });
-            console.log(data);
-          })
-          .catch(error => console.log(error));
-      }
-    },
-    register() {
-      if (!this.$v.registerCheck.$invalid) {
-        this.loading = true;
-        api
-          .register(
-            this.registerUsername,
-            this.registerPassword,
-            this.registerEmail
-          )
-          .then(response => {
+            this.loginMenu = false;
+            this.loginAfterReg = false;
             this.loading = false;
-            return console.log(response);
-          })
-          .catch(error => console.log(error));
-      }
+          } else {
+            console.log(data);
+            this.errorOccured = true;
+            this.loading = false;
+          }
+          console.log(data); //sucess here
+        })
+        .catch(error => {
+          console.log(error);
+          this.errorOccured = true;
+          this.loading = false;
+        });
+      //bad there
+    },
+    register(un, pw, email) {
+      this.loading = true;
+      this.errorOccured = false;
+      api
+        .register(un, pw, email)
+        .then(response => {
+          this.loading = false;
+          this.loginAfterReg = true;
+          return console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+          this.errorOccured = true;
+          this.loading = false;
+        });
     }
   }
 };
