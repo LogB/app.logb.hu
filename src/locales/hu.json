@@ -24,5 +24,6 @@
     "badHappened": "Valami hiba történt. Próbáld meg újra."
   },
   "logOut": "Kijelentkezés",
-  "darkMode": "Sötét mód"
+  "darkMode": "Sötét mód",
+  "measurement": "Mérés"
 }

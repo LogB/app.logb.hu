@@ -24,5 +24,6 @@
     "badHappened": "Something bad happened. Please try again."
   },
   "logOut": "Log Out",
-  "darkMode": "Dark Mode"
+  "darkMode": "Dark Mode",
+  "measurement": "Measurement"
 }

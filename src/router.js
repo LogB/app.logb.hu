@@ -17,7 +17,13 @@ export default new Router({
       path: "/shared",
       name: "shared",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/ListMeas.vue")
+        import(/* webpackChunkName: "about" */ "./views/Shared.vue")
+    },
+    {
+      path: "/view/:id",
+      name: "view",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/View.vue")
     },
     {
       path: "/petereasteregg",

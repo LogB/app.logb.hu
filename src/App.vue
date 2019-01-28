@@ -1,6 +1,13 @@
 <template>
   <v-app :dark="dark">
-    <v-navigation-drawer ref="drawer" v-model="drawer" app absolute :width="drawerWidth">
+    <v-navigation-drawer
+      ref="drawer"
+      v-model="drawer"
+      app
+      scroll-threshold="300"
+      card
+      :width="drawerWidth"
+    >
       <v-list class="pa-0 mb-1 mt-1">
         <LoginReg/>
       </v-list>
@@ -22,16 +29,23 @@
         </v-footer>
       </v-layout>
     </v-navigation-drawer>
-    <v-toolbar app :color="darkOrPrimary" dark>
+    <v-toolbar app scroll-off-screen :color="darkOrPrimary" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
-        <span class="logb_type">LogB Cloud</span>
+        <span class="logb_type">LogB Cloud
+          <sup>Alpha</sup>
+        </span>
       </v-toolbar-title>
+      <v-tooltip bottom>
+      <span>Not for prod. use!</span>
+      <v-icon slot="activator" x-small>warning</v-icon>
+    </v-tooltip>
+      
     </v-toolbar>
     <v-content>
-      <v-layout fill-height>
-        <router-view class="px-5"/>
-      </v-layout>
+      <v-container fill-height>
+        <router-view/>
+      </v-container>
     </v-content>
   </v-app>
 </template>
