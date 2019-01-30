@@ -89,13 +89,16 @@ export default {
       }
     },
     updateData() {
-      api.measData(this.id, this.items.length+1).then(response => {
+      api.measData(this.id, this.items.length + 1).then(response => {
         this.measData = response.data.data;
         console.log(this.measData);
         // this is not needed, in this case, we should reload the whole measurement: this.makeHeader(response.data.header);
-        this.measData.forEach(element => {
-          this.items.push(element);
-        });
+        //here we have to check if the if there is no data (data is null)
+        if (measData != null) {
+          this.measData.forEach(element => {
+            this.items.push(element);
+          });
+        }
       });
     }
   }

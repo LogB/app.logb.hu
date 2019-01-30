@@ -11,6 +11,10 @@ export default {
       .post("/cloud.php", "function=WR&un=" + un + "&pw=" + pw + "&email=" + email)
       .then(response => response.data);
   },
+  logout() {
+    return axios
+      .post("/cloud.php", "function=WLO");
+  },
   viewUserMeta() {
     return axios.post("/cloud.php", "function=VUM").then(response => response.data);
   },

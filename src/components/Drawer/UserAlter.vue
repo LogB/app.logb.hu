@@ -15,7 +15,7 @@
     </v-list-tile-content>
     <v-list-tile-action v-if="loggedIn&&isOnline">
       <v-tooltip bottom>
-        <v-btn slot="activator" icon ripple @click="LOG_OUT()">
+        <v-btn slot="activator" icon ripple @click="logout()">
           <v-icon>power_settings_new</v-icon>
         </v-btn>
         <span>{{$t('logOut')}}</span>
@@ -41,14 +41,19 @@
                   counter="15"
                   :error-messages="logInUsernameError"
                   :label="$t('username')"
+                  autocomplete="username"
                   required
                   @input="$v.logInUsername.$touch()"
                   @blur="$v.logInUsername.$touch()"
                 ></v-text-field>
                 <v-text-field
                   v-model.trim="logInPassword"
+                  :append-icon="showPasswords ? 'visibility_off' : 'visibility'"
                   :error-messages="logInPasswordError"
                   :label="$t('password')"
+                  autocomplete="current-password"
+                  :type="showPasswords ? 'text' : 'password' "
+                  @click:append="showPasswords = !showPasswords"
                   required
                   @input="$v.logInPassword.$touch()"
                   @blur="$v.logInPassword.$touch()"
@@ -91,6 +96,7 @@
                   v-model.trim="registerEmail"
                   :error-messages="registerEmailError"
                   :label="$t('email')"
+                  autocomplete="email"
                   required
                   @input="$v.registerEmail.$touch()"
                   @blur="$v.registerEmail.$touch()"
@@ -100,22 +106,31 @@
                   counter="15"
                   :error-messages="registerUsernameError"
                   :label="$t('username')"
+                  autocomplete="username"
                   required
                   @input="$v.registerUsername.$touch()"
                   @blur="$v.registerUsername.$touch()"
                 ></v-text-field>
                 <v-text-field
                   v-model.trim="registerPassword"
+                  :append-icon="showPasswords ? 'visibility_off' : 'visibility'"
                   :error-messages="registerPasswordError"
                   :label="$t('password')"
+                  autocomplete="new-password"
+                  :type="showPasswords ? 'text' : 'password' "
+                  @click:append="showPasswords = !showPasswords"
                   required
                   @input="$v.registerPassword.$touch()"
                   @blur="$v.registerPassword.$touch()"
                 ></v-text-field>
                 <v-text-field
                   v-model.trim="registerPasswordAgain"
+                  :append-icon="showPasswords ? 'visibility_off' : 'visibility'"
                   :error-messages="registerPasswordAgainError"
                   :label="$t('passwordAgain')"
+                  autocomplete="new-password"
+                  :type="showPasswords ? 'text' : 'password' "
+                  @click:append="showPasswords = !showPasswords"
                   required
                   @input="$v.registerPasswordAgain.$touch()"
                   @blur="$v.registerPasswordAgain.$touch()"
@@ -201,7 +216,8 @@ export default {
       registerEmail: "",
       registerPassword: "",
       registerPasswordAgain: "",
-      loading: false
+      loading: false,
+      showPasswords: false
     };
   },
   validations: {
@@ -341,6 +357,9 @@ export default {
           this.errorOccured = true;
           this.loading = false;
         });
+    },
+    logout() {
+      api.logout().then(this.LOG_OUT());
     }
   }
 };
