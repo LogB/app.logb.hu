@@ -1,39 +1,81 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
+function get(params) {
+  return axios.get("/cloudGet.php", {
+    params: params
+  })
+}
 export default {
   login(un, pw) {
-    return axios
-      .post("/cloud.php", "function=WLI&un=" + un + "&pw=" + pw)
-      .then(response => response.data);
+    let params = {
+      function: "WLI",
+      un: un,
+      pw: pw
+    }
+    return get(params).then(response => response);
   },
   register(un, pw, email) {
-    return axios
-      .post("/cloud.php", "function=WR&un=" + un + "&pw=" + pw + "&email=" + email)
-      .then(response => response.data);
+    let params = {
+      function: "WR",
+      un: un,
+      pw: pw,
+      email: email
+    }
+    return get(params).then(response => response);
   },
   logout() {
-    return axios
-      .post("/cloud.php", "function=WLO");
+    let params = {
+      function: "WLO"
+    }
+    return get(params).then(response => response);
   },
   viewUserMeta() {
-    return axios.post("/cloud.php", "function=VUM").then(response => response.data);
+    let params = {
+      function: "VUM"
+    }
+    return get(params).then(response => response);
   },
   isUnique(un) {
-    return axios.get("/cloudGet.php?function=IUU&un=" + un);
+    let params = {
+      function: "IUU",
+      un: un
+    }
+    return get(params).then(response => response);
   },
   fastListMeas(isShared) {
+    let params = {
+      function: "LMMP"
+    }
     if (isShared) {
-      return axios.post('/cloud.php', "function=LMMP&isShare=share");
+      params["isShare"] = "share"
     }
     else {
-      return axios.post('/cloud.php', "function=LMMP&isShare=own");
+      params["isShare"] = "own"
     }
+    return get(params).then(response => response);
   },
   measDetails(id) {
-    return axios.post('/cloud.php', "function=LMMF&id=" + id);
+    let params = {
+      function: "LMMF",
+      id: id
+    }
+    return get(params).then(response => response);
   },
   measData(id, line) {
-    if (line == null) return axios.post('/cloud.php', "function=VMD&id=" + id + "&line=1");
-    return axios.post('/cloud.php', "function=VMD&id=" + id + "&line=" + line);
+    if (line == null) {
+      let params = {
+        function: "IDM",
+        id: id,
+        line: 1
+      }
+    }
+    else {
+      let params = {
+        function: "IDM",
+        id: id,
+        line: 1
+      }
+    }
+    return get(params).then(response => response);
   },
 };

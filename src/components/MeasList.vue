@@ -47,7 +47,11 @@
               <h4 v-if="item.measurement_alias==null">{{$t("unnamedMeas")}}</h4>
               <h4 v-else>{{item.measurement_alias}}</h4>
               <v-spacer></v-spacer>
-              <v-btn class="ma-0" color="primary" @click="goTo(item.measurement_id)">{{$t('viewMeas')}}</v-btn>
+              <v-btn
+                class="ma-0"
+                color="primary"
+                @click="goTo(item.measurement_id)"
+              >{{$t('viewMeas')}}</v-btn>
             </v-card-title>
             <v-divider></v-divider>
             <v-list dense>
@@ -80,7 +84,7 @@ export default {
     return {
       measList: null,
       loading: false,
-      innerLoading: false,
+      innerLoading: false
     };
   },
   methods: {
@@ -89,21 +93,19 @@ export default {
       api.fastListMeas(this.shared).then(response => {
         this.measList = response.data;
         this.loading = false;
-        //console.log(this.measList);
       });
     },
     loadMeta(id, i, event) {
-      if (event&&!('start' in this.measList[i])) {
+      if (event && !("start" in this.measList[i])) {
         this.innerLoading = true;
         api.measDetails(id).then(response => {
           stateMerge(this.measList[i], response.data.meta);
-        //   console.log(this.measList[i]);
           this.innerLoading = false;
         });
       }
     },
-    goTo(id){
-      this.$router.push("/view/"+id);
+    goTo(id) {
+      this.$router.push("/view/" + id);
     }
   }
 };
