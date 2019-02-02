@@ -34,6 +34,28 @@
               </v-btn>
             </v-card-title>
             <v-divider></v-divider>
+            <v-alert
+              v-model="errorOccured"
+              transition="slide-y-transition"
+              outlined
+              dismissible
+              type="error"
+              class="elevation-5"
+            >{{$t('dialog.badHappened')}}</v-alert>
+            <v-alert
+              v-model="badCredentials"
+              transition="slide-y-transition"
+              outlined
+              dismissible
+              type="warning"
+              class="elevation-5"
+            >
+              {{$t('dialog.badCredentials')}} {{$t('dialog.dontHave')}}
+              <v-btn
+                @click="badCredentials=false; loginMenu=false; registerMenu=true"
+                outline
+              >{{$t('register')}}</v-btn>
+            </v-alert>
             <v-form>
               <v-container>
                 <v-text-field
@@ -206,6 +228,7 @@ export default {
   mixins: [VueOfflineMixin],
   data() {
     return {
+      badCredentials: null,
       errorOccured: null,
       loginAfterReg: null,
       loginMenu: null,
@@ -321,19 +344,21 @@ export default {
       api
         .login(un, pw)
         .then(data => {
-          if (data.error == 20) {
+          if (data.data.error == 20) {
             api.viewUserMeta().then(data => {
-              this.LOG_IN({ username: data.username, email: data.email });
+              this.LOG_IN({
+                username: data.data.username,
+                email: data.data.email
+              });
             });
             this.loginMenu = false;
             this.loginAfterReg = false;
             this.loading = false;
           } else {
-            console.log(data);
-            this.errorOccured = true;
+            if (data.data.error == 13) this.badCredentials = true;
             this.loading = false;
           }
-          console.log(data); //sucess here
+          console.log(data); //success here
         })
         .catch(error => {
           console.log(error);

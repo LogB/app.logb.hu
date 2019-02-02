@@ -32,15 +32,11 @@
     <v-toolbar app scroll-off-screen :color="darkOrPrimary" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
-        <span class="logb_type">LogB Cloud
+        <span class="logb_type select_none" style="cursor: pointer" @click="$router.push('/')">
+          LogB Cloud
           <sup>Alpha</sup>
         </span>
       </v-toolbar-title>
-      <v-tooltip bottom>
-      <span>Not for prod. use!</span>
-      <v-icon slot="activator" x-small>warning</v-icon>
-    </v-tooltip>
-      
     </v-toolbar>
     <v-content>
       <v-container fill-height>

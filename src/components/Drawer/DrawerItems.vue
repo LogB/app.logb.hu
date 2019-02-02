@@ -34,7 +34,7 @@ export default {
         {
           icon: "home",
           title: "myMeasurements",
-          route: "/measurements"
+          route: "/my-measurements"
         }
       ]
     };

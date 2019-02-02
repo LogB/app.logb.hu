@@ -29,8 +29,8 @@
         v-on:input="loadMeta(item.measurement_id,i,$event)"
       >
         <div slot="header" class="pa-0">
-          <div v-if="item.measurement_alias==null">{{$t("unnamedMeas")}}</div>
-          <div v-else>{{item.measurement_alias}}</div>
+          <div v-if="item.measurement_alias==null"><strong class="text-uppercase">{{item.measurement_id}}</strong> - {{$t("unnamedMeas")}}</div>
+          <div v-else><strong class="text-uppercase">{{item.measurement_id}}</strong> - {{item.measurement_alias}}</div>
           <div v-if="item.description_part==null">
             {{$t("noDescription")}}&nbsp;-&nbsp;{{$t('by')}}&nbsp;
             <strong>{{item.username}}</strong>
@@ -44,8 +44,11 @@
           <v-progress-linear v-if="innerLoading" indeterminate></v-progress-linear>
           <v-card>
             <v-card-title>
-              <h4 v-if="item.measurement_alias==null">{{$t("unnamedMeas")}}</h4>
-              <h4 v-else>{{item.measurement_alias}}</h4>
+              <v-flex>
+                <h4 v-if="item.measurement_alias==null">{{$t("unnamedMeas")}}</h4>
+                <h4 v-else>{{item.measurement_alias}}</h4>
+                <div class="text-uppercase display-1 font-weight-light select_all">{{item.measurement_id}}</div>
+              </v-flex>
               <v-spacer></v-spacer>
               <v-btn
                 class="ma-0"
@@ -82,7 +85,10 @@ export default {
   },
   data() {
     return {
-      measList: null,
+      pagination: {
+        sortBy: "name"
+      },
+      measList: [],
       loading: false,
       innerLoading: false
     };
@@ -110,4 +116,3 @@ export default {
   }
 };
 </script>
-

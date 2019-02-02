@@ -16,3 +16,16 @@ html {
   text-align: center;
   justify-content: center;
 }
+
+.select_all{
+  user-select: all;
+  -moz-user-select: all;
+  -ms-user-select: element;
+}
+
+.select_none{
+  user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}

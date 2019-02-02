@@ -20,6 +20,12 @@ export default new Router({
         import(/* webpackChunkName: "about" */ "./views/Shared.vue")
     },
     {
+      path: "/my-measurements",
+      name: "my-measurements",
+      component: () =>
+        import(/* webpackChunkName: "about" */ "./views/MyMeas.vue")
+    },
+    {
       path: "/view/:id",
       name: "view",
       component: () =>

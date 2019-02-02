@@ -10,7 +10,6 @@
     <v-btn @click="updateData()">{{$t('liveData')}}</v-btn>
     <v-progress-circular indeterminate v-if="liveIsOn"></v-progress-circular>
     <v-data-table
-      v-model="selected"
       :headers="headers"
       :items="items"
       :pagination.sync="pagination"
@@ -49,7 +48,6 @@ export default {
         sortBy: "name"
       },
       liveIsOn: false,
-      selected: [],
       measData: [],
       loading: false,
       headers: [],

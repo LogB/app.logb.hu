@@ -2,9 +2,9 @@
   "homePage": "Home",
   "sharedMeasurements": "Shared Measurements",
   "downloadedMeasurements": "Downloaded Measurements",
-  "or": "OR",
   "logIn": "Log In",
   "register": "Sign Up",
+  "logInOrRegister":"Log in, or register",
   "myMeasurements": "My Measurements",
   "TEST": "ENGLISH!",
   "language": "Language",
@@ -21,7 +21,9 @@
     "alsoLogin": "You will get a confirmation email soon. Do you also want to login now?",
     "yes": "Yes",
     "no": "No, thanks",
-    "badHappened": "Something bad happened. Please try again."
+    "badHappened": "Something bad happened. Please try again.",
+    "badCredentials": "Please check your credentials",
+    "dontHave": "If you have no account yet:"
   },
   "logOut": "Log Out",
   "darkMode": "Dark Mode",

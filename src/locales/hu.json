@@ -2,9 +2,9 @@
   "homePage": "Kezdőlap",
   "sharedMeasurements": "Nyilvános Mérések",
   "downloadedMeasurements": "Letöltött Mérések",
-  "or": "Vagy",
   "logIn": "Bejelentkezés",
   "register": "Regisztáció",
+  "logInOrRegister":"Jelentkezzen be, vagy regisztráljon.",
   "myMeasurements": "Saját méréseim",
   "TEST": "MAGYAR!",
   "language":"Nyelv",
@@ -21,7 +21,9 @@
     "alsoLogin": "Hamarosan küldünk egy igazóló emailt. Addig is, be szeretnél jelentkezni?",
     "yes": "Igen",
     "no": "Nem",
-    "badHappened": "Valami hiba történt. Próbáld meg újra."
+    "badHappened": "Valami hiba történt. Próbáld meg újra.",
+    "badCredentials": "Ellenőrizd az adataidat.",
+    "dontHave": "Ha még nincs profilod:"
   },
   "logOut": "Kijelentkezés",
   "darkMode": "Sötét mód",
