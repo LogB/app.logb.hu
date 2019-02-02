@@ -94,7 +94,7 @@ export default {
         console.log(this.measData);
         // this is not needed, in this case, we should reload the whole measurement: this.makeHeader(response.data.header);
         //here we have to check if the if there is no data (data is null)
-        if (measData != null) {
+        if (this.measData != null) {
           this.measData.forEach(element => {
             this.items.push(element);
           });
