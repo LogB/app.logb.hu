@@ -62,19 +62,15 @@ export default {
     return get(params).then(response => response);
   },
   measData(id, line) {
+    let params = {
+      function: "VMD",
+      id: id,
+    }
     if (line == null) {
-      let params = {
-        function: "IDM",
-        id: id,
-        line: 1
-      }
+      params["line"] = 1
     }
     else {
-      let params = {
-        function: "IDM",
-        id: id,
-        line: 1
-      }
+      params["line"] = line
     }
     return get(params).then(response => response);
   },

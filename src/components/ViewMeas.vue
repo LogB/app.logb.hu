@@ -64,6 +64,7 @@ export default {
     setData(id) {
       this.loading = true;
       api.measData(id).then(response => {
+        console.log(response);
         this.measData = response.data.data;
         this.loading = false;
         console.log(JSON.stringify(this.measData));
