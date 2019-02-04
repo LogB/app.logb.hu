@@ -16,7 +16,7 @@ axios.defaults.baseURL = "https://cloud.logb.hu/cloud";
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(Vuelidate);
-var vm = new Vue({
+new Vue({
   router,
   store,
   i18n,

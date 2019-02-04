@@ -1,10 +1,10 @@
 module.exports = {
   pwa: {
-    name: 'LogB Cloud',
-    themeColor: '#4895CB',
-    msTileColor: '#4895CB',
-    appleMobileWebAppStatusBarStyle: 'black-translucent',
-    appleMobileWebAppCapable: 'yes'
+    name: "LogB Cloud",
+    themeColor: "#4895CB",
+    msTileColor: "#4895CB",
+    appleMobileWebAppStatusBarStyle: "black-translucent",
+    appleMobileWebAppCapable: "yes"
   },
 
   pluginOptions: {
@@ -19,7 +19,7 @@ module.exports = {
   lintOnSave: undefined,
   publicPath: undefined,
   outputDir: undefined,
-  assetsDir: 'assets',
+  assetsDir: "assets",
   runtimeCompiler: undefined,
   productionSourceMap: undefined,
   parallel: undefined,

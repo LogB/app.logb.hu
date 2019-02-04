@@ -1,17 +1,31 @@
 {
+  "$vuetify": {
+    "dataIterator": {
+      "rowsPerPageText": "Items per page:",
+      "rowsPerPageAll": "All",
+      "pageText": "{0}-{1} of {2}",
+      "noResultsText": "No matching records found",
+      "nextPage": "Next page",
+      "prevPage": "Previous page"
+    },
+    "dataTable": {
+      "rowsPerPageText": "Rows per page:"
+    },
+    "noDataText": "No data available"
+  },
   "homePage": "Home",
   "sharedMeasurements": "Shared Measurements",
   "downloadedMeasurements": "Downloaded Measurements",
   "logIn": "Log In",
   "register": "Sign Up",
-  "logInOrRegister":"Log in, or register",
+  "logInOrRegister": "Log in, or register",
   "myMeasurements": "My Measurements",
   "TEST": "ENGLISH!",
   "language": "Language",
-  "email":"Email",
-  "passwordAgain":"Password Again",
+  "email": "Email",
+  "passwordAgain": "Password Again",
   "password": "Password",
-  "username":"Username",
+  "username": "Username",
   "offline": "Offline",
   "noInternet": "There isn't internet right now.",
   "fillItBeforeSubmit": "Please fill out all the fields.",

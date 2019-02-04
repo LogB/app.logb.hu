@@ -26,7 +26,7 @@
         ripple
         class="elevation-9"
         lazy
-        v-on:input="loadMeta(item.measurement_id,i,$event)"
+        @input="loadMeta(item.measurement_id,i,$event)"
       >
         <div slot="header" class="pa-0">
           <div v-if="item.measurement_alias==null"><strong class="text-uppercase">{{item.measurement_id}}</strong> - {{$t("unnamedMeas")}}</div>
@@ -60,8 +60,8 @@
             <v-list dense>
               <v-list-tile v-for="(value,key) in item" :key="key">
                 <v-list-tile-content>{{key}}:</v-list-tile-content>
-                <v-list-tile-content class="align-end" v-if="value==null">{{$t("null")}}</v-list-tile-content>
-                <v-list-tile-content class="align-end" v-else>{{value}}</v-list-tile-content>
+                <v-list-tile-content v-if="value==null" class="align-end">{{$t("null")}}</v-list-tile-content>
+                <v-list-tile-content v-else class="align-end">{{value}}</v-list-tile-content>
               </v-list-tile>
             </v-list>
           </v-card>
@@ -74,9 +74,6 @@
 import stateMerge from "vue-object-merge";
 import api from "@/api.js";
 export default {
-  mounted() {
-    this.getList();
-  },
   props: {
     shared: {
       type: Boolean,
@@ -92,6 +89,9 @@ export default {
       loading: false,
       innerLoading: false
     };
+  },
+  mounted() {
+    this.getList();
   },
   methods: {
     getList() {

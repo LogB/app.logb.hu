@@ -52,8 +52,8 @@
             >
               {{$t('dialog.badCredentials')}} {{$t('dialog.dontHave')}}
               <v-btn
-                @click="badCredentials=false; loginMenu=false; registerMenu=true"
                 outline
+                @click="badCredentials=false; loginMenu=false; registerMenu=true"
               >{{$t('register')}}</v-btn>
             </v-alert>
             <v-form>
@@ -75,8 +75,8 @@
                   :label="$t('password')"
                   autocomplete="current-password"
                   :type="showPasswords ? 'text' : 'password' "
-                  @click:append="showPasswords = !showPasswords"
                   required
+                  @click:append="showPasswords = !showPasswords"
                   @input="$v.logInPassword.$touch()"
                   @blur="$v.logInPassword.$touch()"
                 ></v-text-field>
@@ -140,8 +140,8 @@
                   :label="$t('password')"
                   autocomplete="new-password"
                   :type="showPasswords ? 'text' : 'password' "
-                  @click:append="showPasswords = !showPasswords"
                   required
+                  @click:append="showPasswords = !showPasswords"
                   @input="$v.registerPassword.$touch()"
                   @blur="$v.registerPassword.$touch()"
                 ></v-text-field>
@@ -152,8 +152,8 @@
                   :label="$t('passwordAgain')"
                   autocomplete="new-password"
                   :type="showPasswords ? 'text' : 'password' "
-                  @click:append="showPasswords = !showPasswords"
                   required
+                  @click:append="showPasswords = !showPasswords"
                   @input="$v.registerPasswordAgain.$touch()"
                   @blur="$v.registerPasswordAgain.$touch()"
                 ></v-text-field>
@@ -358,10 +358,9 @@ export default {
             if (data.data.error == 13) this.badCredentials = true;
             this.loading = false;
           }
-          console.log(data); //success here
+          //success here
         })
-        .catch(error => {
-          console.log(error);
+        .catch(function() {
           this.errorOccured = true;
           this.loading = false;
         });
@@ -372,13 +371,11 @@ export default {
       this.errorOccured = false;
       api
         .register(un, pw, email)
-        .then(response => {
+        .then(function() {
           this.loading = false;
           this.loginAfterReg = true;
-          return console.log(response);
         })
-        .catch(error => {
-          console.log(error);
+        .catch(function() {
           this.errorOccured = true;
           this.loading = false;
         });

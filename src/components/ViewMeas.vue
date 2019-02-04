@@ -1,21 +1,81 @@
 <i18n>
 {
-  "en":{"liveData":"Update data"},
-  "hu":{"liveData":"Adatok frissítése"}
+  "en":{
+    "liveData":"LIVE",
+    "timeInterval": "New data is requested every",
+    "perSec": "second|seconds",
+    "sec": "second|seconds",
+    "setInterval": "Set Interval",
+    "setIntervalText": "Here, you can set the time between the automatic data updates in milliseconds (1/1000 seconds).",
+    "ourEstimate": "Our estimate is calculated from the 2 intervals (in seconds) between the last 3 data rows.",
+    "turnOnAuto": "Automatic time interval"
+    },
+  "hu":{ 
+    "liveData":"ÉLŐ",
+    "timeInterval": "Frissítés",
+    "perSec": "másodpercenként",
+    "sec": "másodperc",
+    "setInterval": "Időköz beállítása",
+    "setIntervalText": "Itt be lehet állítani az automatikus adat frissítések közötti időtartamot milliszekundumokban (ez 1/1000 másodperc).",
+    "ourEstimate": "Mi, az utolsó három sor közötti két időközből számítjuk ki automatikusan az időközt.",
+    "turnOnAuto": "Automatikus frissítési időköz"
+    }
 }
 </i18n>
 <template>
   <div>
-    <v-progress-linear indeterminate v-if="loading"></v-progress-linear>
-    <v-btn @click="updateData()">{{$t('liveData')}}</v-btn>
-    <v-progress-circular indeterminate v-if="liveIsOn"></v-progress-circular>
+    <v-dialog v-model="intervalDialog" width="fit-content">
+      <v-card>
+        <v-card-title class="headline grey lighten-2" primary-title>{{$t('setInterval')}}</v-card-title>
+        <v-card-text>
+          {{$t('setIntervalText')}}
+          <br>
+          {{$t('ourEstimate')}}
+          <br>
+          <v-card class="elevation-5 mt-3">
+            <v-card-text>
+              <v-switch v-model="autoInterval" :label="$t('turnOnAuto')"></v-switch>
+              <div class="center mt-4">{{$t('timeInterval')}}</div>
+              <div class="center headline text-uppercase">
+                <span>{{interval}} {{$tc('perSec',interval)}}</span>
+              </div>
+              <v-slider
+                v-model="interval"
+                class="px-2"
+                thumb-label
+                always-dirty
+                ticks
+                min="1"
+                max="30"
+                @mousedown="autoInterval=false"
+              ></v-slider>
+            </v-card-text>
+          </v-card>
+        </v-card-text>
+      </v-card>
+    </v-dialog>
+    <v-layout class="mb-4 center">
+      <v-card class="px-3 mr-2">
+        <v-switch v-model="autoUpdate" :loading="liveIsOn" :label="$t('liveData')"></v-switch>
+      </v-card>
+      <v-card
+        class="px-3 pt-4 select_none"
+        style="cursor: pointer"
+        @click.stop="intervalDialog=true"
+      >
+        {{$t('timeInterval')}}
+        <strong>{{interval}}</strong>
+        {{$tc('perSec',interval)}}
+      </v-card>
+    </v-layout>
     <v-data-table
       :headers="headers"
       :items="items"
       :pagination.sync="pagination"
-      select-all
-      item-key="name"
-      class="elevation-1"
+      item-key="Date"
+      :loading="loading"
+      class="elevation-2"
+      :rows-per-page-items="rowsNums"
     >
       <template slot="headers" slot-scope="props">
         <tr>
@@ -32,7 +92,7 @@
       </template>
       <template slot="items" slot-scope="props">
         <tr>
-          <td class="center" v-for="data in props.item" :key="data.date">{{data}}</td>
+          <td v-for="data in props.item" :key="data.date" class="center">{{data}}</td>
         </tr>
       </template>
     </v-data-table>
@@ -42,32 +102,78 @@
 //import stateMerge from "vue-object-merge";
 import api from "@/api.js";
 export default {
+  props: { id: String },
   data() {
     return {
       pagination: {
-        sortBy: "name"
+        descending: true,
+        sortBy: "Date"
       },
-      liveIsOn: false,
+      autoUpdate: false,
+      autoInterval: true,
+      interval: 5,
+      rowsNums: [
+        5,
+        10,
+        20,
+        50,
+        100,
+        { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 }
+      ],
       measData: [],
       loading: false,
       headers: [],
-      items: []
+      intervalDialog: null
     };
   },
-  props: ["id"],
+  computed: {
+    items() {
+      return this.measData;
+    },
+    autoIntervalSec() {
+      if (this.measData[0] != null && this.measData[2] != null) {
+        let length = this.measData.length - 1;
+        let time0 = Date.parse(this.measData[length].Date);
+        let time2 = Date.parse(this.measData[length - 2].Date);
+        let interval = (time0 - time2) / 2;
+        if (interval <= 0) return 1;
+        return interval / 1000;
+      } else return 5; //default value in seconds if autoInterval generation fails
+    },
+    liveIsOn() {
+      if (this.autoUpdate) return "red";
+      else return false;
+    },
+    showInterval() {
+      if (this.autoInterval) return "auto";
+      return this.interval;
+    }
+  },
+  watch: {
+    autoUpdate(val) {
+      if (val) {
+        this.updaterLoop = setInterval(() => {
+          this.updateData();
+        }, this.interval * 1000);
+      } else clearInterval(this.updaterLoop);
+    },
+    autoInterval(val) {
+      if (val) {
+        this.interval = this.autoIntervalSec;
+      }
+    }
+  },
   created() {
     this.setData(this.id);
+    this.interval = this.autoIntervalSec;
   },
   methods: {
     setData(id) {
       this.loading = true;
       api.measData(id).then(response => {
-        console.log(response);
         this.measData = response.data.data;
         this.loading = false;
-        console.log(JSON.stringify(this.measData));
         this.makeHeader(response.data.header);
-        this.items = this.measData;
       });
     },
     makeHeader(array) {
@@ -88,19 +194,16 @@ export default {
       }
     },
     updateData() {
+      this.loading = true;
       api.measData(this.id, this.items.length + 1).then(response => {
-        this.measData = response.data.data;
-        console.log(this.measData);
-        // this is not needed, in this case, we should reload the whole measurement: this.makeHeader(response.data.header);
-        //here we have to check if the if there is no data (data is null)
-        if (this.measData != null) {
-          this.measData.forEach(element => {
-            this.items.push(element);
+        if (response.data.data != null) {
+          response.data.data.forEach(element => {
+            this.measData.push(element);
           });
         }
+        this.loading = false;
       });
     }
   }
 };
 </script>
-

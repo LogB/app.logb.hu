@@ -17,19 +17,19 @@ export default new Router({
       path: "/shared",
       name: "shared",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/Shared.vue")
+        import(/* webpackChunkName: "shared" */ "./views/Shared.vue")
     },
     {
       path: "/my-measurements",
       name: "my-measurements",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/MyMeas.vue")
+        import(/* webpackChunkName: "my-measurements" */ "./views/MyMeas.vue")
     },
     {
       path: "/view/:id",
       name: "view",
       component: () =>
-        import(/* webpackChunkName: "about" */ "./views/View.vue")
+        import(/* webpackChunkName: "view-measurement" */ "./views/View.vue")
     },
     {
       path: "/petereasteregg",

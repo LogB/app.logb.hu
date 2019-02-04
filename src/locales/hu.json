@@ -1,4 +1,18 @@
 {
+  "$vuetify": {
+    "dataIterator": {
+      "rowsPerPageText": "Sorok száma oldalanként:",
+      "rowsPerPageAll": "Összes(!)",
+      "pageText": "{0}-{1} | Összesen: {2} darab sor",
+      "noResultsText": "Nincs megjeleníthető adat",
+      "nextPage": "Következő oldal",
+      "prevPage": "Előző oldal"
+    },
+    "dataTable": {
+      "rowsPerPageText": "Megjelenített sorok száma:"
+    },
+    "noDataText": "Nincs megjeleníthető adat"
+  },
   "homePage": "Kezdőlap",
   "sharedMeasurements": "Nyilvános Mérések",
   "downloadedMeasurements": "Letöltött Mérések",
