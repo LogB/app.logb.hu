@@ -26,18 +26,23 @@
   <div>
     <v-dialog v-model="intervalDialog" width="fit-content">
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>{{$t('setInterval')}}</v-card-title>
+        <v-card-title class="headline grey lighten-2" primary-title>{{
+          $t("setInterval")
+        }}</v-card-title>
         <v-card-text>
-          {{$t('setIntervalText')}}
-          <br>
-          {{$t('ourEstimate')}}
-          <br>
+          {{ $t("setIntervalText") }}
+          <br />
+          {{ $t("ourEstimate") }}
+          <br />
           <v-card class="elevation-5 mt-3">
             <v-card-text>
-              <v-switch v-model="autoInterval" :label="$t('turnOnAuto')"></v-switch>
-              <div class="center mt-4">{{$t('timeInterval')}}</div>
+              <v-switch
+                v-model="autoInterval"
+                :label="$t('turnOnAuto')"
+              ></v-switch>
+              <div class="center mt-4">{{ $t("timeInterval") }}</div>
               <div class="center headline text-uppercase">
-                <span>{{interval}} {{$tc('perSec',interval)}}</span>
+                <span>{{ interval }} {{ $tc("perSec", interval) }}</span>
               </div>
               <v-slider
                 v-model="interval"
@@ -47,7 +52,7 @@
                 ticks
                 min="1"
                 max="30"
-                @mousedown="autoInterval=false"
+                @change="autoInterval = false"
               ></v-slider>
             </v-card-text>
           </v-card>
@@ -56,16 +61,20 @@
     </v-dialog>
     <v-layout class="mb-4 center">
       <v-card class="px-3 mr-2">
-        <v-switch v-model="autoUpdate" :loading="liveIsOn" :label="$t('liveData')"></v-switch>
+        <v-switch
+          v-model="autoUpdate"
+          :loading="liveIsOn"
+          :label="$t('liveData')"
+        ></v-switch>
       </v-card>
       <v-card
         class="px-3 pt-4 select_none"
         style="cursor: pointer"
-        @click.stop="intervalDialog=true"
+        @click.stop="intervalDialog = true"
       >
-        {{$t('timeInterval')}}
-        <strong>{{interval}}</strong>
-        {{$tc('perSec',interval)}}
+        {{ $t("timeInterval") }}
+        <strong>{{ interval }}</strong>
+        {{ $tc("perSec", interval) }}
       </v-card>
     </v-layout>
     <v-data-table
@@ -82,7 +91,11 @@
           <th
             v-for="header in props.headers"
             :key="header.text"
-            :class="['column sortable pa-0', pagination.descending ? 'desc' : 'asc', header.value === pagination.sortBy ? 'active' : '']"
+            :class="[
+              'column sortable pa-0',
+              pagination.descending ? 'desc' : 'asc',
+              header.value === pagination.sortBy ? 'active' : ''
+            ]"
             @click="changeSort(header.value)"
           >
             <v-icon small>arrow_upward</v-icon>
@@ -92,7 +105,9 @@
       </template>
       <template slot="items" slot-scope="props">
         <tr>
-          <td v-for="data in props.item" :key="data.date" class="center">{{data}}</td>
+          <td v-for="data in props.item" :key="data.date" class="center">
+            {{ data }}
+          </td>
         </tr>
       </template>
     </v-data-table>
@@ -137,7 +152,7 @@ export default {
         let time2 = Date.parse(this.measData[length - 2].Date);
         let interval = (time0 - time2) / 2;
         if (interval <= 0) return 1;
-        return interval / 1000;
+        return interval / 1000 - 0.5;
       } else return 5; //default value in seconds if autoInterval generation fails
     },
     liveIsOn() {
@@ -152,28 +167,33 @@ export default {
   watch: {
     autoUpdate(val) {
       if (val) {
+        this.updateAutointerval();
         this.updaterLoop = setInterval(() => {
           this.updateData();
+          this.updateAutointerval();
         }, this.interval * 1000);
       } else clearInterval(this.updaterLoop);
     },
-    autoInterval(val) {
-      if (val) {
-        this.interval = this.autoIntervalSec;
-      }
+    autoInterval() {
+      this.updateAutointerval();
     }
   },
   created() {
     this.setData(this.id);
-    this.interval = this.autoIntervalSec;
   },
   methods: {
+    updateAutointerval() {
+      if (this.autoInterval) {
+        this.interval = this.autoIntervalSec;
+      }
+    },
     setData(id) {
       this.loading = true;
       api.measData(id).then(response => {
         this.measData = response.data.data;
         this.loading = false;
         this.makeHeader(response.data.header);
+        this.updateAutointerval();
       });
     },
     makeHeader(array) {

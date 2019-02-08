@@ -18,7 +18,7 @@
   "downloadedMeasurements": "Downloaded Measurements",
   "logIn": "Log In",
   "register": "Sign Up",
-  "logInOrRegister": "Log in, or register",
+  "logInOrRegister": "Log in, or Sign Up",
   "myMeasurements": "My Measurements",
   "TEST": "ENGLISH!",
   "language": "Language",
@@ -40,6 +40,14 @@
     "dontHave": "If you have no account yet:"
   },
   "logOut": "Log Out",
-  "darkMode": "Dark Mode",
-  "measurement": "Measurement"
+  "darkMode": "dark mode",
+  "measurement": "measurement",
+  "measurement_alias": "measurement name",
+  "description": "description",
+  "measurement_id": "measurement id",
+  "start": "Started",
+  "last": "last update",
+  "line_count": "line count",
+  "sensors_used": "sensors used",
+  "sensor_count": "sensor count"
 }

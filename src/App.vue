@@ -3,20 +3,21 @@
     <v-navigation-drawer
       ref="drawer"
       v-model="drawer"
+      temporary
       app
       scroll-threshold="300"
       card
       :width="drawerWidth"
     >
       <v-list class="pa-0 mb-1 mt-1">
-        <LoginReg/>
+        <LoginReg />
       </v-list>
       <v-divider></v-divider>
-      <DrawerItems/>
+      <DrawerItems />
       <v-divider></v-divider>
       <v-layout row align-center>
-        <LocaleChanger/>
-        <DarkMode/>
+        <LocaleChanger />
+        <DarkMode />
       </v-layout>
       <v-divider></v-divider>
       <v-layout class="pa-0" justify-center>
@@ -32,15 +33,19 @@
     <v-toolbar app scroll-off-screen :color="darkOrPrimary" dark>
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <v-toolbar-title>
-        <span class="logb_type select_none" style="cursor: pointer" @click="$router.push('/')">
+        <span
+          class="logb_type select_none"
+          style="cursor: pointer"
+          @click="$router.push('/')"
+        >
           LogB Cloud
           <sup>Alpha</sup>
         </span>
       </v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fill-height>
-        <router-view/>
+      <v-container fluid fill-height>
+        <router-view />
       </v-container>
     </v-content>
   </v-app>

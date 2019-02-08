@@ -1,7 +1,11 @@
 import axios from "axios";
 axios.defaults.withCredentials = true;
+var apiUrl = "";
+if (window.location.href.includes("localhost"))
+  apiUrl = "/cloudForLocalhost.php";
+else apiUrl = "/cloudGet.php";
 function get(params) {
-  return axios.get("/cloudGet.php", {
+  return axios.get(apiUrl, {
     params: params
   });
 }

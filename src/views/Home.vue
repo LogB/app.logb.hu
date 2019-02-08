@@ -15,7 +15,7 @@
 <template>
   <v-layout align-center justify-center column>
     <h1 v-t="'slogan'" class="display-2 mb-5 center"></h1>
-    <LoginReg class="mb-3"/>
+    <LoginReg class="mb-3" />
     <v-btn v-t="'learnMore'" flat></v-btn>
     <v-btn v-t="'whatIsLogB'" flat></v-btn>
   </v-layout>

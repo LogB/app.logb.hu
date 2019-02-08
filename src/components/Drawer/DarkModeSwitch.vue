@@ -1,5 +1,9 @@
 <template>
-  <v-switch v-model="darkMode" class="pl-1" :label="$t('darkMode')"></v-switch>
+  <v-switch
+    v-model="darkMode"
+    class="pl-1 text-capitalize"
+    :label="$t('darkMode')"
+  ></v-switch>
 </template>
 <script>
 import { mapMutations } from "vuex";

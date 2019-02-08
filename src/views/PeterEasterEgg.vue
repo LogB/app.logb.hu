@@ -9,8 +9,7 @@
   }
 </i18n>
 <template>
-  <v-container justify-center>{{$t('hello')}}</v-container>
+  <v-container justify-center>{{ $t("hello") }}</v-container>
 </template>
 
-<script>
-</script>
+<script></script>

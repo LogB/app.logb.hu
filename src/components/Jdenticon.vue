@@ -1,5 +1,5 @@
 <template>
-    <div v-html='identicon'></div>
+  <div v-html="identicon"></div>
 </template>
 <script>
 import jdenticon from "jdenticon";

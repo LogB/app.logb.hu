@@ -41,5 +41,13 @@
   },
   "logOut": "Kijelentkezés",
   "darkMode": "Sötét mód",
-  "measurement": "Mérés"
+  "measurement": "Mérés",
+  "measurement_alias": "mérés neve",
+  "description": "leírás",
+  "measurement_id": "mérés id",
+  "start": "elindult",
+  "last": "utolsó frissítés",
+  "line_count": "sorok száma",
+  "sensors_used": "használt szenzorok",
+  "sensor_count": "mért dolgok száma"
 }

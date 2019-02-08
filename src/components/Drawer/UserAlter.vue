@@ -1,33 +1,40 @@
 <template>
   <v-list-tile avatar>
     <v-list-tile-avatar>
-      <userIcon v-if="loggedIn&&isOnline"/>
-      <v-icon v-if="!loggedIn&&isOnline" x-large>account_circle</v-icon>
+      <userIcon v-if="loggedIn && isOnline" />
+      <v-icon v-if="!loggedIn && isOnline" x-large>account_circle</v-icon>
       <v-icon v-if="isOffline" x-large>sync_disabled</v-icon>
     </v-list-tile-avatar>
-    <v-list-tile-content v-if="loggedIn&&isOnline">
-      <v-list-tile-title>{{user.name}}</v-list-tile-title>
-      <v-list-tile-sub-title>{{user.email}}</v-list-tile-sub-title>
+    <v-list-tile-content v-if="loggedIn && isOnline">
+      <v-list-tile-title>{{ user.name }}</v-list-tile-title>
+      <v-list-tile-sub-title>{{ user.email }}</v-list-tile-sub-title>
     </v-list-tile-content>
     <v-list-tile-content v-if="isOffline">
-      <v-list-tile-title>{{$t('offline')}}</v-list-tile-title>
-      <v-list-tile-sub-title>{{$t('noInternet')}}</v-list-tile-sub-title>
+      <v-list-tile-title>{{ $t("offline") }}</v-list-tile-title>
+      <v-list-tile-sub-title>{{ $t("noInternet") }}</v-list-tile-sub-title>
     </v-list-tile-content>
-    <v-list-tile-action v-if="loggedIn&&isOnline">
+    <v-list-tile-action v-if="loggedIn && isOnline">
       <v-tooltip bottom>
         <v-btn slot="activator" icon ripple @click="logout()">
           <v-icon>power_settings_new</v-icon>
         </v-btn>
-        <span>{{$t('logOut')}}</span>
+        <span>{{ $t("logOut") }}</span>
       </v-tooltip>
     </v-list-tile-action>
     <v-slide-x-reverse-transition mode="in-out" hide-on-leave>
-      <v-layout v-if="!loggedIn&&isOnline" row align-center>
-        <v-dialog v-model="loginMenu" fullscreen hide-overlay transition="dialog-bottom-transition">
-          <v-btn slot="activator" outline :color="darkAccent">{{ $t('logIn')}}</v-btn>
+      <v-layout v-if="!loggedIn && isOnline" row align-center>
+        <v-dialog
+          v-model="loginMenu"
+          fullscreen
+          hide-overlay
+          transition="dialog-bottom-transition"
+        >
+          <v-btn slot="activator" outline :color="darkAccent">{{
+            $t("logIn")
+          }}</v-btn>
           <v-card>
             <v-card-title class="headline lighten-2">
-              {{ $t('logIn') }}
+              {{ $t("logIn") }}
               <v-spacer></v-spacer>
               <v-btn icon @click="loginMenu = false">
                 <v-icon medium>close</v-icon>
@@ -41,7 +48,8 @@
               dismissible
               type="error"
               class="elevation-5"
-            >{{$t('dialog.badHappened')}}</v-alert>
+              >{{ $t("dialog.badHappened") }}</v-alert
+            >
             <v-alert
               v-model="badCredentials"
               transition="slide-y-transition"
@@ -50,11 +58,16 @@
               type="warning"
               class="elevation-5"
             >
-              {{$t('dialog.badCredentials')}} {{$t('dialog.dontHave')}}
+              {{ $t("dialog.badCredentials") }} {{ $t("dialog.dontHave") }}
               <v-btn
                 outline
-                @click="badCredentials=false; loginMenu=false; registerMenu=true"
-              >{{$t('register')}}</v-btn>
+                @click="
+                  badCredentials = false;
+                  loginMenu = false;
+                  registerMenu = true;
+                "
+                >{{ $t("register") }}</v-btn
+              >
             </v-alert>
             <v-form>
               <v-container>
@@ -74,7 +87,7 @@
                   :error-messages="logInPasswordError"
                   :label="$t('password')"
                   autocomplete="current-password"
-                  :type="showPasswords ? 'text' : 'password' "
+                  :type="showPasswords ? 'text' : 'password'"
                   required
                   @click:append="showPasswords = !showPasswords"
                   @input="$v.logInPassword.$touch()"
@@ -85,14 +98,17 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <div v-if="this.$v.logInCheck.$invalid" class="pr-1">{{ $t('fillItBeforeSubmit') }}</div>
+              <div v-if="this.$v.logInCheck.$invalid" class="pr-1">
+                {{ $t("fillItBeforeSubmit") }}
+              </div>
               <v-btn
                 color="primary"
                 :loading="loading"
                 outline
                 :disabled="this.$v.logInCheck.$invalid"
                 @click="login(logInUsername, logInPassword)"
-              >{{ $t('logIn') }}</v-btn>
+                >{{ $t("logIn") }}</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -102,10 +118,10 @@
           hide-overlay
           transition="dialog-bottom-transition"
         >
-          <v-btn slot="activator" outline>{{ $t('register') }}</v-btn>
+          <v-btn slot="activator" outline>{{ $t("register") }}</v-btn>
           <v-card>
             <v-card-title class="headline lighten-2">
-              {{ $t('register') }}
+              {{ $t("register") }}
               <v-spacer></v-spacer>
               <v-btn icon @click="registerMenu = false">
                 <v-icon medium>close</v-icon>
@@ -139,7 +155,7 @@
                   :error-messages="registerPasswordError"
                   :label="$t('password')"
                   autocomplete="new-password"
-                  :type="showPasswords ? 'text' : 'password' "
+                  :type="showPasswords ? 'text' : 'password'"
                   required
                   @click:append="showPasswords = !showPasswords"
                   @input="$v.registerPassword.$touch()"
@@ -151,7 +167,7 @@
                   :error-messages="registerPasswordAgainError"
                   :label="$t('passwordAgain')"
                   autocomplete="new-password"
-                  :type="showPasswords ? 'text' : 'password' "
+                  :type="showPasswords ? 'text' : 'password'"
                   required
                   @click:append="showPasswords = !showPasswords"
                   @input="$v.registerPasswordAgain.$touch()"
@@ -162,14 +178,19 @@
             <v-divider></v-divider>
             <v-card-actions>
               <v-spacer></v-spacer>
-              <div v-if="this.$v.registerCheck.$invalid" class="pr-1">{{ $t('fillItBeforeSubmit') }}</div>
+              <div v-if="this.$v.registerCheck.$invalid" class="pr-1">
+                {{ $t("fillItBeforeSubmit") }}
+              </div>
               <v-btn
                 color="primary"
                 :loading="loading"
                 outline
                 :disabled="this.$v.registerCheck.$invalid"
-                @click="register(registerUsername, registerPassword, registerEmail)"
-              >{{ $t('register') }}</v-btn>
+                @click="
+                  register(registerUsername, registerPassword, registerEmail)
+                "
+                >{{ $t("register") }}</v-btn
+              >
             </v-card-actions>
             <v-container>
               <v-alert
@@ -180,18 +201,23 @@
                 color="success"
                 class="elevation-5"
               >
-                {{$t('dialog.alsoLogin')}}
+                {{ $t("dialog.alsoLogin") }}
                 <v-btn
                   :loading="loading"
                   outline
                   color="white"
                   @click="login(registerUsername, registerPassword)"
-                >{{$t('dialog.yes')}}</v-btn>
+                  >{{ $t("dialog.yes") }}</v-btn
+                >
                 <v-btn
                   flat
                   color="white"
-                  @click="loginAfterReg=false; registerMenu=false"
-                >{{$t('dialog.no')}}</v-btn>
+                  @click="
+                    loginAfterReg = false;
+                    registerMenu = false;
+                  "
+                  >{{ $t("dialog.no") }}</v-btn
+                >
               </v-alert>
               <v-alert
                 v-model="errorOccured"
@@ -200,7 +226,8 @@
                 dismissible
                 type="error"
                 class="elevation-5"
-              >{{$t('dialog.badHappened')}}</v-alert>
+                >{{ $t("dialog.badHappened") }}</v-alert
+              >
             </v-container>
           </v-card>
         </v-dialog>
