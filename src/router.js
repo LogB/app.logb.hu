@@ -32,6 +32,12 @@ export default new Router({
         import(/* webpackChunkName: "view-measurement" */ "./views/View.vue")
     },
     {
+      path: "/view",
+      name: "open",
+      component: () =>
+        import(/* webpackChunkName: "open-measurement" */ "./views/Open.vue")
+    },
+    {
       path: "/petereasteregg",
       name: "petereasteregg",
       // route level code-splitting
@@ -39,6 +45,10 @@ export default new Router({
       // which is lazy-loaded when the route is visited.
       component: () =>
         import(/* webpackChunkName: "peterpart" */ "./views/PeterEasterEgg.vue")
+    },
+    {
+      path: "*",
+      redirect: "/"
     }
   ]
 });

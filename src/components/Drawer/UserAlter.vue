@@ -29,9 +29,9 @@
           hide-overlay
           transition="dialog-bottom-transition"
         >
-          <v-btn slot="activator" outline :color="darkAccent">{{
-            $t("logIn")
-          }}</v-btn>
+          <v-btn slot="activator" outline :color="darkAccent">
+            {{ $t("logIn") }}
+          </v-btn>
           <v-card>
             <v-card-title class="headline lighten-2">
               {{ $t("logIn") }}
@@ -70,6 +70,9 @@
               >
             </v-alert>
             <v-form>
+              <div class="center logb_type select_none" style="font-size: 400%">
+                LogB
+              </div>
               <v-container>
                 <v-text-field
                   v-model.trim="logInUsername"
@@ -129,6 +132,9 @@
             </v-card-title>
             <v-divider></v-divider>
             <v-form>
+              <div class="center logb_type select_none" style="font-size: 400%">
+                LogB
+              </div>
               <v-container>
                 <v-text-field
                   v-model.trim="registerEmail"
@@ -267,7 +273,10 @@ export default {
       registerPassword: "",
       registerPasswordAgain: "",
       loading: false,
-      showPasswords: false
+      showPasswords: false,
+      userMinLength: 2,
+      userMaxLength: 15,
+      passMinLength: 5
     };
   },
   validations: {
@@ -278,7 +287,8 @@ export default {
     },
     logInPassword: {
       required,
-      minLength: minLength(5)
+      minLength: minLength(5),
+      maxLength: maxLength(50)
     },
     registerUsername: {
       required,
@@ -313,45 +323,59 @@ export default {
     logInUsernameError() {
       const errors = [];
       if (!this.$v.logInUsername.$dirty) return errors;
-      !this.$v.logInUsername.required && errors.push(this.$t("cantBeEmpty"));
-      !this.$v.logInUsername.minLength && errors.push(">2");
-      !this.$v.logInUsername.maxLength && errors.push("<15");
+      !this.$v.logInUsername.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.logInUsername.minLength &&
+        errors.push(this.$t("form.moreThan", { n: this.userMinLength }));
+      !this.$v.logInUsername.maxLength &&
+        errors.push(this.$t("form.lessThan", { n: this.userMaxLength }));
       return errors;
     },
     logInPasswordError() {
       const errors = [];
       if (!this.$v.logInPassword.$dirty) return errors;
-      !this.$v.logInPassword.required && errors.push(">0");
-      !this.$v.logInPassword.minLength && errors.push(">5");
+      !this.$v.logInPassword.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.logInPassword.minLength &&
+        errors.push(this.$t("form.moreThan", { n: this.passMinLength }));
+      !this.$v.logInPassword.maxLength && errors.push(":D >50?");
       return errors;
     },
     registerUsernameError() {
       const errors = [];
       if (!this.$v.registerUsername.$dirty) return errors;
-      !this.$v.registerUsername.required && errors.push(">0");
-      !this.$v.registerUsername.minLength && errors.push(">2");
-      !this.$v.registerUsername.maxLength && errors.push("<15");
-      !this.$v.registerUsername.isUnique && errors.push("vanmárilyen");
+      !this.$v.registerUsername.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.registerUsername.minLength &&
+        errors.push(this.$t("form.moreThan", { n: this.userMinLength }));
+      !this.$v.registerUsername.maxLength &&
+        errors.push(this.$t("form.lessThan", { n: this.userMaxLength }));
+      !this.$v.registerUsername.isUnique &&
+        errors.push(this.$t("form.alreadyTaken"));
       return errors;
     },
     registerEmailError() {
       const errors = [];
       if (!this.$v.registerEmail.$dirty) return errors;
-      !this.$v.registerEmail.required && errors.push(">0");
-      !this.$v.registerEmail.email && errors.push("Email?");
+      !this.$v.registerEmail.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.registerEmail.email && errors.push(this.$t("form.notLikeEmail"));
       return errors;
     },
     registerPasswordError() {
       const errors = [];
       if (!this.$v.registerPassword.$dirty) return errors;
-      !this.$v.registerPassword.required && errors.push(">0");
-      !this.$v.registerPassword.minLength && errors.push(">5");
+      !this.$v.registerPassword.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.registerPassword.minLength &&
+        errors.push(this.$t("form.moreThan", { n: this.passMinLength }));
       return errors;
     },
     registerPasswordAgainError() {
       const errors = [];
       if (!this.$v.registerPasswordAgain.$dirty) return errors;
-      !this.$v.registerPasswordAgain.sameAs && errors.push("=!");
+      !this.$v.registerPasswordAgain.sameAs &&
+        errors.push(this.$t("form.passNotEqual"));
       return errors;
     },
     darkAccent() {
@@ -366,46 +390,50 @@ export default {
   methods: {
     ...mapMutations(["LOG_IN", "LOG_OUT"]),
     login(un, pw) {
-      this.loading = true;
-      this.errorOccured = false;
-      api
-        .login(un, pw)
-        .then(data => {
-          if (data.data.error == 20) {
-            api.viewUserMeta().then(data => {
-              this.LOG_IN({
-                username: data.data.username,
-                email: data.data.email
+      if (this.$v.logInCheck.$invalid) {
+        this.loading = true;
+        this.errorOccured = false;
+        api
+          .login(un, pw)
+          .then(data => {
+            if (data.data.error == 20) {
+              api.viewUserMeta().then(data => {
+                this.LOG_IN({
+                  username: data.data.username,
+                  email: data.data.email
+                });
               });
-            });
-            this.loginMenu = false;
-            this.loginAfterReg = false;
+              this.loginMenu = false;
+              this.loginAfterReg = false;
+              this.loading = false;
+            } else {
+              if (data.data.error == 13) this.badCredentials = true;
+              this.loading = false;
+            }
+            //success here
+          })
+          .catch(function() {
+            this.errorOccured = true;
             this.loading = false;
-          } else {
-            if (data.data.error == 13) this.badCredentials = true;
-            this.loading = false;
-          }
-          //success here
-        })
-        .catch(function() {
-          this.errorOccured = true;
-          this.loading = false;
-        });
-      //bad there
+          });
+        //bad there
+      }
     },
     register(un, pw, email) {
-      this.loading = true;
-      this.errorOccured = false;
-      api
-        .register(un, pw, email)
-        .then(function() {
-          this.loading = false;
-          this.loginAfterReg = true;
-        })
-        .catch(function() {
-          this.errorOccured = true;
-          this.loading = false;
-        });
+      if (this.$v.registerCheck.$invalid) {
+        this.loading = true;
+        this.errorOccured = false;
+        api
+          .register(un, pw, email)
+          .then(function() {
+            this.loading = false;
+            this.loginAfterReg = true;
+          })
+          .catch(function() {
+            this.errorOccured = true;
+            this.loading = false;
+          });
+      }
     },
     logout() {
       api.logout().then(this.LOG_OUT());

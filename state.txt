@@ -1,4 +1,4 @@
-PasteBin-like...
+PasteBin-like... thing?
 -----------
   "gitHooks": {
     "pre-commit": "lint-staged"
@@ -11,4 +11,6 @@ PasteBin-like...
   Vue.filter("upperCase", function(word) {
     return word.toUpperCase();
   });
+-----------
+width="fit-content"
 -----------

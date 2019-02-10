@@ -5,12 +5,13 @@
       "noDescription": "No description",
       "by":"by",
       "null": "null",
-      "viewMeas": "View",
       "sort": "Sort by",
       "date": "date",
       "sortById": "Sort by ID",
       "reverseSort":"Reverse sorting",
-      "search": "Search"
+      "search": "Search...",
+      "options": "Settings",
+      "none": "none"
       
     },
     "hu": {
@@ -18,13 +19,13 @@
       "noDescription": "Nincs leírás",
       "by":"készítette:",
       "null": "null",
-      "viewMeas": "Megtekintés",
       "sort": "Rendezés",
       "date": "dátum alapján",
       "sortById": "Rendezés azonosító alapján",
       "reverseSort":"Fordított rendezés",
-      "search": "Keresés"
-      
+      "search": "Keresés...",
+      "options": "Beállítások",
+      "none": "nincs"
     }
   }
 </i18n>
@@ -38,22 +39,30 @@
       :pagination.sync="pagination"
       :search="search"
     >
-      <v-layout slot="header" class="pl-3">
-        <v-btn
-          class="mt-3 mr-4"
-          :disabled="!sortById"
-          @click.stop="pagination.descending = !pagination.descending"
-          >{{ $t("reverseSort") }}</v-btn
-        >
-        <v-switch v-model="sortById" :label="$t('sortById')"></v-switch>
+      <v-layout slot="header" wrap class="pl-3">
         <v-text-field
           v-model="search"
-          class="mr-4"
+          class="mr-4 mb-2"
           append-icon="search"
           :label="$t('search')"
           single-line
           hide-details
         ></v-text-field>
+        <v-list-group :value="settings" no-action class="mt-2">
+          <v-list-tile slot="activator">
+            <v-list-tile-title>{{ $t("options") }}</v-list-tile-title>
+          </v-list-tile>
+          <v-list-tile class="ma-0 pa-0">
+            <v-checkbox v-model="sortById" :label="$t('sortById')"></v-checkbox>
+          </v-list-tile>
+          <v-list-tile class="ma-0 pa-0">
+            <v-checkbox
+              v-if="sortById"
+              v-model="pagination.descending"
+              :label="$t('reverseSort')"
+            ></v-checkbox>
+          </v-list-tile>
+        </v-list-group>
       </v-layout>
       <v-expansion-panel slot="item" slot-scope="props">
         <div>
@@ -66,15 +75,15 @@
         >
           <div slot="header" class="pa-0">
             <div v-if="props.item.measurement_alias == null">
-              <strong class="text-uppercase">{{
-                props.item.measurement_id
-              }}</strong>
+              <strong class="text-uppercase">
+                {{ props.item.measurement_id }}
+              </strong>
               - {{ $t("unnamedMeas") }}
             </div>
             <div v-else>
-              <strong class="text-uppercase">{{
-                props.item.measurement_id
-              }}</strong>
+              <strong class="text-uppercase">
+                {{ props.item.measurement_id }}
+              </strong>
               - {{ props.item.measurement_alias }}
             </div>
             <div v-if="props.item.description_part == null">
@@ -98,11 +107,16 @@
                     {{ $t("unnamedMeas") }}
                   </h4>
                   <h4 v-else>{{ props.item.measurement_alias }}</h4>
-                  <div
-                    class="text-uppercase display-1 font-weight-light select_all"
-                  >
-                    {{ props.item.measurement_id }}
-                  </div>
+                  <v-tooltip bottom>
+                    <span
+                      slot="activator"
+                      v-clipboard="props.item.measurement_id"
+                      style="cursor: pointer"
+                      class="text-uppercase display-1 font-weight-light select_all"
+                      >{{ props.item.measurement_id }}</span
+                    >
+                    {{ $t("clickToCopy") }}
+                  </v-tooltip>
                 </v-flex>
                 <v-btn
                   class="ma-0"
@@ -112,14 +126,49 @@
                 >
               </v-card-title>
               <v-divider></v-divider>
-              <v-card class="pa-3 ma-2" style="width: wrap-content">
-                <div v-for="(value, key) in props.item" :key="key">
-                  <strong>{{ key }}:</strong>
-                  <span v-if="value == null" class="align-end">{{
-                    $t("null")
-                  }}</span>
-                  <span v-else class="align-end">{{ value }}</span>
-                </div>
+              <v-card class="pa-3 ma-2" width="fit-content">
+                <v-layout column wrap>
+                  <div>
+                    <span class="text-capitalize font-weight-medium"
+                      >{{ $t("start") }}:</span
+                    >
+                    &nbsp;
+                    <span>{{
+                      props.item.start != null ? props.item.start : $t("none")
+                    }}</span>
+                  </div>
+                  <div>
+                    <span class="text-capitalize font-weight-medium"
+                      >{{ $t("last") }}:</span
+                    >
+                    &nbsp;
+                    <span>{{
+                      props.item.last != null ? props.item.last : $t("none")
+                    }}</span>
+                  </div>
+                  <div>
+                    <span class="text-capitalize font-weight-medium"
+                      >{{ $t("line_count") }}:</span
+                    >
+                    &nbsp;
+                    <span>{{
+                      props.item.line_count != null
+                        ? props.item.line_count
+                        : $t("none")
+                    }}</span>
+                  </div>
+                  <div>
+                    <span class="text-capitalize font-weight-medium"
+                      >{{ $t("description") }}:</span
+                    >
+                    &nbsp;
+                    <span class="text-truncate">{{
+                      props.item.description != null
+                        ? props.item.description
+                        : $t("none")
+                    }}</span>
+                  </div>
+                </v-layout>
               </v-card>
             </v-card>
           </div>
@@ -153,7 +202,8 @@ export default {
       loading: false,
       innerLoading: false,
       sortById: false,
-      search: ""
+      search: "",
+      settings: false
     };
   },
   watch: {

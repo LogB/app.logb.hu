@@ -5,7 +5,6 @@
       v-model="drawer"
       temporary
       app
-      scroll-threshold="300"
       card
       :width="drawerWidth"
     >

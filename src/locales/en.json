@@ -29,7 +29,6 @@
   "offline": "Offline",
   "noInternet": "There isn't internet right now.",
   "fillItBeforeSubmit": "Please fill out all the fields.",
-  "cantBeEmpty": "This field cannot be empty.",
   "dialog": {
     "succesfulReg": "Sucessful Registration",
     "alsoLogin": "You will get a confirmation email soon. Do you also want to login now?",
@@ -37,7 +36,8 @@
     "no": "No, thanks",
     "badHappened": "Something bad happened. Please try again.",
     "badCredentials": "Please check your credentials",
-    "dontHave": "If you have no account yet:"
+    "dontHave": "If you have no account yet:",
+    "clickToCopy": "Click to copy"
   },
   "logOut": "Log Out",
   "darkMode": "dark mode",
@@ -49,5 +49,23 @@
   "last": "last update",
   "line_count": "line count",
   "sensors_used": "sensors used",
-  "sensor_count": "sensor count"
+  "sensor_count": "sensor count",
+  "viewMeas": "View",
+  "clickToCopy": "Kattints rá a másoláshoz",
+  "form": {
+    "cantBeEmpty": "This field cannot be empty.",
+    "moreThan": "This field should contain at least <strong>{n}</strong> characters",
+    "lessThan": "This field should contain at most <strong>{n}</strong> characters",
+    "alreadyTaken": "This username is already taken.",
+    "notLikeEmail": "This does not looks like an email.",
+    "passNotEqual": "The passwords are not equal."
+  },
+  "open": {
+    "scanQr": "Scan QR",
+    "permDenied": "Camera permission is denied. Please try enable it.",
+    "camNotFound": "No camera found.",
+    "notOverHttps": "HTTPS is required for this function.",
+    "isBusy": "Camera is busy.",
+    "browserNotSupported": "This browser is not supported."
+  }
 }

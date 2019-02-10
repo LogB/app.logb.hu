@@ -6,7 +6,7 @@
     "perSec": "second|seconds",
     "sec": "second|seconds",
     "setInterval": "Set Interval",
-    "setIntervalText": "Here, you can set the time between the automatic data updates in milliseconds (1/1000 seconds).",
+    "setIntervalText": "Here, you can set the time between the automatic data updates in seconds.",
     "ourEstimate": "Our estimate is calculated from the 2 intervals (in seconds) between the last 3 data rows.",
     "turnOnAuto": "Automatic time interval"
     },
@@ -16,7 +16,7 @@
     "perSec": "másodpercenként",
     "sec": "másodperc",
     "setInterval": "Időköz beállítása",
-    "setIntervalText": "Itt be lehet állítani az automatikus adat frissítések közötti időtartamot milliszekundumokban (ez 1/1000 másodperc).",
+    "setIntervalText": "Itt be tudod állítani az automatikus frissítések közötti időtartamot másodpercekben.",
     "ourEstimate": "Mi, az utolsó három sor közötti két időközből számítjuk ki automatikusan az időközt.",
     "turnOnAuto": "Automatikus frissítési időköz"
     }
@@ -26,10 +26,10 @@
   <div>
     <v-dialog v-model="intervalDialog" width="fit-content">
       <v-card>
-        <v-card-title class="headline grey lighten-2" primary-title>{{
-          $t("setInterval")
-        }}</v-card-title>
-        <v-card-text>
+        <v-card-title class="headline text-capitalize" primary-title>
+          {{ $t("setInterval") }}
+        </v-card-title>
+        <v-card-text class="text-xs-center">
           {{ $t("setIntervalText") }}
           <br />
           {{ $t("ourEstimate") }}
@@ -52,7 +52,7 @@
                 ticks
                 min="1"
                 max="30"
-                @change="autoInterval = false"
+                @start="autoInterval = false"
               ></v-slider>
             </v-card-text>
           </v-card>
@@ -68,6 +68,7 @@
         ></v-switch>
       </v-card>
       <v-card
+        hover
         class="px-3 pt-4 select_none"
         style="cursor: pointer"
         @click.stop="intervalDialog = true"
@@ -190,10 +191,14 @@ export default {
     setData(id) {
       this.loading = true;
       api.measData(id).then(response => {
-        this.measData = response.data.data;
-        this.loading = false;
-        this.makeHeader(response.data.header);
-        this.updateAutointerval();
+        if (response.data.error == 20) {
+          this.measData = response.data.data;
+          this.loading = false;
+          this.makeHeader(response.data.header);
+          this.updateAutointerval();
+        } else {
+          if (response.data.error == 11) this.$router.replace("/view");
+        }
       });
     },
     makeHeader(array) {

@@ -18,18 +18,17 @@
   "downloadedMeasurements": "Letöltött Mérések",
   "logIn": "Bejelentkezés",
   "register": "Regisztáció",
-  "logInOrRegister":"Jelentkezzen be, vagy regisztráljon.",
+  "logInOrRegister": "Jelentkezzen be, vagy regisztráljon.",
   "myMeasurements": "Saját méréseim",
   "TEST": "MAGYAR!",
-  "language":"Nyelv",
-  "email":"Email",
-  "passwordAgain":"Jelszó Újra",
+  "language": "Nyelv",
+  "email": "Email",
+  "passwordAgain": "Jelszó Újra",
   "password": "Jelszó",
-  "username":"Felhasználónév",
+  "username": "Felhasználónév",
   "offline": "Offline",
   "noInternet": "Jelenleg nincs internetkapcsolat",
   "fillItBeforeSubmit": "Kérem töltse ki az összes mezőt.",
-  "cantBeEmpty": "Ez a mező nem lehet üres.",
   "dialog": {
     "succesfulReg": "Sikeres Regisztráció",
     "alsoLogin": "Hamarosan küldünk egy igazóló emailt. Addig is, be szeretnél jelentkezni?",
@@ -49,5 +48,22 @@
   "last": "utolsó frissítés",
   "line_count": "sorok száma",
   "sensors_used": "használt szenzorok",
-  "sensor_count": "mért dolgok száma"
+  "sensor_count": "mért dolgok száma",
+  "viewMeas": "Megtekintés",
+  "form": {
+    "cantBeEmpty": "Ez a mező nem lehet üres.",
+    "moreThan": "Ez a mező minimum <strong>{n}</strong> karakter hosszú kell hogy legyen.",
+    "lessThan": "Ez a mező maximum <strong>{n}</strong> karakter lehet.",
+    "alreadyTaken": "Ez a felhsználónév foglalt.",
+    "notLikeEmail": "Ez nem tűnik egy email címnek",
+    "passNotEqual": "A jelszavak nem egyeznek."
+  },
+  "open": {
+    "scanQr": "QR kód beolvasás",
+    "permDenied": "Nincs engedélyezve a kamera használata.",
+    "camNotFound": "Nem található kamera.",
+    "notOverHttps": "HTTPS szükséges a funkcióhoz.",
+    "isBusy": "A kamera foglalt.",
+    "browserNotSupported": "A böngésző nem támogatott."
+  }
 }
