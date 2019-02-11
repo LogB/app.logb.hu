@@ -390,7 +390,7 @@ export default {
   methods: {
     ...mapMutations(["LOG_IN", "LOG_OUT"]),
     login(un, pw) {
-      if (this.$v.logInCheck.$invalid) {
+      if (!this.$v.logInCheck.$invalid) {
         this.loading = true;
         this.errorOccured = false;
         api
@@ -420,7 +420,7 @@ export default {
       }
     },
     register(un, pw, email) {
-      if (this.$v.registerCheck.$invalid) {
+      if (!this.$v.registerCheck.$invalid) {
         this.loading = true;
         this.errorOccured = false;
         api

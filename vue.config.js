@@ -21,7 +21,7 @@ module.exports = {
   outputDir: undefined,
   assetsDir: "assets",
   runtimeCompiler: undefined,
-  productionSourceMap: undefined,
-  parallel: undefined,
+  productionSourceMap: false,
+  parallel: false,
   css: undefined
 };

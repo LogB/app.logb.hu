@@ -72,9 +72,9 @@ export default {
     drawerWidth() {
       switch (this.$i18n.locale) {
         case "hu":
-          return 373;
+          return 332;
         default:
-          return 300;
+          return 296;
       }
     },
     dark() {

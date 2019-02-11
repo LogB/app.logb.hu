@@ -8,7 +8,9 @@
     "setInterval": "Set Interval",
     "setIntervalText": "Here, you can set the time between the automatic data updates in seconds.",
     "ourEstimate": "Our estimate is calculated from the 2 intervals (in seconds) between the last 3 data rows.",
-    "turnOnAuto": "Automatic time interval"
+    "turnOnAuto": "Automatic time interval",
+    "share": "share",
+    "copied": "Copied:"
     },
   "hu":{ 
     "liveData":"ÉLŐ",
@@ -18,17 +20,25 @@
     "setInterval": "Időköz beállítása",
     "setIntervalText": "Itt be tudod állítani az automatikus frissítések közötti időtartamot másodpercekben.",
     "ourEstimate": "Mi, az utolsó három sor közötti két időközből számítjuk ki automatikusan az időközt.",
-    "turnOnAuto": "Automatikus frissítési időköz"
+    "turnOnAuto": "Automatikus frissítési időköz",
+    "share": "megosztás",
+    "copied": "Kimásolva:"
     }
 }
 </i18n>
 <template>
   <div>
+    <v-snackbar v-model="snackBar">
+      {{ toastText }}
+      <v-btn flat color="primary" @click.native="snackBar = false">
+        <v-icon>close</v-icon>
+      </v-btn>
+    </v-snackbar>
     <v-dialog v-model="intervalDialog" width="fit-content">
       <v-card>
-        <v-card-title class="headline text-capitalize" primary-title>
-          {{ $t("setInterval") }}
-        </v-card-title>
+        <v-card-title class="headline text-capitalize" primary-title>{{
+          $t("setInterval")
+        }}</v-card-title>
         <v-card-text class="text-xs-center">
           {{ $t("setIntervalText") }}
           <br />
@@ -41,7 +51,7 @@
                 :label="$t('turnOnAuto')"
               ></v-switch>
               <div class="center mt-4">{{ $t("timeInterval") }}</div>
-              <div class="center headline text-uppercase">
+              <div class="center headline text-uppercase text-truncate">
                 <span>{{ interval }} {{ $tc("perSec", interval) }}</span>
               </div>
               <v-slider
@@ -59,8 +69,35 @@
         </v-card-text>
       </v-card>
     </v-dialog>
-    <v-layout class="mb-4 center">
-      <v-card class="px-3 mr-2">
+    <v-bottom-sheet v-model="shareMenu">
+      <v-card>
+        <v-card-title class="display-1 text-capitalize">{{
+          $t("share")
+        }}</v-card-title>
+        <v-divider></v-divider>
+        <v-list dense>
+          <v-list-tile
+            @click="
+              shareMenu = false;
+              toastClip();
+            "
+          >
+            <v-list-tile-action>
+              <v-icon>link</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>
+                Link: &nbsp;
+                <strong>https://cloud.logb.hu/view/{{ id }}</strong>
+                &nbsp;&nbsp;({{ $t("clickToCopy") }})
+              </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+      </v-card>
+    </v-bottom-sheet>
+    <v-layout wrap class="mb-4 center">
+      <v-card class="px-2 my-1 mr-2">
         <v-switch
           v-model="autoUpdate"
           :loading="liveIsOn"
@@ -69,7 +106,7 @@
       </v-card>
       <v-card
         hover
-        class="px-3 pt-4 select_none"
+        class="px-3 py-4 ma-1 select_none"
         style="cursor: pointer"
         @click.stop="intervalDialog = true"
       >
@@ -77,41 +114,58 @@
         <strong>{{ interval }}</strong>
         {{ $tc("perSec", interval) }}
       </v-card>
+      <v-btn
+        class="my-1"
+        style="height: inherit"
+        @click.stop="shareMenu = true"
+      >
+        <v-icon class="my-2">share</v-icon>
+        &nbsp;{{ $t("share") }}
+      </v-btn>
     </v-layout>
-    <v-data-table
-      :headers="headers"
-      :items="items"
-      :pagination.sync="pagination"
-      item-key="Date"
-      :loading="loading"
-      class="elevation-2"
-      :rows-per-page-items="rowsNums"
-    >
-      <template slot="headers" slot-scope="props">
-        <tr>
-          <th
-            v-for="header in props.headers"
-            :key="header.text"
-            :class="[
-              'column sortable pa-0',
-              pagination.descending ? 'desc' : 'asc',
-              header.value === pagination.sortBy ? 'active' : ''
-            ]"
-            @click="changeSort(header.value)"
-          >
-            <v-icon small>arrow_upward</v-icon>
-            {{ header.text }}
-          </th>
-        </tr>
-      </template>
-      <template slot="items" slot-scope="props">
-        <tr>
-          <td v-for="data in props.item" :key="data.date" class="center">
-            {{ data }}
-          </td>
-        </tr>
-      </template>
-    </v-data-table>
+
+    <v-expansion-panel v-model="panel" expand>
+      <v-expansion-panel-content>
+        <div slot="header">Data</div>
+        <v-data-table
+          :headers="headers"
+          :items="items"
+          :pagination.sync="pagination"
+          item-key="Date"
+          :loading="loading"
+          :rows-per-page-items="rowsNums"
+        >
+          <template slot="headers" slot-scope="props">
+            <tr>
+              <th
+                v-for="header in props.headers"
+                :key="header.text"
+                :class="[
+                  'column sortable center pa-0',
+                  pagination.descending ? 'desc' : 'asc',
+                  header.value === pagination.sortBy ? 'active' : ''
+                ]"
+                @click="changeSort(header.value)"
+              >
+                <v-icon small>arrow_upward</v-icon>
+                {{ header.text }}
+              </th>
+            </tr>
+          </template>
+          <template slot="items" slot-scope="props">
+            <tr>
+              <td
+                v-for="data in props.item"
+                :key="data.date"
+                class="center pa-0"
+              >
+                {{ data }}
+              </td>
+            </tr>
+          </template>
+        </v-data-table>
+      </v-expansion-panel-content>
+    </v-expansion-panel>
   </div>
 </template>
 <script>
@@ -139,7 +193,11 @@ export default {
       measData: [],
       loading: false,
       headers: [],
-      intervalDialog: null
+      intervalDialog: null,
+      shareMenu: null,
+      toastText: "",
+      snackBar: false,
+      panel: [true, false, false]
     };
   },
   computed: {
@@ -228,6 +286,12 @@ export default {
         }
         this.loading = false;
       });
+    },
+    toastClip() {
+      this.$clipboard("https://cloud.logb.hu/view/" + this.id);
+      this.toastText =
+        this.$t("copied") + " https://cloud.logb.hu/view/" + this.id;
+      this.snackBar = true;
     }
   }
 };

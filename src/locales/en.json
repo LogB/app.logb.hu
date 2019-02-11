@@ -67,5 +67,6 @@
     "notOverHttps": "HTTPS is required for this function.",
     "isBusy": "Camera is busy.",
     "browserNotSupported": "This browser is not supported."
-  }
+  },
+  "openMeasurement": "Open measurement"
 }

@@ -48,41 +48,46 @@
           single-line
           hide-details
         ></v-text-field>
-        <v-list-group :value="settings" no-action class="mt-2">
-          <v-list-tile slot="activator">
-            <v-list-tile-title>{{ $t("options") }}</v-list-tile-title>
-          </v-list-tile>
-          <v-list-tile class="ma-0 pa-0">
-            <v-checkbox v-model="sortById" :label="$t('sortById')"></v-checkbox>
-          </v-list-tile>
-          <v-list-tile class="ma-0 pa-0">
-            <v-checkbox
-              v-if="sortById"
-              v-model="pagination.descending"
-              :label="$t('reverseSort')"
-            ></v-checkbox>
-          </v-list-tile>
-        </v-list-group>
+        <v-list>
+          <v-list-group :value="settings" no-action class="mt-2">
+            <v-list-tile slot="activator">
+              <v-list-tile-title>{{ $t("options") }}</v-list-tile-title>
+            </v-list-tile>
+            <v-list-tile class="ma-0 pa-0">
+              <v-checkbox v-model="sortById" :label="$t('sortById')"></v-checkbox>
+            </v-list-tile>
+            <v-list-tile class="ma-0 pa-0">
+              <v-checkbox
+                v-if="sortById"
+                v-model="pagination.descending"
+                :label="$t('reverseSort')"
+              ></v-checkbox>
+            </v-list-tile>
+          </v-list-group>
+        </v-list>
       </v-layout>
       <v-expansion-panel slot="item" slot-scope="props">
-        <div>
-          <v-divider></v-divider>
-        </div>
+        <v-divider></v-divider>
         <v-expansion-panel-content
+          lazy
           ripple
-          class="mb-2"
+          class="pa-0"
           @input="loadMeta(props.item.measurement_id, $event)"
         >
-          <div slot="header" class="pa-0">
+          <div slot="header">
             <div v-if="props.item.measurement_alias == null">
               <strong class="text-uppercase">
-                {{ props.item.measurement_id }}
+                {{
+                props.item.measurement_id
+                }}
               </strong>
               - {{ $t("unnamedMeas") }}
             </div>
             <div v-else>
               <strong class="text-uppercase">
-                {{ props.item.measurement_id }}
+                {{
+                props.item.measurement_id
+                }}
               </strong>
               - {{ props.item.measurement_alias }}
             </div>
@@ -96,16 +101,11 @@
             </div>
           </div>
           <div class="pa-2">
-            <v-progress-linear
-              v-if="innerLoading"
-              indeterminate
-            ></v-progress-linear>
+            <v-progress-linear v-if="innerLoading" indeterminate></v-progress-linear>
             <v-card flat>
               <v-card-title>
                 <v-flex>
-                  <h4 v-if="props.item.measurement_alias == null">
-                    {{ $t("unnamedMeas") }}
-                  </h4>
+                  <h4 v-if="props.item.measurement_alias == null">{{ $t("unnamedMeas") }}</h4>
                   <h4 v-else>{{ props.item.measurement_alias }}</h4>
                   <v-tooltip bottom>
                     <span
@@ -113,8 +113,7 @@
                       v-clipboard="props.item.measurement_id"
                       style="cursor: pointer"
                       class="text-uppercase display-1 font-weight-light select_all"
-                      >{{ props.item.measurement_id }}</span
-                    >
+                    >{{ props.item.measurement_id }}</span>
                     {{ $t("clickToCopy") }}
                   </v-tooltip>
                 </v-flex>
@@ -122,51 +121,50 @@
                   class="ma-0"
                   color="primary"
                   @click="goTo(props.item.measurement_id)"
-                  >{{ $t("viewMeas") }}</v-btn
-                >
+                >{{ $t("viewMeas") }}</v-btn>
               </v-card-title>
               <v-divider></v-divider>
               <v-card class="pa-3 ma-2" width="fit-content">
                 <v-layout column wrap>
                   <div>
-                    <span class="text-capitalize font-weight-medium"
-                      >{{ $t("start") }}:</span
-                    >
+                    <span class="text-capitalize font-weight-medium">{{ $t("start") }}:</span>
                     &nbsp;
-                    <span>{{
+                    <span>
+                      {{
                       props.item.start != null ? props.item.start : $t("none")
-                    }}</span>
+                      }}
+                    </span>
                   </div>
                   <div>
-                    <span class="text-capitalize font-weight-medium"
-                      >{{ $t("last") }}:</span
-                    >
+                    <span class="text-capitalize font-weight-medium">{{ $t("last") }}:</span>
                     &nbsp;
-                    <span>{{
+                    <span>
+                      {{
                       props.item.last != null ? props.item.last : $t("none")
-                    }}</span>
+                      }}
+                    </span>
                   </div>
                   <div>
-                    <span class="text-capitalize font-weight-medium"
-                      >{{ $t("line_count") }}:</span
-                    >
+                    <span class="text-capitalize font-weight-medium">{{ $t("line_count") }}:</span>
                     &nbsp;
-                    <span>{{
+                    <span>
+                      {{
                       props.item.line_count != null
-                        ? props.item.line_count
-                        : $t("none")
-                    }}</span>
+                      ? props.item.line_count
+                      : $t("none")
+                      }}
+                    </span>
                   </div>
                   <div>
-                    <span class="text-capitalize font-weight-medium"
-                      >{{ $t("description") }}:</span
-                    >
+                    <span class="text-capitalize font-weight-medium">{{ $t("description") }}:</span>
                     &nbsp;
-                    <span class="text-truncate">{{
+                    <span class="text-truncate">
+                      {{
                       props.item.description != null
-                        ? props.item.description
-                        : $t("none")
-                    }}</span>
+                      ? props.item.description
+                      : $t("none")
+                      }}
+                    </span>
                   </div>
                 </v-layout>
               </v-card>
@@ -191,8 +189,7 @@ export default {
     return {
       pagination: {},
       rowsNums: [
-        5,
-        10,
+        13,
         20,
         50,
         100,

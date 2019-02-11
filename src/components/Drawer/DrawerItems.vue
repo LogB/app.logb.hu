@@ -13,7 +13,9 @@
       </v-list-tile-action>
 
       <v-list-tile-content>
-        <v-list-tile-title>{{ $t(item.title) }}</v-list-tile-title>
+        <v-list-tile-title class="text-capitalize">{{
+          $t(item.title)
+        }}</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
   </v-list>
@@ -29,17 +31,22 @@ export default {
           route: "/"
         },
         {
+          icon: "open_in_new",
+          title: "openMeasurement",
+          route: "/view"
+        },
+        {
           icon: "folder_shared",
           title: "sharedMeasurements",
           route: "/shared"
         },
+        // {
+        //   icon: "cloud_download",
+        //   title: "downloadedMeasurements",
+        //   route: "/downloaded"
+        // },
         {
-          icon: "cloud_download",
-          title: "downloadedMeasurements",
-          route: "/downloaded"
-        },
-        {
-          icon: "home",
+          icon: "view_list",
           title: "myMeasurements",
           route: "/my-measurements"
         }

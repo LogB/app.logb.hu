@@ -16,7 +16,7 @@
   "homePage": "Kezdőlap",
   "sharedMeasurements": "Nyilvános Mérések",
   "downloadedMeasurements": "Letöltött Mérések",
-  "logIn": "Bejelentkezés",
+  "logIn": "Belépés",
   "register": "Regisztáció",
   "logInOrRegister": "Jelentkezzen be, vagy regisztráljon.",
   "myMeasurements": "Saját méréseim",
@@ -65,5 +65,6 @@
     "notOverHttps": "HTTPS szükséges a funkcióhoz.",
     "isBusy": "A kamera foglalt.",
     "browserNotSupported": "A böngésző nem támogatott."
-  }
+  },
+  "openMeasurement": "Mérés megnyitása"
 }
