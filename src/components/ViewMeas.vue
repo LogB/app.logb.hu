@@ -38,12 +38,7 @@
         <v-icon>close</v-icon>
       </v-btn>
     </v-snackbar>
-    <v-dialog
-      v-model="qrDialog"
-      full-width
-      fullscreen
-      transition="dialog-bottom-transition"
-    >
+    <v-dialog v-model="qrDialog" full-width fullscreen transition="dialog-bottom-transition">
       <v-card>
         <v-card-title class="headline lighten-2">
           {{ $t("qrCode") }}
@@ -54,48 +49,39 @@
         </v-card-title>
         <v-divider></v-divider>
         <v-layout column align-center justify-center>
-          <h2>
-            {{ $t("openMeasurement") }} &nbsp;
-            <a href="https://cloud.logb.hu/view">
-              cloud.logb.hu/view
-            </a>
+          <v-slider v-model="qrSize" prepend-icon="zoom_in" always-dirty min="1" max="99"></v-slider>
+          <h2 class="center">
+            {{ $t("openMeasurement") }}:&nbsp;
+            <a
+              href="https://cloud.logb.hu/view"
+            >cloud.logb.hu/view</a>
           </h2>
-          <v-switch
-            v-model="minify"
-            class="ml-3"
-            :label="$t('minify')"
-          ></v-switch>
+          <v-switch v-model="minify" class="ml-3" :label="$t('minify')"></v-switch>
           <h2 v-if="!minify">{{ linkText }}</h2>
           <h2 v-if="minify" class="text-uppercase center">
-            {{ qrText }}<br />{{ $t("onlyWithLogb") }}
+            {{ qrText }}
+            <br>
+            {{ $t("onlyWithLogb") }}
           </h2>
           <img
-            class="qrSize mt-2"
-            :src="
-              'http://api.qrserver.com/v1/create-qr-code/?data=' +
-                qrText +
-                '&format=svg&qzone=1&ecc=M'
-            "
-          />
+            class="mt-2"
+            :src="'http://api.qrserver.com/v1/create-qr-code/?data=' + qrText + '&format=svg&qzone=1&ecc=M'"
+            :style="qrSizeStyle"
+          >
         </v-layout>
       </v-card>
     </v-dialog>
     <v-dialog v-model="intervalDialog" width="fit-content">
       <v-card>
-        <v-card-title class="headline text-capitalize" primary-title>
-          {{ $t("setInterval") }}
-        </v-card-title>
+        <v-card-title class="headline text-capitalize" primary-title>{{ $t("setInterval") }}</v-card-title>
         <v-card-text class="text-xs-center">
           {{ $t("setIntervalText") }}
-          <br />
+          <br>
           {{ $t("ourEstimate") }}
-          <br />
+          <br>
           <v-card class="elevation-5 mt-3">
             <v-card-text>
-              <v-switch
-                v-model="autoInterval"
-                :label="$t('turnOnAuto')"
-              ></v-switch>
+              <v-switch v-model="autoInterval" :label="$t('turnOnAuto')"></v-switch>
               <div class="center mt-4">{{ $t("timeInterval") }}</div>
               <div class="center headline text-uppercase text-truncate">
                 <span>{{ interval }} {{ $tc("perSec", interval) }}</span>
@@ -117,9 +103,7 @@
     </v-dialog>
     <v-bottom-sheet v-model="shareMenu">
       <v-card>
-        <v-card-title class="display-1 text-capitalize">
-          {{ $t("share") }}
-        </v-card-title>
+        <v-card-title class="display-1 text-capitalize">{{ $t("share") }}</v-card-title>
         <v-divider></v-divider>
         <v-list dense>
           <v-list-tile
@@ -157,11 +141,7 @@
     </v-bottom-sheet>
     <v-layout wrap class="mb-4 center">
       <v-card class="px-3 my-1 mr-2">
-        <v-switch
-          v-model="autoUpdate"
-          :loading="liveIsOn"
-          :label="$t('liveData')"
-        ></v-switch>
+        <v-switch v-model="autoUpdate" :loading="liveIsOn" :label="$t('liveData')"></v-switch>
       </v-card>
       <v-card
         hover
@@ -173,11 +153,7 @@
         <strong>{{ interval }}</strong>
         {{ $tc("perSec", interval) }}
       </v-card>
-      <v-btn
-        class="my-1"
-        style="height: inherit"
-        @click.stop="shareMenu = true"
-      >
+      <v-btn class="my-1" style="height: inherit" @click.stop="shareMenu = true">
         <v-icon class="my-2">share</v-icon>
         &nbsp;{{ $t("share") }}
       </v-btn>
@@ -213,13 +189,7 @@
           </template>
           <template slot="items" slot-scope="props">
             <tr>
-              <td
-                v-for="data in props.item"
-                :key="data.date"
-                class="center pa-0"
-              >
-                {{ data }}
-              </td>
+              <td v-for="data in props.item" :key="data.date" class="center pa-0">{{ data }}</td>
             </tr>
           </template>
         </v-data-table>
@@ -257,7 +227,8 @@ export default {
       snackBar: false,
       qrDialog: false,
       panel: [true, false, false],
-      minify: true
+      minify: true,
+      qrSize: 65
     };
   },
   computed: {
@@ -288,6 +259,9 @@ export default {
     qrText() {
       if (this.minify) return this.id;
       return "https://cloud.logb.hu/view/" + this.id;
+    },
+    qrSizeStyle() {
+      return "height: " + this.qrSize + "vmin";
     }
   },
   watch: {
@@ -362,8 +336,3 @@ export default {
   }
 };
 </script>
-<style>
-.qrSize {
-  height: 70vmin;
-}
-</style>

@@ -16,12 +16,14 @@ module.exports = {
     }
   },
 
-  lintOnSave: undefined,
+  lintOnSave: true,
   publicPath: undefined,
   outputDir: undefined,
   assetsDir: "assets",
   runtimeCompiler: undefined,
   productionSourceMap: false,
-  parallel: false,
-  css: undefined
+  parallel: true,
+  css: {
+    extract: false
+  }
 };
