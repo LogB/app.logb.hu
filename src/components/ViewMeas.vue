@@ -10,7 +10,9 @@
     "ourEstimate": "Our estimate is calculated from the 2 intervals (in seconds) between the last 3 data rows.",
     "turnOnAuto": "Automatic time interval",
     "share": "share",
-    "copied": "Copied:"
+    "copied": "Copied:",
+    "minify": "Minify",
+    "onlyWithLogb": " works only with LogB's QR reader"
     },
   "hu":{ 
     "liveData":"ÉLŐ",
@@ -22,7 +24,9 @@
     "ourEstimate": "Mi, az utolsó három sor közötti két időközből számítjuk ki automatikusan az időközt.",
     "turnOnAuto": "Automatikus frissítési időköz",
     "share": "megosztás",
-    "copied": "Kimásolva:"
+    "copied": "Kimásolva:",
+    "minify": "Kisebb QR",
+    "onlyWithLogb": " csak a LogB QR olvasójával működik"
     }
 }
 </i18n>
@@ -34,11 +38,53 @@
         <v-icon>close</v-icon>
       </v-btn>
     </v-snackbar>
+    <v-dialog
+      v-model="qrDialog"
+      full-width
+      fullscreen
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-card-title class="headline lighten-2">
+          {{ $t("qrCode") }}
+          <v-spacer></v-spacer>
+          <v-btn icon @click="qrDialog = false">
+            <v-icon medium>close</v-icon>
+          </v-btn>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-layout column align-center justify-center>
+          <h2>
+            {{ $t("openMeasurement") }} &nbsp;
+            <a href="https://cloud.logb.hu/view">
+              cloud.logb.hu/view
+            </a>
+          </h2>
+          <v-switch
+            v-model="minify"
+            class="ml-3"
+            :label="$t('minify')"
+          ></v-switch>
+          <h2 v-if="!minify">{{ linkText }}</h2>
+          <h2 v-if="minify" class="text-uppercase center">
+            {{ qrText }}<br />{{ $t("onlyWithLogb") }}
+          </h2>
+          <img
+            class="qrSize mt-2"
+            :src="
+              'http://api.qrserver.com/v1/create-qr-code/?data=' +
+                qrText +
+                '&format=svg&qzone=1&ecc=M'
+            "
+          />
+        </v-layout>
+      </v-card>
+    </v-dialog>
     <v-dialog v-model="intervalDialog" width="fit-content">
       <v-card>
-        <v-card-title class="headline text-capitalize" primary-title>{{
-          $t("setInterval")
-        }}</v-card-title>
+        <v-card-title class="headline text-capitalize" primary-title>
+          {{ $t("setInterval") }}
+        </v-card-title>
         <v-card-text class="text-xs-center">
           {{ $t("setIntervalText") }}
           <br />
@@ -71,9 +117,9 @@
     </v-dialog>
     <v-bottom-sheet v-model="shareMenu">
       <v-card>
-        <v-card-title class="display-1 text-capitalize">{{
-          $t("share")
-        }}</v-card-title>
+        <v-card-title class="display-1 text-capitalize">
+          {{ $t("share") }}
+        </v-card-title>
         <v-divider></v-divider>
         <v-list dense>
           <v-list-tile
@@ -88,16 +134,29 @@
             <v-list-tile-content>
               <v-list-tile-title>
                 Link: &nbsp;
-                <strong>https://cloud.logb.hu/view/{{ id }}</strong>
+                <strong>{{ linkText }}</strong>
                 &nbsp;&nbsp;({{ $t("clickToCopy") }})
               </v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile
+            @click="
+              shareMenu = false;
+              qrDialog = true;
+            "
+          >
+            <v-list-tile-action>
+              <v-icon>code</v-icon>
+            </v-list-tile-action>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ $t("qrCode") }}</v-list-tile-title>
             </v-list-tile-content>
           </v-list-tile>
         </v-list>
       </v-card>
     </v-bottom-sheet>
     <v-layout wrap class="mb-4 center">
-      <v-card class="px-2 my-1 mr-2">
+      <v-card class="px-3 my-1 mr-2">
         <v-switch
           v-model="autoUpdate"
           :loading="liveIsOn"
@@ -169,7 +228,6 @@
   </div>
 </template>
 <script>
-//import stateMerge from "vue-object-merge";
 import api from "@/api.js";
 export default {
   props: { id: String },
@@ -197,7 +255,9 @@ export default {
       shareMenu: null,
       toastText: "",
       snackBar: false,
-      panel: [true, false, false]
+      qrDialog: false,
+      panel: [true, false, false],
+      minify: true
     };
   },
   computed: {
@@ -221,6 +281,13 @@ export default {
     showInterval() {
       if (this.autoInterval) return "auto";
       return this.interval;
+    },
+    linkText() {
+      return "https://cloud.logb.hu/view/" + this.id;
+    },
+    qrText() {
+      if (this.minify) return this.id;
+      return "https://cloud.logb.hu/view/" + this.id;
     }
   },
   watch: {
@@ -288,11 +355,15 @@ export default {
       });
     },
     toastClip() {
-      this.$clipboard("https://cloud.logb.hu/view/" + this.id);
-      this.toastText =
-        this.$t("copied") + " https://cloud.logb.hu/view/" + this.id;
+      this.$clipboard(this.linkText);
+      this.toastText = this.$t("copied") + " " + this.linkText;
       this.snackBar = true;
     }
   }
 };
 </script>
+<style>
+.qrSize {
+  height: 70vmin;
+}
+</style>

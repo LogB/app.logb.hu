@@ -29,9 +29,9 @@
           hide-overlay
           transition="dialog-bottom-transition"
         >
-          <v-btn slot="activator" outline :color="darkAccent">
-            {{ $t("logIn") }}
-          </v-btn>
+          <v-btn slot="activator" outline :color="darkAccent">{{
+            $t("logIn")
+          }}</v-btn>
           <v-card>
             <v-card-title class="headline lighten-2">
               {{ $t("logIn") }}
@@ -83,6 +83,7 @@
                   required
                   @input="$v.logInUsername.$touch()"
                   @blur="$v.logInUsername.$touch()"
+                  @keyup.enter="login(logInUsername, logInPassword)"
                 ></v-text-field>
                 <v-text-field
                   v-model.trim="logInPassword"
@@ -95,6 +96,7 @@
                   @click:append="showPasswords = !showPasswords"
                   @input="$v.logInPassword.$touch()"
                   @blur="$v.logInPassword.$touch()"
+                  @keyup.enter="login(logInUsername, logInPassword)"
                 ></v-text-field>
               </v-container>
             </v-form>
@@ -144,6 +146,9 @@
                   required
                   @input="$v.registerEmail.$touch()"
                   @blur="$v.registerEmail.$touch()"
+                  @keyup.enter="
+                    register(registerUsername, registerPassword, registerEmail)
+                  "
                 ></v-text-field>
                 <v-text-field
                   v-model.trim="registerUsername"
@@ -154,6 +159,9 @@
                   required
                   @input="$v.registerUsername.$touch()"
                   @blur="$v.registerUsername.$touch()"
+                  @keyup.enter="
+                    register(registerUsername, registerPassword, registerEmail)
+                  "
                 ></v-text-field>
                 <v-text-field
                   v-model.trim="registerPassword"
@@ -166,6 +174,9 @@
                   @click:append="showPasswords = !showPasswords"
                   @input="$v.registerPassword.$touch()"
                   @blur="$v.registerPassword.$touch()"
+                  @keyup.enter="
+                    register(registerUsername, registerPassword, registerEmail)
+                  "
                 ></v-text-field>
                 <v-text-field
                   v-model.trim="registerPasswordAgain"
@@ -178,6 +189,9 @@
                   @click:append="showPasswords = !showPasswords"
                   @input="$v.registerPasswordAgain.$touch()"
                   @blur="$v.registerPasswordAgain.$touch()"
+                  @keyup.enter="
+                    register(registerUsername, registerPassword, registerEmail)
+                  "
                 ></v-text-field>
               </v-container>
             </v-form>

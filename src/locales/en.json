@@ -51,7 +51,7 @@
   "sensors_used": "sensors used",
   "sensor_count": "sensor count",
   "viewMeas": "View",
-  "clickToCopy": "Kattints rá a másoláshoz",
+  "clickToCopy": "Click here to copy",
   "form": {
     "cantBeEmpty": "This field cannot be empty.",
     "moreThan": "This field should contain at least <strong>{n}</strong> characters",
@@ -68,5 +68,6 @@
     "isBusy": "Camera is busy.",
     "browserNotSupported": "This browser is not supported."
   },
+  "qrCode": "QR Code",
   "openMeasurement": "Open measurement"
 }

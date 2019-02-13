@@ -13,7 +13,7 @@
       {{ $t("logInOrRegister") }}
     </p>
     <meas-list v-if="$store.state.loggedIn == true" :shared="false" />
-    <login-reg v-if="$store.state.loggedIn == false"/>
+    <login-reg v-if="$store.state.loggedIn == false" />
   </v-layout>
 </template>
 <script>

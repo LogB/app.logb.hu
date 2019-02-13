@@ -50,6 +50,7 @@
   "sensors_used": "használt szenzorok",
   "sensor_count": "mért dolgok száma",
   "viewMeas": "Megtekintés",
+  "clickToCopy": "Kattints ide a másolásához",
   "form": {
     "cantBeEmpty": "Ez a mező nem lehet üres.",
     "moreThan": "Ez a mező minimum <strong>{n}</strong> karakter hosszú kell hogy legyen.",
@@ -66,5 +67,6 @@
     "isBusy": "A kamera foglalt.",
     "browserNotSupported": "A böngésző nem támogatott."
   },
+  "qrCode": "QR Kód",
   "openMeasurement": "Mérés megnyitása"
 }

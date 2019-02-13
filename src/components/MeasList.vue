@@ -54,7 +54,10 @@
               <v-list-tile-title>{{ $t("options") }}</v-list-tile-title>
             </v-list-tile>
             <v-list-tile class="ma-0 pa-0">
-              <v-checkbox v-model="sortById" :label="$t('sortById')"></v-checkbox>
+              <v-checkbox
+                v-model="sortById"
+                :label="$t('sortById')"
+              ></v-checkbox>
             </v-list-tile>
             <v-list-tile class="ma-0 pa-0">
               <v-checkbox
@@ -77,17 +80,13 @@
           <div slot="header">
             <div v-if="props.item.measurement_alias == null">
               <strong class="text-uppercase">
-                {{
-                props.item.measurement_id
-                }}
+                {{ props.item.measurement_id }}
               </strong>
               - {{ $t("unnamedMeas") }}
             </div>
             <div v-else>
               <strong class="text-uppercase">
-                {{
-                props.item.measurement_id
-                }}
+                {{ props.item.measurement_id }}
               </strong>
               - {{ props.item.measurement_alias }}
             </div>
@@ -101,11 +100,16 @@
             </div>
           </div>
           <div class="pa-2">
-            <v-progress-linear v-if="innerLoading" indeterminate></v-progress-linear>
+            <v-progress-linear
+              v-if="innerLoading"
+              indeterminate
+            ></v-progress-linear>
             <v-card flat>
               <v-card-title>
                 <v-flex>
-                  <h4 v-if="props.item.measurement_alias == null">{{ $t("unnamedMeas") }}</h4>
+                  <h4 v-if="props.item.measurement_alias == null">
+                    {{ $t("unnamedMeas") }}
+                  </h4>
                   <h4 v-else>{{ props.item.measurement_alias }}</h4>
                   <v-tooltip bottom>
                     <span
@@ -113,7 +117,8 @@
                       v-clipboard="props.item.measurement_id"
                       style="cursor: pointer"
                       class="text-uppercase display-1 font-weight-light select_all"
-                    >{{ props.item.measurement_id }}</span>
+                      >{{ props.item.measurement_id }}</span
+                    >
                     {{ $t("clickToCopy") }}
                   </v-tooltip>
                 </v-flex>
@@ -121,48 +126,57 @@
                   class="ma-0"
                   color="primary"
                   @click="goTo(props.item.measurement_id)"
-                >{{ $t("viewMeas") }}</v-btn>
+                  >{{ $t("viewMeas") }}</v-btn
+                >
               </v-card-title>
               <v-divider></v-divider>
               <v-card class="pa-3 ma-2" width="fit-content">
                 <v-layout column wrap>
                   <div>
-                    <span class="text-capitalize font-weight-medium">{{ $t("start") }}:</span>
+                    <span class="text-capitalize font-weight-medium"
+                      >{{ $t("start") }}:</span
+                    >
                     &nbsp;
                     <span>
                       {{
-                      props.item.start != null ? props.item.start : $t("none")
+                        props.item.start != null ? props.item.start : $t("none")
                       }}
                     </span>
                   </div>
                   <div>
-                    <span class="text-capitalize font-weight-medium">{{ $t("last") }}:</span>
+                    <span class="text-capitalize font-weight-medium"
+                      >{{ $t("last") }}:</span
+                    >
                     &nbsp;
                     <span>
                       {{
-                      props.item.last != null ? props.item.last : $t("none")
+                        props.item.last != null ? props.item.last : $t("none")
                       }}
                     </span>
                   </div>
                   <div>
-                    <span class="text-capitalize font-weight-medium">{{ $t("line_count") }}:</span>
+                    <span class="text-capitalize font-weight-medium"
+                      >{{ $t("line_count") }}:</span
+                    >
                     &nbsp;
                     <span>
                       {{
-                      props.item.line_count != null
-                      ? props.item.line_count
-                      : $t("none")
+                        props.item.line_count != null
+                          ? props.item.line_count
+                          : $t("none")
                       }}
                     </span>
                   </div>
                   <div>
-                    <span class="text-capitalize font-weight-medium">{{ $t("description") }}:</span>
+                    <span class="text-capitalize font-weight-medium"
+                      >{{ $t("description") }}:</span
+                    >
                     &nbsp;
                     <span class="text-truncate">
                       {{
-                      props.item.description != null
-                      ? props.item.description
-                      : $t("none")
+                        props.item.description != null
+                          ? props.item.description
+                          : $t("none")
                       }}
                     </span>
                   </div>
