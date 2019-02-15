@@ -29,9 +29,9 @@
           hide-overlay
           transition="dialog-bottom-transition"
         >
-          <v-btn slot="activator" outline :color="darkAccent">{{
-            $t("logIn")
-          }}</v-btn>
+          <v-btn slot="activator" outline :color="darkAccent">
+            {{ $t("logIn") }}
+          </v-btn>
           <v-card>
             <v-card-title class="headline lighten-2">
               {{ $t("logIn") }}
@@ -75,28 +75,28 @@
               </div>
               <v-container>
                 <v-text-field
-                  v-model.trim="logInUsername"
+                  v-model.trim="loginUsername"
                   counter="15"
-                  :error-messages="logInUsernameError"
+                  :error-messages="loginUsernameError"
                   :label="$t('username')"
                   autocomplete="username"
                   required
-                  @input="$v.logInUsername.$touch()"
-                  @blur="$v.logInUsername.$touch()"
-                  @keyup.enter="login(logInUsername, logInPassword)"
+                  @input="$v.loginUsername.$touch()"
+                  @blur="$v.loginUsername.$touch()"
+                  @keyup.enter="login(loginUsername, loginPassword)"
                 ></v-text-field>
                 <v-text-field
-                  v-model.trim="logInPassword"
+                  v-model.trim="loginPassword"
                   :append-icon="showPasswords ? 'visibility_off' : 'visibility'"
-                  :error-messages="logInPasswordError"
+                  :error-messages="loginPasswordError"
                   :label="$t('password')"
                   autocomplete="current-password"
                   :type="showPasswords ? 'text' : 'password'"
                   required
                   @click:append="showPasswords = !showPasswords"
-                  @input="$v.logInPassword.$touch()"
-                  @blur="$v.logInPassword.$touch()"
-                  @keyup.enter="login(logInUsername, logInPassword)"
+                  @input="$v.loginPassword.$touch()"
+                  @blur="$v.loginPassword.$touch()"
+                  @keyup.enter="login(loginUsername, loginPassword)"
                 ></v-text-field>
               </v-container>
             </v-form>
@@ -111,7 +111,7 @@
                 :loading="loading"
                 outline
                 :disabled="this.$v.logInCheck.$invalid"
-                @click="login(logInUsername, logInPassword)"
+                @click="login(loginUsername, loginPassword)"
                 >{{ $t("logIn") }}</v-btn
               >
             </v-card-actions>
@@ -226,7 +226,11 @@
                   :loading="loading"
                   outline
                   color="white"
-                  @click="login(registerUsername, registerPassword)"
+                  @click="
+                    loginUsername = registerUsername;
+                    loginPassword = registerPassword;
+                    login(registerUsername, registerPassword);
+                  "
                   >{{ $t("dialog.yes") }}</v-btn
                 >
                 <v-btn
@@ -280,8 +284,8 @@ export default {
       loginAfterReg: null,
       loginMenu: null,
       registerMenu: null,
-      logInUsername: "",
-      logInPassword: "",
+      loginUsername: "",
+      loginPassword: "",
       registerUsername: "",
       registerEmail: "",
       registerPassword: "",
@@ -294,12 +298,12 @@ export default {
     };
   },
   validations: {
-    logInUsername: {
+    loginUsername: {
       required,
       minLength: minLength(2),
       maxLength: maxLength(15)
     },
-    logInPassword: {
+    loginPassword: {
       required,
       minLength: minLength(5),
       maxLength: maxLength(50)
@@ -325,7 +329,7 @@ export default {
     registerPasswordAgain: {
       sameAs: sameAs("registerPassword")
     },
-    logInCheck: ["logInUsername", "logInPassword"],
+    logInCheck: ["loginUsername", "loginPassword"],
     registerCheck: [
       "registerUsername",
       "registerEmail",
@@ -334,25 +338,25 @@ export default {
     ]
   },
   computed: {
-    logInUsernameError() {
+    loginUsernameError() {
       const errors = [];
-      if (!this.$v.logInUsername.$dirty) return errors;
-      !this.$v.logInUsername.required &&
+      if (!this.$v.loginUsername.$dirty) return errors;
+      !this.$v.loginUsername.required &&
         errors.push(this.$t("form.cantBeEmpty"));
-      !this.$v.logInUsername.minLength &&
+      !this.$v.loginUsername.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.userMinLength }));
-      !this.$v.logInUsername.maxLength &&
+      !this.$v.loginUsername.maxLength &&
         errors.push(this.$t("form.lessThan", { n: this.userMaxLength }));
       return errors;
     },
-    logInPasswordError() {
+    loginPasswordError() {
       const errors = [];
-      if (!this.$v.logInPassword.$dirty) return errors;
-      !this.$v.logInPassword.required &&
+      if (!this.$v.loginPassword.$dirty) return errors;
+      !this.$v.loginPassword.required &&
         errors.push(this.$t("form.cantBeEmpty"));
-      !this.$v.logInPassword.minLength &&
+      !this.$v.loginPassword.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.passMinLength }));
-      !this.$v.logInPassword.maxLength && errors.push(":D >50?");
+      !this.$v.loginPassword.maxLength && errors.push(":D >50?");
       return errors;
     },
     registerUsernameError() {
@@ -418,6 +422,7 @@ export default {
                 });
               });
               this.loginMenu = false;
+              this.registerMenu = false;
               this.loginAfterReg = false;
               this.loading = false;
             } else {
@@ -426,7 +431,7 @@ export default {
             }
             //success here
           })
-          .catch(function() {
+          .catch(() => {
             this.errorOccured = true;
             this.loading = false;
           });
@@ -439,11 +444,11 @@ export default {
         this.errorOccured = false;
         api
           .register(un, pw, email)
-          .then(function() {
+          .then(() => {
             this.loading = false;
             this.loginAfterReg = true;
           })
-          .catch(function() {
+          .catch(() => {
             this.errorOccured = true;
             this.loading = false;
           });
