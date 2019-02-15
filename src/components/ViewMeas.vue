@@ -25,7 +25,7 @@
     "turnOnAuto": "Automatikus frissítési időköz",
     "share": "megosztás",
     "copied": "Kimásolva:",
-    "minify": "Kisebb QR",
+    "minify": "LogB QR",
     "onlyWithLogb": " csak a LogB QR olvasójával működik"
     }
 }
@@ -58,8 +58,8 @@
             v-model="qrSize"
             prepend-icon="zoom_in"
             always-dirty
-            min="1"
-            max="99"
+            min="5"
+            max="100"
           ></v-slider>
           <h2 class="center">
             {{ $t("openMeasurement") }}:&nbsp;
@@ -77,7 +77,7 @@
             {{ $t("onlyWithLogb") }}
           </h2>
           <img
-            class="mt-2"
+            class="mt-2 elevation-5"
             :src="
               'http://api.qrserver.com/v1/create-qr-code/?data=' +
                 qrText +
@@ -266,7 +266,7 @@ export default {
       qrDialog: false,
       panel: [true, false, false],
       minify: true,
-      qrSize: 65
+      qrSize: 66
     };
   },
   computed: {
