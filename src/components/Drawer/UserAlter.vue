@@ -2,8 +2,18 @@
   <v-list-tile avatar>
     <v-list-tile-avatar>
       <userIcon v-if="loggedIn && isOnline" />
-      <v-icon v-if="!loggedIn && isOnline" x-large>account_circle</v-icon>
-      <v-icon v-if="isOffline" x-large>sync_disabled</v-icon>
+      <v-icon
+        v-if="!loggedIn && isOnline"
+        x-large
+      >
+        account_circle
+      </v-icon>
+      <v-icon
+        v-if="isOffline"
+        x-large
+      >
+        sync_disabled
+      </v-icon>
     </v-list-tile-avatar>
     <v-list-tile-content v-if="loggedIn && isOnline">
       <v-list-tile-title>{{ user.name }}</v-list-tile-title>
@@ -15,32 +25,53 @@
     </v-list-tile-content>
     <v-list-tile-action v-if="loggedIn && isOnline">
       <v-tooltip bottom>
-        <v-btn slot="activator" icon ripple @click="logout()">
+        <v-btn
+          slot="activator"
+          icon
+          ripple
+          @click="logout()"
+        >
           <v-icon>power_settings_new</v-icon>
         </v-btn>
         <span>{{ $t("logOut") }}</span>
       </v-tooltip>
     </v-list-tile-action>
-    <v-slide-x-reverse-transition mode="in-out" hide-on-leave>
-      <v-layout v-if="!loggedIn && isOnline" row align-center>
+    <v-slide-x-reverse-transition
+      mode="in-out"
+      hide-on-leave
+    >
+      <v-layout
+        v-if="!loggedIn && isOnline"
+        row
+        align-center
+      >
         <v-dialog
           v-model="loginMenu"
           fullscreen
           hide-overlay
           transition="dialog-bottom-transition"
         >
-          <v-btn slot="activator" outline :color="darkAccent">
+          <v-btn
+            slot="activator"
+            outline
+            :color="darkAccent"
+          >
             {{ $t("logIn") }}
           </v-btn>
           <v-card>
             <v-card-title class="headline lighten-2">
               {{ $t("logIn") }}
-              <v-spacer></v-spacer>
-              <v-btn icon @click="loginMenu = false">
-                <v-icon medium>close</v-icon>
+              <v-spacer />
+              <v-btn
+                icon
+                @click="loginMenu = false"
+              >
+                <v-icon medium>
+                  close
+                </v-icon>
               </v-btn>
             </v-card-title>
-            <v-divider></v-divider>
+            <v-divider />
             <v-alert
               v-model="errorOccured"
               transition="slide-y-transition"
@@ -48,8 +79,9 @@
               dismissible
               type="error"
               class="elevation-5"
-              >{{ $t("dialog.badHappened") }}</v-alert
             >
+              {{ $t("dialog.badHappened") }}
+            </v-alert>
             <v-alert
               v-model="badCredentials"
               transition="slide-y-transition"
@@ -66,11 +98,15 @@
                   loginMenu = false;
                   registerMenu = true;
                 "
-                >{{ $t("register") }}</v-btn
               >
+                {{ $t("register") }}
+              </v-btn>
             </v-alert>
             <v-form>
-              <div class="center logb_type select_none" style="font-size: 400%">
+              <div
+                class="center logb_type select_none"
+                style="font-size: 400%"
+              >
                 LogB
               </div>
               <v-container>
@@ -84,7 +120,7 @@
                   @input="$v.loginUsername.$touch()"
                   @blur="$v.loginUsername.$touch()"
                   @keyup.enter="login(loginUsername, loginPassword)"
-                ></v-text-field>
+                />
                 <v-text-field
                   v-model.trim="loginPassword"
                   :append-icon="showPasswords ? 'visibility_off' : 'visibility'"
@@ -97,13 +133,16 @@
                   @input="$v.loginPassword.$touch()"
                   @blur="$v.loginPassword.$touch()"
                   @keyup.enter="login(loginUsername, loginPassword)"
-                ></v-text-field>
+                />
               </v-container>
             </v-form>
-            <v-divider></v-divider>
+            <v-divider />
             <v-card-actions>
-              <v-spacer></v-spacer>
-              <div v-if="this.$v.logInCheck.$invalid" class="pr-1">
+              <v-spacer />
+              <div
+                v-if="this.$v.logInCheck.$invalid"
+                class="pr-1"
+              >
                 {{ $t("fillItBeforeSubmit") }}
               </div>
               <v-btn
@@ -112,8 +151,9 @@
                 outline
                 :disabled="this.$v.logInCheck.$invalid"
                 @click="login(loginUsername, loginPassword)"
-                >{{ $t("logIn") }}</v-btn
               >
+                {{ $t("logIn") }}
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -123,18 +163,31 @@
           hide-overlay
           transition="dialog-bottom-transition"
         >
-          <v-btn slot="activator" outline>{{ $t("register") }}</v-btn>
+          <v-btn
+            slot="activator"
+            outline
+          >
+            {{ $t("register") }}
+          </v-btn>
           <v-card>
             <v-card-title class="headline lighten-2">
               {{ $t("register") }}
-              <v-spacer></v-spacer>
-              <v-btn icon @click="registerMenu = false">
-                <v-icon medium>close</v-icon>
+              <v-spacer />
+              <v-btn
+                icon
+                @click="registerMenu = false"
+              >
+                <v-icon medium>
+                  close
+                </v-icon>
               </v-btn>
             </v-card-title>
-            <v-divider></v-divider>
+            <v-divider />
             <v-form>
-              <div class="center logb_type select_none" style="font-size: 400%">
+              <div
+                class="center logb_type select_none"
+                style="font-size: 400%"
+              >
                 LogB
               </div>
               <v-container>
@@ -146,10 +199,8 @@
                   required
                   @input="$v.registerEmail.$touch()"
                   @blur="$v.registerEmail.$touch()"
-                  @keyup.enter="
-                    register(registerUsername, registerPassword, registerEmail)
-                  "
-                ></v-text-field>
+                  @keyup.enter="register(registerUsername, registerPassword, registerEmail)"
+                />
                 <v-text-field
                   v-model.trim="registerUsername"
                   counter="15"
@@ -159,10 +210,8 @@
                   required
                   @input="$v.registerUsername.$touch()"
                   @blur="$v.registerUsername.$touch()"
-                  @keyup.enter="
-                    register(registerUsername, registerPassword, registerEmail)
-                  "
-                ></v-text-field>
+                  @keyup.enter="register(registerUsername, registerPassword, registerEmail)"
+                />
                 <v-text-field
                   v-model.trim="registerPassword"
                   :append-icon="showPasswords ? 'visibility_off' : 'visibility'"
@@ -174,10 +223,8 @@
                   @click:append="showPasswords = !showPasswords"
                   @input="$v.registerPassword.$touch()"
                   @blur="$v.registerPassword.$touch()"
-                  @keyup.enter="
-                    register(registerUsername, registerPassword, registerEmail)
-                  "
-                ></v-text-field>
+                  @keyup.enter="register(registerUsername, registerPassword, registerEmail)"
+                />
                 <v-text-field
                   v-model.trim="registerPasswordAgain"
                   :append-icon="showPasswords ? 'visibility_off' : 'visibility'"
@@ -189,16 +236,17 @@
                   @click:append="showPasswords = !showPasswords"
                   @input="$v.registerPasswordAgain.$touch()"
                   @blur="$v.registerPasswordAgain.$touch()"
-                  @keyup.enter="
-                    register(registerUsername, registerPassword, registerEmail)
-                  "
-                ></v-text-field>
+                  @keyup.enter="register(registerUsername, registerPassword, registerEmail)"
+                />
               </v-container>
             </v-form>
-            <v-divider></v-divider>
+            <v-divider />
             <v-card-actions>
-              <v-spacer></v-spacer>
-              <div v-if="this.$v.registerCheck.$invalid" class="pr-1">
+              <v-spacer />
+              <div
+                v-if="this.$v.registerCheck.$invalid"
+                class="pr-1"
+              >
                 {{ $t("fillItBeforeSubmit") }}
               </div>
               <v-btn
@@ -206,11 +254,10 @@
                 :loading="loading"
                 outline
                 :disabled="this.$v.registerCheck.$invalid"
-                @click="
-                  register(registerUsername, registerPassword, registerEmail)
-                "
-                >{{ $t("register") }}</v-btn
+                @click="register(registerUsername, registerPassword, registerEmail)"
               >
+                {{ $t("register") }}
+              </v-btn>
             </v-card-actions>
             <v-container>
               <v-alert
@@ -231,8 +278,9 @@
                     loginPassword = registerPassword;
                     login(registerUsername, registerPassword);
                   "
-                  >{{ $t("dialog.yes") }}</v-btn
                 >
+                  {{ $t("dialog.yes") }}
+                </v-btn>
                 <v-btn
                   flat
                   color="white"
@@ -240,8 +288,9 @@
                     loginAfterReg = false;
                     registerMenu = false;
                   "
-                  >{{ $t("dialog.no") }}</v-btn
                 >
+                  {{ $t("dialog.no") }}
+                </v-btn>
               </v-alert>
               <v-alert
                 v-model="errorOccured"
@@ -250,8 +299,9 @@
                 dismissible
                 type="error"
                 class="elevation-5"
-                >{{ $t("dialog.badHappened") }}</v-alert
               >
+                {{ $t("dialog.badHappened") }}
+              </v-alert>
             </v-container>
           </v-card>
         </v-dialog>
@@ -260,18 +310,12 @@
   </v-list-tile>
 </template>
 <script>
-import { mapMutations } from "vuex";
-import api from "@/api.js";
-import {
-  required,
-  maxLength,
-  minLength,
-  email,
-  sameAs
-} from "vuelidate/lib/validators";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
+import api from "@/api";
+import { required, maxLength, minLength, email, sameAs } from "vuelidate/lib/validators";
 import { VueOfflineMixin } from "vue-offline";
 import userIcon from "../Jdenticon.vue";
+
 export default {
   components: {
     userIcon
@@ -341,19 +385,17 @@ export default {
     loginUsernameError() {
       const errors = [];
       if (!this.$v.loginUsername.$dirty) return errors;
-      !this.$v.loginUsername.required &&
-        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.loginUsername.required && errors.push(this.$t('form.cantBeEmpty'));
       !this.$v.loginUsername.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.userMinLength }));
-      !this.$v.loginUsername.maxLength &&
-        errors.push(this.$t("form.lessThan", { n: this.userMaxLength }));
+      !this.$v.loginUsername.maxLength
+        && errors.push(this.$t('form.lessThan', { n: this.userMaxLength }));
       return errors;
     },
     loginPasswordError() {
       const errors = [];
       if (!this.$v.loginPassword.$dirty) return errors;
-      !this.$v.loginPassword.required &&
-        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.loginPassword.required && errors.push(this.$t('form.cantBeEmpty'));
       !this.$v.loginPassword.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.passMinLength }));
       !this.$v.loginPassword.maxLength && errors.push(":D >50?");
@@ -362,29 +404,25 @@ export default {
     registerUsernameError() {
       const errors = [];
       if (!this.$v.registerUsername.$dirty) return errors;
-      !this.$v.registerUsername.required &&
-        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.registerUsername.required && errors.push(this.$t('form.cantBeEmpty'));
       !this.$v.registerUsername.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.userMinLength }));
       !this.$v.registerUsername.maxLength &&
         errors.push(this.$t("form.lessThan", { n: this.userMaxLength }));
-      !this.$v.registerUsername.isUnique &&
-        errors.push(this.$t("form.alreadyTaken"));
+      !this.$v.registerUsername.isUnique && errors.push(this.$t('form.alreadyTaken'));
       return errors;
     },
     registerEmailError() {
       const errors = [];
       if (!this.$v.registerEmail.$dirty) return errors;
-      !this.$v.registerEmail.required &&
-        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.registerEmail.required && errors.push(this.$t('form.cantBeEmpty'));
       !this.$v.registerEmail.email && errors.push(this.$t("form.notLikeEmail"));
       return errors;
     },
     registerPasswordError() {
       const errors = [];
       if (!this.$v.registerPassword.$dirty) return errors;
-      !this.$v.registerPassword.required &&
-        errors.push(this.$t("form.cantBeEmpty"));
+      !this.$v.registerPassword.required && errors.push(this.$t('form.cantBeEmpty'));
       !this.$v.registerPassword.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.passMinLength }));
       return errors;
@@ -392,13 +430,12 @@ export default {
     registerPasswordAgainError() {
       const errors = [];
       if (!this.$v.registerPasswordAgain.$dirty) return errors;
-      !this.$v.registerPasswordAgain.sameAs &&
-        errors.push(this.$t("form.passNotEqual"));
+      !this.$v.registerPasswordAgain.sameAs && errors.push(this.$t('form.passNotEqual'));
       return errors;
     },
     darkAccent() {
-      if (this.$store.state.dark) return "accent";
-      else return "primary";
+      if (this.$store.state.dark) return 'accent';
+      return 'primary';
     },
     ...mapState({
       user: state => state.user,
@@ -429,13 +466,13 @@ export default {
               if (data.data.error == 13) this.badCredentials = true;
               this.loading = false;
             }
-            //success here
+            // success here
           })
           .catch(() => {
             this.errorOccured = true;
             this.loading = false;
           });
-        //bad there
+        // bad there
       }
     },
     register(un, pw, email) {

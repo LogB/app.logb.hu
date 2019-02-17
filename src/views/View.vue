@@ -8,17 +8,19 @@
           v-clipboard="id"
           class="text-uppercase font-weight-medium select_none"
           style="cursor: pointer"
-          >{{ id }}</span
-        >
+        >{{ id }}</span>
         {{ $t("clickToCopy") }}
       </v-tooltip>
     </p>
     <view-meas :id="id" />
-    <div v-if="id == null">null</div>
+    <div v-if="id == null">
+      null
+    </div>
   </v-layout>
 </template>
 <script>
 import ViewMeas from "../components/ViewMeas.vue";
+
 export default {
   components: {
     ViewMeas

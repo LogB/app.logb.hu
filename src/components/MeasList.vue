@@ -12,7 +12,7 @@
       "search": "Search...",
       "options": "Settings",
       "none": "none"
-      
+
     },
     "hu": {
       "unnamedMeas": "Névtelen mérés",
@@ -31,7 +31,10 @@
 </i18n>
 <template>
   <v-card>
-    <v-progress-linear v-if="loading" indeterminate></v-progress-linear>
+    <v-progress-linear
+      v-if="loading"
+      indeterminate
+    />
     <v-data-iterator
       :loading="loading"
       :items="measList"
@@ -39,7 +42,11 @@
       :pagination.sync="pagination"
       :search="search"
     >
-      <v-layout slot="header" wrap class="pl-3">
+      <v-layout
+        slot="header"
+        wrap
+        class="pl-3"
+      >
         <v-text-field
           v-model="search"
           class="mr-4 mb-2"
@@ -47,9 +54,13 @@
           :label="$t('search')"
           single-line
           hide-details
-        ></v-text-field>
+        />
         <v-list>
-          <v-list-group :value="settings" no-action class="mt-2">
+          <v-list-group
+            :value="settings"
+            no-action
+            class="mt-2"
+          >
             <v-list-tile slot="activator">
               <v-list-tile-title>{{ $t("options") }}</v-list-tile-title>
             </v-list-tile>
@@ -57,20 +68,23 @@
               <v-checkbox
                 v-model="sortById"
                 :label="$t('sortById')"
-              ></v-checkbox>
+              />
             </v-list-tile>
             <v-list-tile class="ma-0 pa-0">
               <v-checkbox
                 v-if="sortById"
                 v-model="pagination.descending"
                 :label="$t('reverseSort')"
-              ></v-checkbox>
+              />
             </v-list-tile>
           </v-list-group>
         </v-list>
       </v-layout>
-      <v-expansion-panel slot="item" slot-scope="props">
-        <v-divider></v-divider>
+      <v-expansion-panel
+        slot="item"
+        slot-scope="props"
+      >
+        <v-divider />
         <v-expansion-panel-content
           lazy
           ripple
@@ -79,15 +93,11 @@
         >
           <div slot="header">
             <div v-if="props.item.measurement_alias == null">
-              <strong class="text-uppercase">
-                {{ props.item.measurement_id }}
-              </strong>
+              <strong class="text-uppercase">{{ props.item.measurement_id }}</strong>
               - {{ $t("unnamedMeas") }}
             </div>
             <div v-else>
-              <strong class="text-uppercase">
-                {{ props.item.measurement_id }}
-              </strong>
+              <strong class="text-uppercase">{{ props.item.measurement_id }}</strong>
               - {{ props.item.measurement_alias }}
             </div>
             <div v-if="props.item.description_part == null">
@@ -103,22 +113,23 @@
             <v-progress-linear
               v-if="innerLoading"
               indeterminate
-            ></v-progress-linear>
+            />
             <v-card flat>
               <v-card-title>
                 <v-flex>
                   <h4 v-if="props.item.measurement_alias == null">
                     {{ $t("unnamedMeas") }}
                   </h4>
-                  <h4 v-else>{{ props.item.measurement_alias }}</h4>
+                  <h4 v-else>
+                    {{ props.item.measurement_alias }}
+                  </h4>
                   <v-tooltip bottom>
                     <span
                       slot="activator"
                       v-clipboard="props.item.measurement_id"
                       style="cursor: pointer"
                       class="text-uppercase display-1 font-weight-light select_all"
-                      >{{ props.item.measurement_id }}</span
-                    >
+                    >{{ props.item.measurement_id }}</span>
                     {{ $t("clickToCopy") }}
                   </v-tooltip>
                 </v-flex>
@@ -126,59 +137,40 @@
                   class="ma-0"
                   color="primary"
                   @click="goTo(props.item.measurement_id)"
-                  >{{ $t("viewMeas") }}</v-btn
                 >
+                  {{ $t("viewMeas") }}
+                </v-btn>
               </v-card-title>
-              <v-divider></v-divider>
-              <v-card class="pa-3 ma-2" width="fit-content">
-                <v-layout column wrap>
+              <v-divider />
+              <v-card
+                class="pa-3 ma-2"
+                width="fit-content"
+              >
+                <v-layout
+                  column
+                  wrap
+                >
                   <div>
-                    <span class="text-capitalize font-weight-medium"
-                      >{{ $t("start") }}:</span
-                    >
+                    <span class="text-capitalize font-weight-medium">{{ $t("start") }}:</span>
                     &nbsp;
-                    <span>
-                      {{
-                        props.item.start != null ? props.item.start : $t("none")
-                      }}
-                    </span>
+                    <span>{{ props.item.start != null ? props.item.start : $t("none") }}</span>
                   </div>
                   <div>
-                    <span class="text-capitalize font-weight-medium"
-                      >{{ $t("last") }}:</span
-                    >
+                    <span class="text-capitalize font-weight-medium">{{ $t("last") }}:</span>
                     &nbsp;
-                    <span>
-                      {{
-                        props.item.last != null ? props.item.last : $t("none")
-                      }}
-                    </span>
+                    <span>{{ props.item.last != null ? props.item.last : $t("none") }}</span>
                   </div>
                   <div>
-                    <span class="text-capitalize font-weight-medium"
-                      >{{ $t("line_count") }}:</span
-                    >
+                    <span class="text-capitalize font-weight-medium">{{ $t("line_count") }}:</span>
                     &nbsp;
-                    <span>
-                      {{
-                        props.item.line_count != null
-                          ? props.item.line_count
-                          : $t("none")
-                      }}
-                    </span>
+                    <span>{{ props.item.line_count != null ? props.item.line_count : $t("none") }}</span>
                   </div>
                   <div>
-                    <span class="text-capitalize font-weight-medium"
-                      >{{ $t("description") }}:</span
-                    >
+                    <span class="text-capitalize font-weight-medium">{{ $t("description") }}:</span>
                     &nbsp;
-                    <span class="text-truncate">
-                      {{
-                        props.item.description != null
-                          ? props.item.description
-                          : $t("none")
-                      }}
-                    </span>
+                    <span
+                      class="text-truncate"
+                    >{{ props.item.description != null ? props.item.description : $t("none") }}</span>
                   </div>
                 </v-layout>
               </v-card>
@@ -191,7 +183,8 @@
 </template>
 <script>
 import stateMerge from "vue-object-merge";
-import api from "@/api.js";
+import api from "@/api";
+
 export default {
   props: {
     shared: {
@@ -235,7 +228,7 @@ export default {
       });
     },
     loadMeta(id, event) {
-      let index = this.measList.findIndex(x => x.measurement_id == id);
+      const index = this.measList.findIndex(x => x.measurement_id == id);
       if (event && !("start" in this.measList[index])) {
         this.innerLoading = true;
         api.measDetails(id).then(response => {
@@ -245,7 +238,7 @@ export default {
       }
     },
     goTo(id) {
-      this.$router.push("/view/" + id);
+      this.$router.push(`/view/${id}`);
     }
   }
 };

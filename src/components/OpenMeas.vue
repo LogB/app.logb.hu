@@ -10,12 +10,17 @@
         <v-flex>
           <v-card-title class="headline lighten-2">
             {{ $t("open.scanQr") }}
-            <v-spacer></v-spacer>
-            <v-btn icon @click="qrReader = false">
-              <v-icon medium>close</v-icon>
+            <v-spacer />
+            <v-btn
+              icon
+              @click="qrReader = false"
+            >
+              <v-icon medium>
+                close
+              </v-icon>
             </v-btn>
           </v-card-title>
-          <v-divider></v-divider>
+          <v-divider />
           <v-container>
             <v-alert
               v-model="errorOccured"
@@ -24,19 +29,20 @@
               dismissible
               type="error"
               class="elevation-5"
-              >{{ errorText }}</v-alert
             >
+              {{ errorText }}
+            </v-alert>
           </v-container>
           <v-progress-circular
             v-if="qrLoading"
             indeterminate
-          ></v-progress-circular>
+          />
           <v-responsive>
             <qrcode-stream
               v-if="qrReader"
               @init="onInit"
               @decode="onDecode"
-            ></qrcode-stream>
+            />
           </v-responsive>
         </v-flex>
       </v-card>
@@ -50,12 +56,19 @@
         class="headline text-capitalize"
         :label="$t('measurement_id')"
         @keydown.enter="$router.push('/view/' + id.toLowerCase())"
-      ></v-text-field>
-      <v-btn outline color="primary" @click="go()">
+      />
+      <v-btn
+        outline
+        color="primary"
+        @click="go()"
+      >
         <v-icon>launch</v-icon>
         &nbsp;{{ $t("viewMeas") }}
       </v-btn>
-      <v-btn outline @click="qrReader = true">
+      <v-btn
+        outline
+        @click="qrReader = true"
+      >
         <v-icon>code</v-icon>
         &nbsp;{{ $t("open.scanQr") }}
       </v-btn>
@@ -64,6 +77,7 @@
 </template>
 <script>
 import { QrcodeStream } from "vue-qrcode-reader";
+
 export default {
   components: { QrcodeStream },
   data() {

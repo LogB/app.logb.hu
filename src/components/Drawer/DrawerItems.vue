@@ -1,5 +1,8 @@
 <template>
-  <v-list class="pt-0" dense>
+  <v-list
+    class="pt-0"
+    dense
+  >
     <v-list-tile
       v-for="item in drawerItems"
       :key="item.title"
@@ -13,9 +16,9 @@
       </v-list-tile-action>
 
       <v-list-tile-content>
-        <v-list-tile-title class="text-capitalize">{{
-          $t(item.title)
-        }}</v-list-tile-title>
+        <v-list-tile-title class="text-capitalize">
+          {{ $t(item.title) }}
+        </v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
   </v-list>

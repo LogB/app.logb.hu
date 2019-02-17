@@ -3,7 +3,7 @@
   "en":{
     "openMeas": "Open measurement"
     },
-  "hu":{ 
+  "hu":{
     "openMeas": "Mérés megnyitása"
     }
 }
@@ -18,6 +18,7 @@
 </template>
 <script>
 import OpenMeas from "../components/OpenMeas.vue";
+
 export default {
   components: {
     OpenMeas

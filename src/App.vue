@@ -11,15 +11,21 @@
       <v-list class="pa-0 mb-1 mt-1">
         <LoginReg />
       </v-list>
-      <v-divider></v-divider>
+      <v-divider />
       <DrawerItems />
-      <v-divider></v-divider>
-      <v-layout row align-center>
+      <v-divider />
+      <v-layout
+        row
+        align-center
+      >
         <LocaleChanger />
         <DarkMode />
       </v-layout>
-      <v-divider></v-divider>
-      <v-layout class="pa-0" justify-center>
+      <v-divider />
+      <v-layout
+        class="pa-0"
+        justify-center
+      >
         <v-footer color="transparent">
           2019 -&nbsp;
           <strong class="logb_type">
@@ -29,8 +35,13 @@
         </v-footer>
       </v-layout>
     </v-navigation-drawer>
-    <v-toolbar app scroll-off-screen :color="darkOrPrimary" dark>
-      <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+    <v-toolbar
+      app
+      scroll-off-screen
+      :color="darkOrPrimary"
+      dark
+    >
+      <v-toolbar-side-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>
         <span
           class="logb_type select_none"
@@ -43,7 +54,10 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container fluid fill-height>
+      <v-container
+        fluid
+        fill-height
+      >
         <router-view />
       </v-container>
     </v-content>
@@ -55,6 +69,7 @@ import LoginReg from "./components/Drawer/UserAlter.vue";
 import DarkMode from "./components/Drawer/DarkModeSwitch.vue";
 import DrawerItems from "./components/Drawer/DrawerItems.vue";
 import LocaleChanger from "./components/Drawer/LocaleChanger.vue";
+
 export default {
   name: "App",
   components: {
@@ -82,7 +97,7 @@ export default {
     },
     darkOrPrimary() {
       if (this.$store.state.dark) return;
-      else return "primary";
+      return "primary";
     }
   }
 };

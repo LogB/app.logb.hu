@@ -1,6 +1,6 @@
 import Vue from "vue";
-import i18n from "../i18n";
-import Vuetify from "vuetify/lib";
+import Vuetify from 'vuetify/lib';
+import i18n from '../i18n';
 import "vuetify/src/stylus/app.styl";
 
 Vue.use(Vuetify, {

@@ -16,7 +16,7 @@ module.exports = {
     }
   },
 
-  lintOnSave: true,
+  lintOnSave: false,
   publicPath: undefined,
   outputDir: undefined,
   assetsDir: "assets",

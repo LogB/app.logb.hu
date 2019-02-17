@@ -3,22 +3,23 @@
     v-model="darkMode"
     class="pl-1 text-capitalize"
     :label="$t('darkMode')"
-  ></v-switch>
+  />
 </template>
 <script>
 import { mapMutations } from "vuex";
+
 export default {
   data() {
     return {};
   },
   computed: {
     darkMode: {
-      get: function() {
+      get() {
         return this.$store.state.dark;
       },
-      set: function(value) {
+      set(value) {
         this.CHANGE_DARK(value);
-      }
+      },
     }
   },
   methods: {

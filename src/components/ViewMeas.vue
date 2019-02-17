@@ -12,9 +12,12 @@
     "share": "share",
     "copied": "Copied:",
     "minify": "Minify",
-    "onlyWithLogb": " works only with LogB's QR reader"
+    "onlyWithLogb": " works only with LogB's QR reader",
+    "data": "Data",
+    "diagram": "Diagram",
+    "chooseData": "Choose column(s)"
     },
-  "hu":{ 
+  "hu":{
     "liveData":"ÉLŐ",
     "timeInterval": "Frissítés",
     "perSec": "másodpercenként",
@@ -26,7 +29,10 @@
     "share": "megosztás",
     "copied": "Kimásolva:",
     "minify": "LogB QR",
-    "onlyWithLogb": " csak a LogB QR olvasójával működik"
+    "onlyWithLogb": " csak a LogB QR olvasójával működik",
+    "data": "Adatok",
+    "diagram": "Diagram",
+    "chooseData": "Oszlop(ok) kiválsztása"
     }
 }
 </i18n>
@@ -34,7 +40,11 @@
   <div>
     <v-snackbar v-model="snackBar">
       {{ toastText }}
-      <v-btn flat color="primary" @click.native="snackBar = false">
+      <v-btn
+        flat
+        color="primary"
+        @click.native="snackBar = false"
+      >
         <v-icon>close</v-icon>
       </v-btn>
     </v-snackbar>
@@ -47,64 +57,90 @@
       <v-card>
         <v-card-title class="headline lighten-2">
           {{ $t("qrCode") }}
-          <v-spacer></v-spacer>
-          <v-btn icon @click="qrDialog = false">
-            <v-icon medium>close</v-icon>
+          <v-spacer />
+          <v-btn
+            icon
+            @click="qrDialog = false"
+          >
+            <v-icon medium>
+              close
+            </v-icon>
           </v-btn>
         </v-card-title>
-        <v-divider></v-divider>
-        <v-layout column align-center justify-center>
+        <v-divider />
+        <v-layout
+          column
+          align-center
+          justify-center
+        >
           <v-slider
             v-model="qrSize"
             prepend-icon="zoom_in"
             always-dirty
             min="5"
             max="100"
-          ></v-slider>
+          />
           <h2 class="center">
             {{ $t("openMeasurement") }}:&nbsp;
-            <a href="https://cloud.logb.hu/view">cloud.logb.hu/view</a>
+            <a
+              href="https://cloud.logb.hu/view"
+            >cloud.logb.hu/view</a>
           </h2>
           <v-switch
             v-model="minify"
             class="ml-3"
             :label="$t('minify')"
-          ></v-switch>
-          <h2 v-if="!minify">{{ linkText }}</h2>
-          <h2 v-if="minify" class="text-uppercase center">
+          />
+          <h2 v-if="!minify">
+            {{ linkText }}
+          </h2>
+          <h2
+            v-if="minify"
+            class="text-uppercase center"
+          >
             {{ qrText }}
-            <br />
+            <br>
             {{ $t("onlyWithLogb") }}
           </h2>
           <img
             class="mt-2 elevation-5"
             :src="
-              'http://api.qrserver.com/v1/create-qr-code/?data=' +
+              'https://api.qrserver.com/v1/create-qr-code/?data=' +
                 qrText +
                 '&format=svg&qzone=1&ecc=M'
             "
             :style="qrSizeStyle"
-          />
+          >
         </v-layout>
       </v-card>
     </v-dialog>
-    <v-dialog v-model="intervalDialog" width="fit-content">
+    <v-dialog
+      v-model="intervalDialog"
+      width="fit-content"
+    >
       <v-card>
-        <v-card-title class="headline text-capitalize" primary-title>{{
-          $t("setInterval")
-        }}</v-card-title>
+        <v-card-title
+          class="headline text-capitalize"
+          primary-title
+        >
+          {{
+            $t("setInterval")
+          }}
+        </v-card-title>
         <v-card-text class="text-xs-center">
           {{ $t("setIntervalText") }}
-          <br />
+          <br>
           {{ $t("ourEstimate") }}
-          <br />
+          <br>
           <v-card class="elevation-5 mt-3">
             <v-card-text>
               <v-switch
                 v-model="autoInterval"
                 :label="$t('turnOnAuto')"
-              ></v-switch>
-              <div class="center mt-4">{{ $t("timeInterval") }}</div>
+              />
+              <div class="center mt-4">
+                {{ $t("timeInterval") }}
+              </div>
               <div class="center headline text-uppercase text-truncate">
                 <span>{{ interval }} {{ $tc("perSec", interval) }}</span>
               </div>
@@ -117,7 +153,7 @@
                 min="1"
                 max="30"
                 @start="autoInterval = false"
-              ></v-slider>
+              />
             </v-card-text>
           </v-card>
         </v-card-text>
@@ -125,10 +161,10 @@
     </v-dialog>
     <v-bottom-sheet v-model="shareMenu">
       <v-card>
-        <v-card-title class="display-1 text-capitalize">{{
-          $t("share")
-        }}</v-card-title>
-        <v-divider></v-divider>
+        <v-card-title class="display-1 text-capitalize">
+          {{ $t("share") }}
+        </v-card-title>
+        <v-divider />
         <v-list dense>
           <v-list-tile
             @click="
@@ -163,13 +199,16 @@
         </v-list>
       </v-card>
     </v-bottom-sheet>
-    <v-layout wrap class="mb-4 center">
+    <v-layout
+      wrap
+      class="mb-4 center"
+    >
       <v-card class="px-3 my-1 mr-2">
         <v-switch
           v-model="autoUpdate"
           :loading="liveIsOn"
           :label="$t('liveData')"
-        ></v-switch>
+        />
       </v-card>
       <v-card
         hover
@@ -186,14 +225,22 @@
         style="height: inherit"
         @click.stop="shareMenu = true"
       >
-        <v-icon class="my-2">share</v-icon>
+        <v-icon class="my-2">
+          share
+        </v-icon>
         &nbsp;{{ $t("share") }}
       </v-btn>
     </v-layout>
 
-    <v-expansion-panel v-model="panel" expand>
-      <v-expansion-panel-content>
-        <div slot="header">Data</div>
+    <v-expansion-panel
+      v-model="panel"
+      expand
+    >
+      <v-expansion-panel-content ripple>
+        <div slot="header">
+          {{ $t('data') }}
+        </div>
+        <v-divider />
         <v-data-table
           :headers="headers"
           :items="items"
@@ -201,8 +248,12 @@
           item-key="Date"
           :loading="loading"
           :rows-per-page-items="rowsNums"
+          class="ma-1 elevation-1"
         >
-          <template slot="headers" slot-scope="props">
+          <template
+            slot="headers"
+            slot-scope="props"
+          >
             <tr>
               <th
                 v-for="header in props.headers"
@@ -214,30 +265,61 @@
                 ]"
                 @click="changeSort(header.value)"
               >
-                <v-icon small>arrow_upward</v-icon>
+                <v-icon small>
+                  arrow_upward
+                </v-icon>
                 {{ header.text }}
               </th>
             </tr>
           </template>
-          <template slot="items" slot-scope="props">
-            <tr>
-              <td
-                v-for="data in props.item"
-                :key="data.date"
-                class="center pa-0"
-              >
-                {{ data }}
-              </td>
-            </tr>
+          <template
+            slot="items"
+            slot-scope="props"
+          >
+            <v-fade-transition>
+              <tr>
+                <td
+                  v-for="data in props.item"
+                  :key="data.date"
+                  class="center pa-0"
+                >
+                  {{ data }}
+                </td>
+              </tr>
+            </v-fade-transition>
           </template>
         </v-data-table>
       </v-expansion-panel-content>
     </v-expansion-panel>
+    <v-card
+      class="pa-3 mt-4 elevation-3"
+      style="max-height: 60vh"
+    >
+      <v-select
+        v-model="selectedColumns"
+        :label="$t('chooseData')"
+        :items="choosableColumns"
+        outline
+        chips
+        deletable-chips
+        small-chips
+        multiple
+      />
+      <line-chart
+        v-if="loaded"
+        :items="items"
+        :headers="sendHeaders"
+        :selected-columns="selectedColumns"
+      />
+    </v-card>
   </div>
 </template>
 <script>
-import api from "@/api.js";
+import api from "@/api";
+import LineChart from "./LineChart.vue";
+
 export default {
+  components: { LineChart },
   props: { id: String },
   data() {
     return {
@@ -250,15 +332,16 @@ export default {
       interval: 5,
       rowsNums: [
         5,
-        10,
+        1,
+        13,
         20,
         50,
         100,
         { text: "$vuetify.dataIterator.rowsPerPageAll", value: -1 }
       ],
-      measData: [],
       loading: false,
       headers: [],
+      measData: [],
       intervalDialog: null,
       shareMenu: null,
       toastText: "",
@@ -266,26 +349,39 @@ export default {
       qrDialog: false,
       panel: [true, false, false],
       minify: true,
-      qrSize: 66
+      qrSize: 66,
+      loaded: false,
+      selectedColumns: []
     };
   },
   computed: {
+    choosableColumns() {
+      return this.sendHeaders.filter(word => word != "Date");
+    },
     items() {
-      return this.measData;
+      return JSON.parse(JSON.stringify(this.measData));
+    },
+    sendHeaders() {
+      let data = [];
+      this.headers.forEach(el => {
+        data.push(el.value);
+      });
+      return JSON.parse(JSON.stringify(data));
     },
     autoIntervalSec() {
       if (this.measData[0] != null && this.measData[2] != null) {
-        let length = this.measData.length - 1;
-        let time0 = Date.parse(this.measData[length].Date);
-        let time2 = Date.parse(this.measData[length - 2].Date);
-        let interval = (time0 - time2) / 2;
+        const length = this.measData.length - 1;
+        const time0 = Date.parse(this.measData[length].Date);
+        const time2 = Date.parse(this.measData[length - 2].Date);
+        const interval = (time0 - time2) / 2;
         if (interval <= 0) return 1;
         return interval / 1000 - 0.5;
-      } else return 5; //default value in seconds if autoInterval generation fails
+      }
+      return 5; // default value in seconds if autoInterval generation fails
     },
     liveIsOn() {
       if (this.autoUpdate) return "red";
-      else return false;
+      return false;
     },
     showInterval() {
       if (this.autoInterval) return "auto";
@@ -319,6 +415,9 @@ export default {
   created() {
     this.setData(this.id);
   },
+  beforeDestroy() {
+    clearInterval(this.updaterLoop);
+  },
   methods: {
     updateAutointerval() {
       if (this.autoInterval) {
@@ -333,9 +432,9 @@ export default {
           this.loading = false;
           this.makeHeader(response.data.header);
           this.updateAutointerval();
-        } else {
-          if (response.data.error == 11) this.$router.replace("/view");
-        }
+          this.selectedColumns.push(this.headers[1].value)
+          this.loaded = true;
+        } else if (response.data.error == 11) this.$router.replace("/view");
       });
     },
     makeHeader(array) {
@@ -357,7 +456,7 @@ export default {
     },
     updateData() {
       this.loading = true;
-      api.measData(this.id, this.items.length + 1).then(response => {
+      api.measData(this.id, this.measData.length + 1).then(response => {
         if (response.data.data != null) {
           response.data.data.forEach(element => {
             this.measData.push(element);
@@ -368,7 +467,7 @@ export default {
     },
     toastClip() {
       this.$clipboard(this.linkText);
-      this.toastText = this.$t("copied") + " " + this.linkText;
+      this.toastText = `${this.$t("copied")} ${this.linkText}`;
       this.snackBar = true;
     }
   }

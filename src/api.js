@@ -1,78 +1,79 @@
 import axios from "axios";
+
 axios.defaults.withCredentials = true;
-var apiUrl = "";
-if (window.location.href.includes("localhost"))
-  apiUrl = "/cloudForLocalhost.php";
-else apiUrl = "/cloudGet.php";
+let apiUrl = "";
+if (window.location.href.includes("localhost")) {
+  apiUrl = '/cloudForLocalhost.php';
+} else apiUrl = '/cloudGet.php';
 function get(params) {
   return axios.get(apiUrl, {
-    params: params
+    params,
   });
 }
 export default {
   login(un, pw) {
-    let params = {
+    const params = {
       function: "WLI",
-      un: un,
-      pw: pw
+      un,
+      pw,
     };
     return get(params).then(response => response);
   },
   register(un, pw, email) {
-    let params = {
+    const params = {
       function: "WR",
-      un: un,
-      pw: pw,
-      email: email
+      un,
+      pw,
+      email,
     };
     return get(params).then(response => response);
   },
   logout() {
-    let params = {
+    const params = {
       function: "WLO"
     };
     return get(params).then(response => response);
   },
   viewUserMeta() {
-    let params = {
+    const params = {
       function: "VUM"
     };
     return get(params).then(response => response);
   },
   isUnique(un) {
-    let params = {
+    const params = {
       function: "IUU",
-      un: un
+      un,
     };
     return get(params).then(response => response);
   },
   fastListMeas(isShared) {
-    let params = {
+    const params = {
       function: "LMMP"
     };
     if (isShared) {
-      params["isShare"] = "share";
+      params.isShare = "share";
     } else {
-      params["isShare"] = "own";
+      params.isShare = "own";
     }
     return get(params).then(response => response);
   },
   measDetails(id) {
-    let params = {
+    const params = {
       function: "LMMF",
-      id: id
+      id,
     };
     return get(params).then(response => response);
   },
   measData(id, line) {
-    let params = {
+    const params = {
       function: "VMD",
-      id: id
+      id,
     };
     if (line == null) {
-      params["line"] = 1;
+      params.line = 1;
     } else {
-      params["line"] = line;
+      params.line = line;
     }
     return get(params).then(response => response);
   }
