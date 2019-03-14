@@ -1,4 +1,6 @@
-# LogB
+# LogB Cloud
+
+Ez a LogB Cloud weboldal forráskódja.
 
 ## Project setup
 ```
@@ -27,3 +29,5 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+License: https://creativecommons.org/licenses/by-nc-sa/4.0/deed.hu
