@@ -1,5 +1,7 @@
 # LogB Cloud
 
+![https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
 This is the web client of LogB Cloud.
 
 ## Project setup
@@ -29,5 +31,3 @@ npm run lint
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
-
-License: https://creativecommons.org/licenses/by-nc-sa/4.0/
