@@ -1,35 +1,77 @@
+<i18n>
+{
+  "en":{
+    "clickToShow": "Click on the label(s) to show data"
+    },
+  "hu":{
+    "clickToShow": "Kattintson a jelmagyarázat(ok)ra az adatok megjelenítéséhez"
+    }
+}
+</i18n>
 <script>
-import { Line } from "vue-chartjs";
+import { Line, mixins } from "vue-chartjs";
+import "chartjs-plugin-zoom";
+import "chartjs-plugin-responsive-downsample";
+
+const { reactiveData } = mixins;
 
 export default {
   extends: Line,
+  mixins: [reactiveData],
   props: {
     items: Array,
-    headers: Array,
-    selectedColumns: Array
+    headers: Array
   },
   data() {
     return {
+      cols: [],
       chartData: {
-        labels: [],
         datasets: []
       },
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        responsiveDownsample: {
+          enabled: true,
+          aggregationAlgorithm: "LTTB",
+          desiredDataPointDistance: 100,
+          minNumPoints: 60,
+          cullData: true
+        },
+        pan: {
+          enabled: true
+        },
+        zoom: {
+          enabled: true,
+          mode: "x"
+        },
         scales: {
           xAxes: [
             {
-              type: "time"
+              type: "time",
+              time: {
+                displayFormats: {
+                  second: "HH:mm:ss",
+                  minute: "HH:mm:ss",
+                  millisecond: "HH:mm:ss"
+                }
+              }
             }
           ],
           yAxes: [
             {
               ticks: {
-                min: 0
+                beginAtZero: true
               }
             }
           ]
+        },
+        elements: {
+          line: {
+            fill: false,
+            pointHitRadius: 10,
+            cubicInterpolationMode: "monotone"
+          }
         },
         animation: {
           duration: 0 // general animation time
@@ -43,65 +85,66 @@ export default {
   },
   watch: {
     items: function() {
-      for (let i = this.chartData.labels.length; i < this.items.length; i++) {
-        let counter = 0;
-        Object.keys(this.items[i]).forEach(data => {
-          if (data != "Date") {
-            this.chartData.datasets[counter].data.push(this.items[i]);
-            counter++;
-          } else {
-            this.chartData.labels.push(this.items[i].Date);
-          }
-        });
-        this.$data._chart.update();
+      for (
+        let row = this.chartData.datasets[0].data.length;
+        row < this.items.length;
+        row++
+      ) {
+        for (let col of this.cols) {
+          this.chartData.datasets[this.cols.indexOf(col)].originalData.push({
+            x: this.items[row].Date,
+            y: this.items[row][col]
+          });
+        }
       }
-    },
-    selectedColumns: function() {
-      this.refreshColumns();
       this.$data._chart.update();
+      // let counter = 0;
+      // this.chartData.datasets.forEach(set => {
+      //   for (
+      //     let row = this.chartData.datasets[0].data.length;
+      //     row < this.items.length;
+      //     row++
+      //   ) {
+      //     set.data.push({
+      //       x: this.items[row].Date,
+      //       y: this.items[row][this.cols[counter]]
+      //     });
+      //   }
+      //   counter++;
+      // });
+
+      // this.cols.forEach(val => {
+      //   for (
+      //     let row = this.chartData.datasets[0].data.length;
+      //     row < this.items.length;
+      //     row++
+      //   ) {
+      //     this.chartData.datasets[this.cols.indexOf(val)].data.push({
+      //       x: this.items[row].Date,
+      //       y: this.items[row][val]
+      //     });
+      //   }
+      // });
     }
   },
   mounted() {
-    Object.values(this.headers).forEach(data => {
-      //1. fill up with data
-      if (data != "Date") {
-        let dataSet = [];
-        this.items.forEach(item => {
-          dataSet.push(item[data]);
-        });
-        //2. Set other parameters
-        let color = this.stringToColour(data);
-        this.chartData.datasets.push({
-          label: data,
-          data: dataSet,
-          hidden: true,
-          fill: false,
-          borderColor: color,
-          backgroundColor: color,
-          pointRadius: 3
-        });
-      } else {
-        this.items.forEach(item => {
-          this.chartData.labels.push(item.Date);
-        });
-      }
+    this.cols = this.headers.filter(val => val != "Date");
+    this.cols.forEach(col => {
+      let data = [];
+      this.items.forEach(row => {
+        data.push({ x: row.Date, y: row[col] });
+      });
+      let color = this.stringToColour(col);
+      this.chartData.datasets.push({
+        label: col,
+        originalData: data,
+        borderColor: color,
+        backgroundColor: color
+      });
     });
-    this.refreshColumns();
     this.renderChart(this.chartData, this.options);
   },
   methods: {
-    refreshColumns() {
-      if (this.selectedColumns) {
-        let arr = this.headers.filter(word => word != "Date");
-        this.selectedColumns.forEach(el => {
-          this.chartData.datasets[arr.indexOf(el)].hidden = false;
-        });
-        let narr = arr.filter(word => !this.selectedColumns.includes(word));
-        narr.forEach(el => {
-          this.chartData.datasets[arr.indexOf(el)].hidden = true;
-        });
-      } else this.chartData.datasets.forEach(el => (el.hidden = true));
-    },
     stringToColour(str) {
       var hash = 0;
       for (var i = 0; i < str.length; i++) {

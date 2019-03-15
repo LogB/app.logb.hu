@@ -27,11 +27,14 @@
         justify-center
       >
         <v-footer color="transparent">
-          2019 -&nbsp;
-          <strong class="logb_type">
-            LogB
-            <sup>&copy;</sup>
-          </strong>
+          <span class="mt-1 center">
+            v0.15
+            <br>
+            2019 -&nbsp;
+            <strong class="logb_type">
+              LogB
+              <sup>&copy;</sup>
+            </strong></span>
         </v-footer>
       </v-layout>
     </v-navigation-drawer>
@@ -49,7 +52,7 @@
           @click="$router.push('/')"
         >
           LogB Cloud
-          <sup>Alpha</sup>
+          <sup>Beta</sup>
         </span>
       </v-toolbar-title>
     </v-toolbar>

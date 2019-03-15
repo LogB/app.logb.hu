@@ -14,8 +14,7 @@
     "minify": "Minify",
     "onlyWithLogb": " works only with LogB's QR reader",
     "data": "Data",
-    "diagram": "Diagram",
-    "chooseData": "Choose column(s)"
+    "chooseData": "Click on the legend(s) to show column(s)"
     },
   "hu":{
     "liveData":"ÉLŐ",
@@ -31,8 +30,7 @@
     "minify": "LogB QR",
     "onlyWithLogb": " csak a LogB QR olvasójával működik",
     "data": "Adatok",
-    "diagram": "Diagram",
-    "chooseData": "Oszlop(ok) kiválsztása"
+    "chooseData": "Kattintson a jelmagyarázat(ok)ra az oszlop(ok) kiválsztásához"
     }
 }
 </i18n>
@@ -105,7 +103,7 @@
           <img
             class="mt-2 elevation-5"
             :src="
-              'https://api.qrserver.com/v1/create-qr-code/?data=' +
+              'http://api.qrserver.com/v1/create-qr-code/?data=' +
                 qrText +
                 '&format=svg&qzone=1&ecc=M'
             "
@@ -291,25 +289,15 @@
         </v-data-table>
       </v-expansion-panel-content>
     </v-expansion-panel>
-    <v-card
-      class="pa-3 mt-4 elevation-3"
-      style="max-height: 60vh"
-    >
-      <v-select
-        v-model="selectedColumns"
-        :label="$t('chooseData')"
-        :items="choosableColumns"
-        outline
-        chips
-        deletable-chips
-        small-chips
-        multiple
-      />
+    <v-card class="mt-4 pa-3 elevation-3">
+      <p class="center">
+        {{ $t('chooseData') }}
+      </p>
       <line-chart
         v-if="loaded"
+        style="max-height: 70vh; cursor: grab"
         :items="items"
         :headers="sendHeaders"
-        :selected-columns="selectedColumns"
       />
     </v-card>
   </div>
@@ -350,14 +338,10 @@ export default {
       panel: [true, false, false],
       minify: true,
       qrSize: 66,
-      loaded: false,
-      selectedColumns: []
+      loaded: false
     };
   },
   computed: {
-    choosableColumns() {
-      return this.sendHeaders.filter(word => word != "Date");
-    },
     items() {
       return JSON.parse(JSON.stringify(this.measData));
     },
@@ -432,7 +416,6 @@ export default {
           this.loading = false;
           this.makeHeader(response.data.header);
           this.updateAutointerval();
-          this.selectedColumns.push(this.headers[1].value)
           this.loaded = true;
         } else if (response.data.error == 11) this.$router.replace("/view");
       });

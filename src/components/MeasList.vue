@@ -229,7 +229,7 @@ export default {
     },
     loadMeta(id, event) {
       const index = this.measList.findIndex(x => x.measurement_id == id);
-      if (event && !("start" in this.measList[index])) {
+      if (event) {
         this.innerLoading = true;
         api.measDetails(id).then(response => {
           stateMerge(this.measList[index], response.data.meta);

@@ -166,6 +166,7 @@
           <v-btn
             slot="activator"
             outline
+            disabled
           >
             {{ $t("register") }}
           </v-btn>
@@ -190,6 +191,12 @@
               >
                 LogB
               </div>
+              <v-alert
+                type="info"
+                :value="true"
+              >
+                Regisztrálni lehet, de jelenleg fejlesztés alatt van a rendszer, így nincs értelme.
+              </v-alert>
               <v-container>
                 <v-text-field
                   v-model.trim="registerEmail"
@@ -312,7 +319,13 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import api from "@/api";
-import { required, maxLength, minLength, email, sameAs } from "vuelidate/lib/validators";
+import {
+  required,
+  maxLength,
+  minLength,
+  email,
+  sameAs
+} from "vuelidate/lib/validators";
 import { VueOfflineMixin } from "vue-offline";
 import userIcon from "../Jdenticon.vue";
 
@@ -385,17 +398,19 @@ export default {
     loginUsernameError() {
       const errors = [];
       if (!this.$v.loginUsername.$dirty) return errors;
-      !this.$v.loginUsername.required && errors.push(this.$t('form.cantBeEmpty'));
+      !this.$v.loginUsername.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
       !this.$v.loginUsername.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.userMinLength }));
-      !this.$v.loginUsername.maxLength
-        && errors.push(this.$t('form.lessThan', { n: this.userMaxLength }));
+      !this.$v.loginUsername.maxLength &&
+        errors.push(this.$t("form.lessThan", { n: this.userMaxLength }));
       return errors;
     },
     loginPasswordError() {
       const errors = [];
       if (!this.$v.loginPassword.$dirty) return errors;
-      !this.$v.loginPassword.required && errors.push(this.$t('form.cantBeEmpty'));
+      !this.$v.loginPassword.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
       !this.$v.loginPassword.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.passMinLength }));
       !this.$v.loginPassword.maxLength && errors.push(":D >50?");
@@ -404,25 +419,29 @@ export default {
     registerUsernameError() {
       const errors = [];
       if (!this.$v.registerUsername.$dirty) return errors;
-      !this.$v.registerUsername.required && errors.push(this.$t('form.cantBeEmpty'));
+      !this.$v.registerUsername.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
       !this.$v.registerUsername.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.userMinLength }));
       !this.$v.registerUsername.maxLength &&
         errors.push(this.$t("form.lessThan", { n: this.userMaxLength }));
-      !this.$v.registerUsername.isUnique && errors.push(this.$t('form.alreadyTaken'));
+      !this.$v.registerUsername.isUnique &&
+        errors.push(this.$t("form.alreadyTaken"));
       return errors;
     },
     registerEmailError() {
       const errors = [];
       if (!this.$v.registerEmail.$dirty) return errors;
-      !this.$v.registerEmail.required && errors.push(this.$t('form.cantBeEmpty'));
+      !this.$v.registerEmail.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
       !this.$v.registerEmail.email && errors.push(this.$t("form.notLikeEmail"));
       return errors;
     },
     registerPasswordError() {
       const errors = [];
       if (!this.$v.registerPassword.$dirty) return errors;
-      !this.$v.registerPassword.required && errors.push(this.$t('form.cantBeEmpty'));
+      !this.$v.registerPassword.required &&
+        errors.push(this.$t("form.cantBeEmpty"));
       !this.$v.registerPassword.minLength &&
         errors.push(this.$t("form.moreThan", { n: this.passMinLength }));
       return errors;
@@ -430,12 +449,13 @@ export default {
     registerPasswordAgainError() {
       const errors = [];
       if (!this.$v.registerPasswordAgain.$dirty) return errors;
-      !this.$v.registerPasswordAgain.sameAs && errors.push(this.$t('form.passNotEqual'));
+      !this.$v.registerPasswordAgain.sameAs &&
+        errors.push(this.$t("form.passNotEqual"));
       return errors;
     },
     darkAccent() {
-      if (this.$store.state.dark) return 'accent';
-      return 'primary';
+      if (this.$store.state.dark) return "accent";
+      return "primary";
     },
     ...mapState({
       user: state => state.user,
