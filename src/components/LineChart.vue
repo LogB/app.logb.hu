@@ -34,12 +34,13 @@ export default {
         responsiveDownsample: {
           enabled: true,
           aggregationAlgorithm: "LTTB",
-          desiredDataPointDistance: 100,
-          minNumPoints: 60,
-          cullData: true
+          desiredDataPointDistance: 20,
+          minNumPoints: 30,
+          cullData: false
         },
         pan: {
-          enabled: true
+          enabled: true,
+          mode: "x"
         },
         zoom: {
           enabled: true,
@@ -69,7 +70,7 @@ export default {
         elements: {
           line: {
             fill: false,
-            pointHitRadius: 10,
+            pointHitRadius: 14,
             cubicInterpolationMode: "monotone"
           }
         },
