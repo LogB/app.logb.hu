@@ -1,4 +1,8 @@
-# LogB
+# LogB Cloud
+
+[![Creative Commons Nevezd meg! - Ne add el! - Így add tovább! 4.0 Nemzetközi Licenc](https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+
+This is the web client of LogB Cloud.
 
 ## Project setup
 ```
