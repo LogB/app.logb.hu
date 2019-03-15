@@ -4,7 +4,11 @@ module.exports = {
     themeColor: "#4895CB",
     msTileColor: "#4895CB",
     appleMobileWebAppStatusBarStyle: "black-translucent",
-    appleMobileWebAppCapable: "yes"
+    appleMobileWebAppCapable: "yes",
+    workboxOptions: {
+      clientsClaim: 'true',
+      skipWaiting: 'true',
+    },
   },
 
   pluginOptions: {
