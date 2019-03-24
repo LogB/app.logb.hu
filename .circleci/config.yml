@@ -1,11 +1,11 @@
 version: 2
 jobs:
-   build:
-     docker:
-       - image: circleci/node:latest
-     steps:
-       - checkout
-       - restore_cache:
+  build:
+    docker:
+      - image: circleci/node:latest
+    steps:
+      - checkout
+      - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "package.json" }}
             # fallback to using the latest cache if no exact match is found
@@ -14,10 +14,10 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-       - run: npm install
-       - run: npm vue-cli-service build
-       - run: node .circleci/deploy.js
-       - run: echo "DEPLOY_DONE"
+      - run: npm install
+      - run: npm vue-cli-service build
+      - run: node .circleci/deploy.js
+      - run: echo "DEPLOY_DONE"
 
 workflows:
   version: 2
