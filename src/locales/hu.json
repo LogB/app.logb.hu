@@ -55,7 +55,8 @@
     "isBusy": "A kamera foglalt.",
     "notOverHttps": "HTTPS szükséges a funkcióhoz.",
     "permDenied": "Nincs engedélyezve a kamera használata.",
-    "scanQr": "QR kód beolvasás"
+    "scanQr": "QR kód beolvasás",
+    "badID": "Nem sikerült dekódolni a QR kódot"
   },
   "openMeasurement": "Mérés megnyitása",
   "password": "Jelszó",
@@ -67,5 +68,16 @@
   "sharedMeasurements": "Nyilvános Mérések",
   "start": "elindult",
   "username": "Felhasználónév",
-  "viewMeas": "Megtekintés"
+  "viewMeas": "Megtekintés",
+  "codeGenerator": "KódGenerátor",
+  "whatIsLogB": "Mi az a LogB?",
+  "values": {
+    "TEMP": "Hőmérséklet",
+    "HUM": "Páratartalom",
+    "DEW": "Harmatpont",
+    "PRESSURE": "Nyomás",
+    "VISIBLE-LIGHT": "Látható fény",
+    "UV-INDEX": "UV index",
+    "TIME": "Idő"
+  }
 }

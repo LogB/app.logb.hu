@@ -166,7 +166,6 @@
           <v-btn
             slot="activator"
             outline
-            disabled
           >
             {{ $t("register") }}
           </v-btn>
@@ -191,12 +190,6 @@
               >
                 LogB
               </div>
-              <v-alert
-                type="info"
-                :value="true"
-              >
-                Regisztrálni lehet, de jelenleg fejlesztés alatt van a rendszer, így nincs értelme.
-              </v-alert>
               <v-container>
                 <v-text-field
                   v-model.trim="registerEmail"

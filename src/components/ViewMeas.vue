@@ -14,7 +14,8 @@
     "minify": "Minify",
     "onlyWithLogb": " works only with LogB's QR reader",
     "data": "Data",
-    "chooseData": "Click on the legend(s) to show column(s)"
+    "chooseData": "Click on the legend(s) to show column(s)",
+    "download": "download"
     },
   "hu":{
     "liveData":"ÉLŐ",
@@ -30,7 +31,8 @@
     "minify": "LogB QR",
     "onlyWithLogb": " csak a LogB QR olvasójával működik",
     "data": "Adatok",
-    "chooseData": "Kattintson a jelmagyarázat(ok)ra az oszlop(ok) kiválsztásához"
+    "chooseData": "Kattintson a jelmagyarázat(ok)ra az oszlop(ok) kiválsztásához",
+    "download": "letöltés"
     }
 }
 </i18n>
@@ -71,13 +73,6 @@
           align-center
           justify-center
         >
-          <v-slider
-            v-model="qrSize"
-            prepend-icon="zoom_in"
-            always-dirty
-            min="5"
-            max="100"
-          />
           <h2 class="center">
             {{ $t("openMeasurement") }}:&nbsp;
             <a
@@ -100,15 +95,27 @@
             <br>
             {{ $t("onlyWithLogb") }}
           </h2>
-          <img
-            class="mt-2 elevation-5"
-            :src="
-              'http://api.qrserver.com/v1/create-qr-code/?data=' +
-                qrText +
-                '&format=svg&qzone=1&ecc=M'
-            "
-            :style="qrSizeStyle"
+          <v-slider
+            v-model="qrSize"
+            prepend-icon="zoom_in"
+            always-dirty
+            min="5"
+            max="100"
+          />
+          <v-btn
+            target="_blank"
+            rel="noopener noreferrer"
+            :href="'https://api.qrserver.com/v1/create-qr-code/?data='+qrText+'&size=1000x1000&ecc=Q&format=png'"
+            download
+            color="success"
           >
+            <v-icon>file_download</v-icon>
+            &nbsp;&nbsp;{{ $t('download') }}
+          </v-btn>
+          <div
+            class="mt-2 pa-2 elevation-5"
+            v-html="qrImage"
+          />
         </v-layout>
       </v-card>
     </v-dialog>
@@ -305,6 +312,7 @@
 <script>
 import api from "@/api";
 import LineChart from "./LineChart.vue";
+import QRCode from "qrcode-svg";
 
 export default {
   components: { LineChart },
@@ -336,8 +344,8 @@ export default {
       snackBar: false,
       qrDialog: false,
       panel: [true, false, false],
-      minify: true,
-      qrSize: 66,
+      minify: false,
+      qrSize: 44,
       loaded: false
     };
   },
@@ -375,11 +383,37 @@ export default {
       return "https://cloud.logb.hu/view/" + this.id;
     },
     qrText() {
-      if (this.minify) return this.id;
+      if (this.minify) return "M/" + this.id;
       return "https://cloud.logb.hu/view/" + this.id;
     },
-    qrSizeStyle() {
-      return "height: " + this.qrSize + "vmin";
+    vMin() {
+      let maxW = Math.max(
+        document.body.scrollWidth,
+        document.documentElement.scrollWidth,
+        document.body.offsetWidth,
+        document.documentElement.offsetWidth,
+        document.documentElement.clientWidth
+      );
+      let maxH = Math.max(
+        document.body.scrollHeight,
+        document.documentElement.scrollHeight,
+        document.body.offsetHeight,
+        document.documentElement.offsetHeight,
+        document.documentElement.clientHeight
+      );
+      return (Math.min(maxH, maxW) * this.qrSize) / 100;
+    },
+    qrImage() {
+      let qrcode = new QRCode({
+        content: this.qrText,
+        padding: 0,
+        width: this.vMin,
+        height: this.vMin,
+        color: "#000000",
+        background: "#ffffff",
+        ecl: "M"
+      }).svg();
+      return qrcode;
     }
   },
   watch: {

@@ -1,6 +1,6 @@
 {
-  "name": "LogB",
-  "short_name": "LogB Cloud",
+  "name": "LogB App",
+  "short_name": "LogB",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

@@ -14,7 +14,7 @@ import(/* webpackPreload: true */ "roboto-fontface/css/roboto/roboto-fontface.cs
 import(/* webpackPreload: true */ "material-design-icons-iconfont/dist/material-design-icons.css");
 // import SmoothScrollbar from 'vue-smooth-scrollbar'
 // Vue.use(SmoothScrollbar);
-axios.defaults.baseURL = "https://cloud.logb.hu/cloud";
+axios.defaults.baseURL = "https://api.logb.hu/v1.1/";
 Vue.config.productionTip = false;
 Vue.use(VueAxios, axios);
 Vue.use(Vuelidate);

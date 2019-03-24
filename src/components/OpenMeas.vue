@@ -25,10 +25,9 @@
             <v-alert
               v-model="errorOccured"
               transition="slide-y-transition"
-              outlined
+              outline
               dismissible
               type="error"
-              class="elevation-5"
             >
               {{ errorText }}
             </v-alert>
@@ -48,6 +47,15 @@
       </v-card>
     </v-dialog>
     <v-flex>
+      <v-alert
+        v-model="badID"
+        transition="slide-y-transition"
+        outline
+        dismissible
+        type="error"
+      >
+        {{ $t('open.badID') }}
+      </v-alert>
       <v-text-field
         v-model="id"
         mask="AAA-###"
@@ -77,11 +85,13 @@
 </template>
 <script>
 import { QrcodeStream } from "vue-qrcode-reader";
+import api from "@/api";
 
 export default {
   components: { QrcodeStream },
   data() {
     return {
+      badID: null,
       id: null,
       qrReader: null,
       qrLoading: null,
@@ -91,14 +101,28 @@ export default {
   },
   methods: {
     onDecode(decodedString) {
-      this.id = decodedString.slice(-6);
-      this.qrReader = false;
-      this.go();
+      if (decodedString.includes("http")) this.id = decodedString.slice(-6);
+      else {
+        if (decodedString.includes("M/")) {
+          this.id = decodedString.slice(-6);
+        } else {
+          if (decodedString.substring(0, 2) == "D/") {
+            api.getLastMeas(decodedString.substring(2)).then(response => {
+              if (response.data.error == 20) {
+                this.id = response.data.id;
+                this.qrReader = false;
+                this.go();
+              }
+            });
+          } else {
+            this.badID = true;
+          }
+        }
+      }
     },
     go() {
       this.$router.push("/view/" + this.id.toLowerCase());
     },
-
     async onInit(promise) {
       this.qrLoading = true;
 

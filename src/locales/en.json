@@ -56,7 +56,8 @@
     "isBusy": "Camera is busy.",
     "notOverHttps": "HTTPS is required for this function.",
     "permDenied": "Camera permission is denied. Please try enable it.",
-    "scanQr": "Scan QR"
+    "scanQr": "Scan QR",
+    "badID": "QR decoding was unsuccesful."
   },
   "openMeasurement": "Open measurement",
   "password": "Password",
@@ -68,5 +69,16 @@
   "sharedMeasurements": "Shared Measurements",
   "start": "Started",
   "username": "Username",
-  "viewMeas": "View"
+  "viewMeas": "View",
+  "codeGenerator": "CodeGenerator",
+  "whatIsLogB": "What is LogB?",
+  "values": {
+    "TEMP": "Temperature",
+    "HUM": "Humidity",
+    "DEW": "Dewpoint",
+    "PRESSURE": "Pressure",
+    "VISIBLE-LIGHT": "Visible light",
+    "UV-INDEX": "UV index",
+    "TIME": "Time"
+  }
 }

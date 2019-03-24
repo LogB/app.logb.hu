@@ -1,10 +1,10 @@
 <i18n>
 {
   "en":{
-    "clickToShow": "Click on the label(s) to show data"
+    "clickToShow": "Click on the label(s) to show/hide data rows"
     },
   "hu":{
-    "clickToShow": "Kattintson a jelmagyarázat(ok)ra az adatok megjelenítéséhez"
+    "clickToShow": "Kattintson a jelmagyarázat(ok)ra az adatsorok megjelenítéséhez/elrejtéséhez"
     }
 }
 </i18n>

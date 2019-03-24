@@ -1,0 +1,116 @@
+{
+    "SHT21": {
+        "voltage": "3v3",
+        "connection": "I2C",
+        "code": {
+            "include": "Sodaq_SHT2x.h",
+            "preSetup": "",
+            "setup": {
+                "begin": "Wire"
+            },
+            "values": {
+                "TEMP": {
+                    "unit": "C",
+                    "getValue": "SHT2x.GetTemperature()"
+                },
+                "HUM": {
+                    "unit": "RH%",
+                    "getValue": "SHT2x.GetHumidity()"
+                },
+                "DEW": {
+                    "unit": "C",
+                    "getValue": "SHT2x.GetDewPoint()"
+                }
+            }
+        }
+    },
+    "BMP180": {
+        "voltage": "3v3",
+        "connection": "I2C",
+        "code": {
+            "include": "Adafruit_BMP085.h",
+            "preSetup": "Adafruit_BMP085 bmp;",
+            "setup": {
+                "begin": "bmp"
+            },
+            "values": {
+                "TEMP": {
+                    "unit": "C",
+                    "getValue": "bmp.readTemperature()"
+                },
+                "PRESSURE": {
+                    "unit": "Pa",
+                    "getValue": "bmp.readPressure()"
+                }
+            }
+        }
+    },
+    "BH1750": {
+        "voltage": "3v3",
+        "connection": "I2C",
+        "code": {
+            "include": "BH1750.h",
+            "preSetup": "BH1750 lightMeter;",
+            "setup": {
+                "begin": "lightMeter"
+            },
+            "values": {
+                "VISIBLE-LIGHT": {
+                    "unit": "lx",
+                    "getValue": "lightMeter.readLightLevel()"
+                }
+            }
+        }
+    },
+    "SI1145": {
+        "voltage": "3v3",
+        "connection": "I2C",
+        "code": {
+            "include": "Adafruit_SI1145.h",
+            "preSetup": "Adafruit_SI1145 uv = Adafruit_SI1145();",
+            "setup": {
+                "begin": "uv"
+            },
+            "values": {
+                "UV-INDEX": {
+                    "unit": "index",
+                    "getValue": "uv.UVindex()"
+                }
+            }
+        }
+    },
+    "DS3231": {
+        "voltage": "5v",
+        "connection": "I2C",
+        "code": {
+            "include": "RTClib.h",
+            "preSetup": "RTC_DS3231 rtc;",
+            "setup": {
+                "begin": "rtc"
+            },
+            "values": {
+                "TIME": {
+                    "unit": "DateTime",
+                    "getValue": "rtc.now()"
+                }
+            }
+        }
+    },
+    "DS1307": {
+        "voltage": "5v",
+        "connection": "I2C",
+        "code": {
+            "include": "RTClib.h",
+            "preSetup": "RTC_DS1307 rtc;",
+            "setup": {
+                "begin": "rtc"
+            },
+            "values": {
+                "TIME": {
+                    "unit": "DateTime",
+                    "getValue": "rtc.now()"
+                }
+            }
+        }
+    }
+}

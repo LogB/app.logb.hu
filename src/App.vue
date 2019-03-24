@@ -1,26 +1,41 @@
 <template>
   <v-app :dark="dark">
     <v-navigation-drawer
-      ref="drawer"
       v-model="drawer"
       temporary
       app
-      card
       :width="drawerWidth"
     >
-      <v-list class="pa-0 mb-1 mt-1">
-        <LoginReg />
-      </v-list>
-      <v-divider />
-      <DrawerItems />
-      <v-divider />
-      <v-layout
-        row
-        align-center
+      <v-list
+        dense
+        class="pa-0 mb-1 mt-1"
       >
-        <LocaleChanger />
-        <DarkMode />
-      </v-layout>
+        <LoginReg />
+        <v-divider />
+        <DrawerItems />
+        <v-divider />
+        <v-list-tile href="https://logb.hu/about">
+          <v-list-tile-action>
+            <v-icon>info</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>
+              {{ $t("whatIsLogB") }}
+              <v-icon small>
+                open_in_new
+              </v-icon>
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-divider />
+        <v-layout
+          row
+          align-center
+        >
+          <LocaleChanger />
+          <DarkMode />
+        </v-layout>
+      </v-list>
       <v-divider />
       <v-layout
         class="pa-0"
@@ -28,13 +43,13 @@
       >
         <v-footer color="transparent">
           <span class="mt-1 center">
-            v0.15
-            <br>
-            2019 -&nbsp;
-            <strong class="logb_type">
+            v0.17
+            <br>2019 -
+            <span class="logb_type">
               LogB
               <sup>&copy;</sup>
-            </strong></span>
+            </span>
+          </span>
         </v-footer>
       </v-layout>
     </v-navigation-drawer>
@@ -48,12 +63,9 @@
       <v-toolbar-title>
         <span
           class="logb_type select_none"
-          style="cursor: pointer"
+          style="cursor: pointer; font-size: 110%"
           @click="$router.push('/')"
-        >
-          LogB Cloud
-          <sup>Beta</sup>
-        </span>
+        >LogB</span>
       </v-toolbar-title>
     </v-toolbar>
     <v-content>

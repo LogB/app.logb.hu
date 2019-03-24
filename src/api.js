@@ -1,10 +1,7 @@
 import axios from "axios";
 
 axios.defaults.withCredentials = true;
-let apiUrl = "";
-if (window.location.href.includes("localhost")) {
-  apiUrl = '/cloudForLocalhost.php';
-} else apiUrl = '/cloudGet.php';
+const apiUrl = '/cloudGet.php';
 function get(params) {
   return axios.get(apiUrl, {
     params,
@@ -75,6 +72,13 @@ export default {
     } else {
       params.line = line;
     }
+    return get(params).then(response => response);
+  },
+  getLastMeas(deviceID) {
+    const params = {
+      function: "DLM",
+      id: deviceID,
+    };
     return get(params).then(response => response);
   }
 };
