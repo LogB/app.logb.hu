@@ -7,7 +7,7 @@ var config = {
   host: process.env.FTPHOST,
   port: 21,
   localRoot: __dirname + "/../dist/",
-  remoteRoot: "/subdoms/api",
+  remoteRoot: "/subdoms/app",
   deleteRemote: true,
   forcePasv: true,
   include: ['*', '.*']
