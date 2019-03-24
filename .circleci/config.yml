@@ -15,7 +15,7 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
       - run: npm install
-      - run: vue-cli-service build
+      - run: npm run build
       - run: node .circleci/deploy.js
       - run: echo "DEPLOY_DONE"
 
