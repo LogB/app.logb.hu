@@ -1,7 +1,4 @@
 RewriteEngine On
 RewriteBase /
-RewriteCond %{REQUEST_URI} !^/cloud
-RewriteCond %{HTTPS} off
-RewriteCond %{HTTP:X-Forwarded-Proto} !https
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
-ErrorDocument 404 /index.html
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ https://%1/$1 [R=302,L]

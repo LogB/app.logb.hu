@@ -10,7 +10,7 @@ var config = {
   remoteRoot: "/subdoms/cloud/test",
   deleteRemote: true,
   forcePasv: true,
-  include: ['*']
+  include: ['*', '.*']
 }
 
 ftpDeploy.deploy(config, function (err) {
