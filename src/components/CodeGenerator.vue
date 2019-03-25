@@ -63,20 +63,14 @@
 }
 </i18n>
 <template>
-  <v-layout
-    column
-    wrap
-  >
-    <v-expansion-panel
-      v-model="openTab"
-      expand
-    >
+  <v-layout column wrap>
+    <v-expansion-panel v-model="openTab" expand>
       <v-expansion-panel-content>
         <template v-slot:header>
           <h3>{{ $t('addValues') }}</h3>
         </template>
         <v-card class="pa-3">
-          <v-divider />
+          <v-divider/>
           <p class="mt-2">
             {{ $t('step1_1') }}
             <br>
@@ -89,11 +83,7 @@
               :label="'AVR (Arduino Uno, Mini, Nano, Mega...) ' + $t('based')"
               value="AVR"
             />
-            <v-radio
-              color="primary"
-              :label="'ESP8266 ' + $t('based')"
-              value="ESP"
-            />
+            <v-radio color="primary" :label="'ESP8266 ' + $t('based')" value="ESP"/>
           </v-radio-group>
           <h3>{{ $t('step1_4') }}</h3>
           <p>{{ $t('step1_5') }}</p>
@@ -105,32 +95,22 @@
             multiple
             outline
           />
-          <v-btn
-            class="mt-5"
-            color="primary"
-            @click="openTab = 1"
-          >
-            {{ $t('continue') }}
-          </v-btn>
+          <v-btn class="mt-5" color="primary" @click="openTab = 1">{{ $t('continue') }}</v-btn>
         </v-card>
-        <v-divider />
+        <v-divider/>
       </v-expansion-panel-content>
       <v-expansion-panel-content>
         <template v-slot:header>
           <h3>2. {{ $t('inputs') }}</h3>
         </template>
         <v-card class="pa-3">
-          <v-divider />
-          <p class="mt-2">
-            {{ $t('step2_1') }}
-          </p>
+          <v-divider/>
+          <p class="mt-2">{{ $t('step2_1') }}</p>
           <v-alert
             v-if="selectedValues.length==0"
             type="warning"
             value="true"
-          >
-            {{ $t('noSelectedValues') }}
-          </v-alert>
+          >{{ $t('noSelectedValues') }}</v-alert>
           <v-select
             v-model="selectedInputs"
             :items="sensorsAndValues"
@@ -140,36 +120,20 @@
             multiple
             outline
           />
-          <v-btn
-            class="mt-5"
-            color="primary"
-            @click="openTab = 2"
-          >
-            {{ $t('continue') }}
-          </v-btn>
+          <v-btn class="mt-5" color="primary" @click="openTab = 2">{{ $t('continue') }}</v-btn>
         </v-card>
-        <v-divider />
+        <v-divider/>
       </v-expansion-panel-content>
       <v-expansion-panel-content>
         <template v-slot:header>
           <h3>3. {{ $t('outputs') }}</h3>
         </template>
         <v-card class="pa-3">
-          <v-divider />
-          <p class="mt-2">
-            {{ $t('step3_1') }}
-          </p>
-          <v-alert
-            type="warning"
-            :value="addTimeAlert"
-          >
+          <v-divider/>
+          <p class="mt-2">{{ $t('step3_1') }}</p>
+          <v-alert type="warning" :value="addTimeAlert">
             {{ $t('mustAddTime') }}
-            <v-btn
-              outline
-              @click="addTime()"
-            >
-              {{ $t('addTime') }}
-            </v-btn>
+            <v-btn outline @click="addTime()">{{ $t('addTime') }}</v-btn>
           </v-alert>
           <v-select
             v-model="selectedOutputs"
@@ -189,60 +153,24 @@
             :hint="timeIntervalHint"
           />
           <template v-if="selectedOutputs.includes('c')">
-            <v-text-field
-              v-model="cloud.wifiSSID"
-              :label="'WIFI ' + $t('SSID')"
-              outline
-            />
-            <v-text-field
-              v-model="cloud.wifiPassword"
-              :label="'WIFI ' + $t('password')"
-              outline
-            />
-            <v-text-field
-              v-model="cloud.deviceID"
-              :label="$t('device') + ' ID'"
-              outline
-            />
-            <v-text-field
-              v-model="cloud.pin"
-              label="PIN"
-              outline
-            />
+            <v-text-field v-model="cloud.wifiSSID" :label="'WIFI ' + $t('SSID')" outline/>
+            <v-text-field v-model="cloud.wifiPassword" :label="'WIFI ' + $t('password')" outline/>
+            <v-text-field v-model="cloud.deviceID" :label="$t('device') + ' ID'" outline/>
+            <v-text-field v-model="cloud.pin" label="PIN" outline/>
           </template>
-          <v-switch
-            v-model="toComma"
-            :label="$t('toComma')"
-          />
+          <v-switch v-model="toComma" :label="$t('toComma')"/>
           <br>
-          <h3 class="mt-4">
-            {{ $t('step3_2') }}
-          </h3>
-          <slick-list
-            v-model="selectedInputs"
-            lock-axis="y"
-          >
+          <h3 class="mt-4">{{ $t('step3_2') }}</h3>
+          <slick-list v-model="selectedInputs" lock-axis="y">
             <v-card class="pa-2 select_none elevation-3">
-              <slick-item
-                v-for="(item, index) in selectedInputs"
-                :key="index"
-                :index="index"
-              >
+              <slick-item v-for="(item, index) in selectedInputs" :key="index" :index="index">
                 <v-card
                   class="pa-3 my-2 elevation-2 title"
-                >
-                  {{ index+1 }}. {{ item.split("_")[0] + " - " + $t("values." + item.split("_")[1]) }}
-                </v-card>
+                >{{ index+1 }}. {{ item.split("_")[0] + " - " + $t("values." + item.split("_")[1]) }}</v-card>
               </slick-item>
             </v-card>
           </slick-list>
-          <v-btn
-            class="mt-5"
-            color="primary"
-            @click="openTab = 3"
-          >
-            {{ $t('continue') }}
-          </v-btn>
+          <v-btn class="mt-5" color="primary" @click="openTab = 3">{{ $t('continue') }}</v-btn>
         </v-card>
       </v-expansion-panel-content>
       <v-expansion-panel-content>
@@ -250,24 +178,17 @@
           <h3>4. {{ $t('code') }}</h3>
         </template>
         <v-card class="pa-3">
-          <v-divider />
-          <h3 class="mt-2">
-            {{ $t('step4_1') }}
-          </h3>
+          <v-divider/>
+          <h3 class="mt-2">{{ $t('step4_1') }}</h3>
           <!-- <v-btn>{{$t('clickToCopy')}}</v-btn> -->
           <v-card>
             <v-card-text>
-              <pre class="select_all">#include "logb.h"
-Settings set;<span
-v-for="i in usedSensors"
-:key="i+'1'"
->{{ codePreSetup(i) }}</span>
-void setup() {<span v-if="selectedOutputs.includes('a')">Serial.begin(115200);</span><span
-  v-if="selectedOutputs.includes('b')"
->Serial.begin(115200);</span><span
+              <code class="overflow-x-hidden">
+                <pre class="select_all">#include "logb.h"
+Settings set;<span v-for="i in usedSensors" :key="i+'1'">{{ codePreSetup(i) }}</span>
+void setup() {<template v-if="selectedOutputs.includes('a')"><br>Serial.begin(115200);</template><span
   v-if="selectedOutputs.includes('c')"
->
-set.device_id="{{ cloud.deviceID }}";
+><br>set.device_id="{{ cloud.deviceID }}";
 set.pin="{{ cloud.pin }}";
 WiFi.begin("{{ cloud.wifiSSID }}", "{{ cloud.wifiPassword }}");
 while (WiFi.status() != WL_CONNECTED) {delay(100);}</span><span
@@ -289,6 +210,7 @@ set.previousMillis = set.currentMillis;
 }
 }
 </pre>
+              </code>
             </v-card-text>
           </v-card>
         </v-card>
@@ -308,7 +230,7 @@ export default {
   standardInputs: null,
   data() {
     return {
-      openTab: [0, 0, 1, 0],
+      openTab: [1, 0, 0, 0],
       selectedValues: [],
       selectedInputs: [],
       selectedOutputs: [],

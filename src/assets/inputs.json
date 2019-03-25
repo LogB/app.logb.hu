@@ -84,14 +84,14 @@
         "connection": "I2C",
         "code": {
             "include": "RTClib.h",
-            "preSetup": "RTC_DS3231 rtc;",
+            "preSetup": "RTC_DS3231 DS3231_TIME;",
             "setup": {
-                "begin": "rtc"
+                "begin": "DS3231_TIME"
             },
             "values": {
                 "TIME": {
                     "unit": "DateTime",
-                    "getValue": "rtc.now()"
+                    "getValue": "DS3231_TIME.now()"
                 }
             }
         }
@@ -101,14 +101,14 @@
         "connection": "I2C",
         "code": {
             "include": "RTClib.h",
-            "preSetup": "RTC_DS1307 rtc;",
+            "preSetup": "RTC_DS1307 DS1307_TIME;",
             "setup": {
-                "begin": "rtc"
+                "begin": "DS1307_TIME"
             },
             "values": {
                 "TIME": {
                     "unit": "DateTime",
-                    "getValue": "rtc.now()"
+                    "getValue": "DS1307_TIME.now()"
                 }
             }
         }

@@ -1,19 +1,11 @@
 <template>
   <v-app :dark="dark">
-    <v-navigation-drawer
-      v-model="drawer"
-      temporary
-      app
-      :width="drawerWidth"
-    >
-      <v-list
-        dense
-        class="pa-0 mb-1 mt-1"
-      >
-        <LoginReg />
-        <v-divider />
-        <DrawerItems />
-        <v-divider />
+    <v-navigation-drawer v-model="drawer" temporary app :width="drawerWidth">
+      <v-list dense class="pa-0 mb-1 mt-1">
+        <LoginReg/>
+        <v-divider/>
+        <DrawerItems/>
+        <v-divider/>
         <v-list-tile href="https://logb.hu/about">
           <v-list-tile-action>
             <v-icon>info</v-icon>
@@ -21,26 +13,18 @@
           <v-list-tile-content>
             <v-list-tile-title>
               {{ $t("whatIsLogB") }}
-              <v-icon small>
-                open_in_new
-              </v-icon>
+              <v-icon small>open_in_new</v-icon>
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-divider />
-        <v-layout
-          row
-          align-center
-        >
-          <LocaleChanger />
-          <DarkMode />
+        <v-divider/>
+        <v-layout row align-center>
+          <LocaleChanger/>
+          <DarkMode/>
         </v-layout>
       </v-list>
-      <v-divider />
-      <v-layout
-        class="pa-0"
-        justify-center
-      >
+      <v-divider/>
+      <v-layout class="pa-0" justify-center>
         <v-footer color="transparent">
           <span class="mt-1 center">
             v0.17
@@ -53,13 +37,8 @@
         </v-footer>
       </v-layout>
     </v-navigation-drawer>
-    <v-toolbar
-      app
-      scroll-off-screen
-      :color="darkOrPrimary"
-      dark
-    >
-      <v-toolbar-side-icon @click.stop="drawer = !drawer" />
+    <v-toolbar app scroll-off-screen :color="darkOrPrimary" dark>
+      <v-toolbar-side-icon @click.stop="drawer = !drawer"/>
       <v-toolbar-title>
         <span
           class="logb_type select_none"
@@ -69,11 +48,8 @@
       </v-toolbar-title>
     </v-toolbar>
     <v-content>
-      <v-container
-        fluid
-        fill-height
-      >
-        <router-view />
+      <v-container fluid fill-height>
+        <router-view/>
       </v-container>
     </v-content>
   </v-app>
