@@ -73,6 +73,7 @@
   "codeGenerator": "CodeGenerator",
   "whatIsLogB": "What is LogB?",
   "device_id": "Device ID",
+  "or": "or",
   "values": {
     "TEMP": "Temperature",
     "HUM": "Humidity",

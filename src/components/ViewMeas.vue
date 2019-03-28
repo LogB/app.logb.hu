@@ -100,7 +100,15 @@
               <div class="center headline text-uppercase text-truncate">
                 <span>{{ interval }} {{ $tc("perSec", interval) }}</span>
               </div>
-              <v-text-field class="mt-4" v-model="interval" outline :label="$t('setInterval')"></v-text-field>
+              <v-slider
+                v-model="interval"
+                class="px-2"
+                thumb-label
+                always-dirty
+                min="1"
+                max="120"
+                @start="autoInterval = false"
+              />
             </v-card-text>
           </v-card>
         </v-card-text>
@@ -286,24 +294,22 @@ export default {
       return this.interval;
     },
     linkText() {
-      return "https://app.logb.hu/open/" + this.id;
+      return "https://app.logb.hu/view/" + this.id;
     },
     qrText() {
       if (this.minify) return "M/" + this.id;
-      return "https://app.logb.hu/open/" + this.id;
+      return "https://app.logb.hu/view/" + this.id;
     },
     vMin() {
       let maxW = Math.max(
         document.body.scrollWidth,
         document.documentElement.scrollWidth,
-        document.body.offsetWidth,
         document.documentElement.offsetWidth,
         document.documentElement.clientWidth
       );
       let maxH = Math.max(
         document.body.scrollHeight,
         document.documentElement.scrollHeight,
-        document.body.offsetHeight,
         document.documentElement.offsetHeight,
         document.documentElement.clientHeight
       );
@@ -334,6 +340,15 @@ export default {
     },
     autoInterval() {
       this.updateAutointerval();
+    },
+    interval() {
+      if (this.autoUpdate) {
+        clearInterval(this.updaterLoop);
+        this.updaterLoop = setInterval(() => {
+          this.updateData();
+          this.updateAutointerval();
+        }, this.interval * 1000);
+      }
     }
   },
   created() {

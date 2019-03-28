@@ -11,15 +11,6 @@
             </v-btn>
           </v-card-title>
           <v-divider/>
-          <v-container>
-            <v-alert
-              v-model="errorOccured"
-              transition="slide-y-transition"
-              outline
-              dismissible
-              type="error"
-            >{{ errorText }}</v-alert>
-          </v-container>
           <v-progress-circular v-if="qrLoading" indeterminate/>
           <v-responsive>
             <qrcode-stream v-if="qrReader" @init="onInit" @decode="onDecode"/>
@@ -29,12 +20,12 @@
     </v-dialog>
     <v-flex>
       <v-alert
-        v-model="badID"
+        v-model="errorOccured"
         transition="slide-y-transition"
         outline
         dismissible
         type="error"
-      >{{ $t('open.badID') }}</v-alert>
+      >{{ errorText }}</v-alert>
       <v-text-field
         v-model="id"
         mask="AAA-###"
@@ -52,13 +43,8 @@
         <v-icon>code</v-icon>
         &nbsp;{{ $t("open.scanQr") }}
       </v-btn>
-      <v-text-field
-        v-model="did"
-        class="headline text-capitalize"
-        :label="$t('device_id')"
-        @keydown.enter="$router.push('/view/' + id.toLowerCase())"
-      />
-      <v-btn outline color="primary" @click="deviceIDgo()">
+      <v-text-field v-model="did" :label="$t('device_id')"/>
+      <v-btn outline color="primary" @click="getID()">
         <v-icon>launch</v-icon>
         &nbsp;{{ $t("viewMeas") }}
       </v-btn>
@@ -83,53 +69,48 @@ export default {
     };
   },
   mounted() {
-    if (this.$route.params != null) {
-      if (this.$route.params.id != null && this.$route.params.mode != null) {
-        let mode = this.$route.params.mode;
-        let id = this.$route.params.id;
-        if (mode == "M") {
-          this.id = id;
-          this.go();
-        } else {
-          this.did = id;
-          this.deviceIDgo();
-        }
-      }
+    if (this.$route.params.id && this.$route.params.mode) {
+      let out = this.$route.params.mode + "/" + this.$route.params.id;
+      this.decodeID(out);
     }
   },
   methods: {
-    onDecode(decodedString) {
-      if (decodedString.includes("http")) {
-        this.id = decodedString.slice(-6);
+    decodeID(text) {
+      if (text.includes("M/")) {
+        this.id = text.slice(-6);
         this.qrReader = false;
         this.go();
       } else {
-        if (decodedString.includes("M/")) {
-          this.id = decodedString.slice(-6);
-          this.qrReader = false;
-          this.go();
+        if (text.substring(0, 2) == "D/") {
+          this.did = text.substring(2);
+          this.getID();
         } else {
-          if (decodedString.substring(0, 2) == "D/") {
-            this.did = decodedString.substring(2);
-            this.deviceIDgo();
-            this.qrReader = false;
-          } else {
-            this.badID = true;
-          }
+          this.badID = true;
         }
       }
     },
-    deviceIDgo() {
+    getID() {
       api.getLastMeas(this.did).then(response => {
         if (response.data.error == 20) {
           this.id = response.data.id;
+          this.qrReader = false;
           this.go();
         }
       });
     },
+    onDecode(decodedString) {
+      if (decodedString.includes("app.logb.hu")) {
+        this.$router.push(decodedString);
+      } else {
+        this.decodeID(decodedString);
+      }
+    },
+
     go() {
       let out = "/view/" + this.id.toLowerCase();
-      if (this.$route.path.live == "live") out += "/live";
+      if (this.$route.params.live == "live") {
+        out += "/live";
+      }
       this.$router.push(out);
     },
     async onInit(promise) {
@@ -156,6 +137,7 @@ export default {
         this.errorOccured = true;
       } finally {
         this.qrLoading = false;
+        this.qrReader = false;
       }
     }
   }

@@ -72,6 +72,7 @@
   "codeGenerator": "KódGenerátor",
   "whatIsLogB": "Mi az a LogB?",
   "device_id": "Eszköz ID",
+  "or": "vagy",
   "values": {
     "TEMP": "Hőmérséklet",
     "HUM": "Páratartalom",
