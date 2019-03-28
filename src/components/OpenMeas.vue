@@ -1,26 +1,16 @@
 <template>
   <v-container fill-height>
-    <v-dialog
-      v-model="qrReader"
-      fullscreen
-      hide-overlay
-      transition="dialog-bottom-transition"
-    >
+    <v-dialog v-model="qrReader" fullscreen hide-overlay transition="dialog-bottom-transition">
       <v-card>
         <v-flex>
           <v-card-title class="headline lighten-2">
             {{ $t("open.scanQr") }}
-            <v-spacer />
-            <v-btn
-              icon
-              @click="qrReader = false"
-            >
-              <v-icon medium>
-                close
-              </v-icon>
+            <v-spacer/>
+            <v-btn icon @click="qrReader = false">
+              <v-icon medium>close</v-icon>
             </v-btn>
           </v-card-title>
-          <v-divider />
+          <v-divider/>
           <v-container>
             <v-alert
               v-model="errorOccured"
@@ -28,20 +18,11 @@
               outline
               dismissible
               type="error"
-            >
-              {{ errorText }}
-            </v-alert>
+            >{{ errorText }}</v-alert>
           </v-container>
-          <v-progress-circular
-            v-if="qrLoading"
-            indeterminate
-          />
+          <v-progress-circular v-if="qrLoading" indeterminate/>
           <v-responsive>
-            <qrcode-stream
-              v-if="qrReader"
-              @init="onInit"
-              @decode="onDecode"
-            />
+            <qrcode-stream v-if="qrReader" @init="onInit" @decode="onDecode"/>
           </v-responsive>
         </v-flex>
       </v-card>
@@ -53,9 +34,7 @@
         outline
         dismissible
         type="error"
-      >
-        {{ $t('open.badID') }}
-      </v-alert>
+      >{{ $t('open.badID') }}</v-alert>
       <v-text-field
         v-model="id"
         mask="AAA-###"
@@ -65,20 +44,23 @@
         :label="$t('measurement_id')"
         @keydown.enter="$router.push('/view/' + id.toLowerCase())"
       />
-      <v-btn
-        outline
-        color="primary"
-        @click="go()"
-      >
+      <v-btn outline color="primary" @click="go()">
         <v-icon>launch</v-icon>
         &nbsp;{{ $t("viewMeas") }}
       </v-btn>
-      <v-btn
-        outline
-        @click="qrReader = true"
-      >
+      <v-btn outline @click="qrReader = true">
         <v-icon>code</v-icon>
         &nbsp;{{ $t("open.scanQr") }}
+      </v-btn>
+      <v-text-field
+        v-model="did"
+        class="headline text-capitalize"
+        :label="$t('device_id')"
+        @keydown.enter="$router.push('/view/' + id.toLowerCase())"
+      />
+      <v-btn outline color="primary" @click="deviceIDgo()">
+        <v-icon>launch</v-icon>
+        &nbsp;{{ $t("viewMeas") }}
       </v-btn>
     </v-flex>
   </v-container>
@@ -91,6 +73,7 @@ export default {
   components: { QrcodeStream },
   data() {
     return {
+      did: null,
       badID: null,
       id: null,
       qrReader: null,
@@ -99,29 +82,55 @@ export default {
       errorText: null
     };
   },
+  mounted() {
+    if (this.$route.params != null) {
+      if (this.$route.params.id != null && this.$route.params.mode != null) {
+        let mode = this.$route.params.mode;
+        let id = this.$route.params.id;
+        if (mode == "M") {
+          this.id = id;
+          this.go();
+        } else {
+          this.did = id;
+          this.deviceIDgo();
+        }
+      }
+    }
+  },
   methods: {
     onDecode(decodedString) {
-      if (decodedString.includes("http")) this.id = decodedString.slice(-6);
-      else {
+      if (decodedString.includes("http")) {
+        this.id = decodedString.slice(-6);
+        this.qrReader = false;
+        this.go();
+      } else {
         if (decodedString.includes("M/")) {
           this.id = decodedString.slice(-6);
+          this.qrReader = false;
+          this.go();
         } else {
           if (decodedString.substring(0, 2) == "D/") {
-            api.getLastMeas(decodedString.substring(2)).then(response => {
-              if (response.data.error == 20) {
-                this.id = response.data.id;
-                this.qrReader = false;
-                this.go();
-              }
-            });
+            this.did = decodedString.substring(2);
+            this.deviceIDgo();
+            this.qrReader = false;
           } else {
             this.badID = true;
           }
         }
       }
     },
+    deviceIDgo() {
+      api.getLastMeas(this.did).then(response => {
+        if (response.data.error == 20) {
+          this.id = response.data.id;
+          this.go();
+        }
+      });
+    },
     go() {
-      this.$router.push("/view/" + this.id.toLowerCase());
+      let out = "/view/" + this.id.toLowerCase();
+      if (this.$route.path.live == "live") out += "/live";
+      this.$router.push(out);
     },
     async onInit(promise) {
       this.qrLoading = true;

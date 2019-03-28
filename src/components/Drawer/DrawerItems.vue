@@ -13,9 +13,7 @@
       </v-list-tile-action>
 
       <v-list-tile-content>
-        <v-list-tile-title class="text-capitalize">
-          {{ $t(item.title) }}
-        </v-list-tile-title>
+        <v-list-tile-title class="text-capitalize">{{ $t(item.title) }}</v-list-tile-title>
       </v-list-tile-content>
     </v-list-tile>
   </div>
@@ -36,7 +34,7 @@ export default {
       icon: "timeline",
       title: "openMeasurement",
       onlineOnly: true,
-      route: "/view"
+      route: "/open"
     },
     {
       icon: "folder_shared",

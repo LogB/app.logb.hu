@@ -71,6 +71,7 @@
   "viewMeas": "Megtekintés",
   "codeGenerator": "KódGenerátor",
   "whatIsLogB": "Mi az a LogB?",
+  "device_id": "Eszköz ID",
   "values": {
     "TEMP": "Hőmérséklet",
     "HUM": "Páratartalom",

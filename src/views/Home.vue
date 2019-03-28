@@ -38,7 +38,7 @@
         &nbsp;&nbsp;{{ $t("sharedMeasurements") }}
       </v-btn>
 
-      <v-btn color="primary" @click="$router.push('/view')">
+      <v-btn color="primary" @click="$router.push('/open')">
         <v-icon>timeline</v-icon>
         &nbsp;&nbsp;{{ $t("openMeasurement") }}
       </v-btn>

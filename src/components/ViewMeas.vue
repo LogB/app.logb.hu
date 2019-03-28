@@ -40,68 +40,33 @@
   <div>
     <v-snackbar v-model="snackBar">
       {{ toastText }}
-      <v-btn
-        flat
-        color="primary"
-        @click.native="snackBar = false"
-      >
+      <v-btn flat color="primary" @click.native="snackBar = false">
         <v-icon>close</v-icon>
       </v-btn>
     </v-snackbar>
-    <v-dialog
-      v-model="qrDialog"
-      full-width
-      fullscreen
-      transition="dialog-bottom-transition"
-    >
+    <v-dialog v-model="qrDialog" full-width fullscreen transition="dialog-bottom-transition">
       <v-card>
         <v-card-title class="headline lighten-2">
           {{ $t("qrCode") }}
-          <v-spacer />
-          <v-btn
-            icon
-            @click="qrDialog = false"
-          >
-            <v-icon medium>
-              close
-            </v-icon>
+          <v-spacer/>
+          <v-btn icon @click="qrDialog = false">
+            <v-icon medium>close</v-icon>
           </v-btn>
         </v-card-title>
-        <v-divider />
-        <v-layout
-          column
-          align-center
-          justify-center
-        >
+        <v-divider/>
+        <v-layout column align-center justify-center>
           <h2 class="center">
             {{ $t("openMeasurement") }}:&nbsp;
-            <a
-              href="https://cloud.logb.hu/view"
-            >cloud.logb.hu/view</a>
+            <a href="https://app.logb.hu/open">app.logb.hu/open</a>
           </h2>
-          <v-switch
-            v-model="minify"
-            class="ml-3"
-            :label="$t('minify')"
-          />
-          <h2 v-if="!minify">
-            {{ linkText }}
-          </h2>
-          <h2
-            v-if="minify"
-            class="text-uppercase center"
-          >
+          <v-switch v-model="minify" class="ml-3" :label="$t('minify')"/>
+          <h2 v-if="!minify">{{ linkText }}</h2>
+          <h2 v-if="minify" class="text-uppercase center">
             {{ qrText }}
             <br>
             {{ $t("onlyWithLogb") }}
           </h2>
-          <v-slider
-            v-model="qrSize"
-            prepend-icon="zoom_in"
-            always-dirty
-            min="5"
-            max="100"
-          />
+          <v-slider v-model="qrSize" prepend-icon="zoom_in" always-dirty min="5" max="100"/>
           <v-btn
             target="_blank"
             rel="noopener noreferrer"
@@ -112,24 +77,15 @@
             <v-icon>file_download</v-icon>
             &nbsp;&nbsp;{{ $t('download') }}
           </v-btn>
-          <div
-            class="mt-2 pa-2 elevation-5"
-            v-html="qrImage"
-          />
+          <div class="mt-2 pa-2 elevation-5" v-html="qrImage"/>
         </v-layout>
       </v-card>
     </v-dialog>
-    <v-dialog
-      v-model="intervalDialog"
-      width="fit-content"
-    >
+    <v-dialog v-model="intervalDialog" width="fit-content">
       <v-card>
-        <v-card-title
-          class="headline text-capitalize"
-          primary-title
-        >
+        <v-card-title class="headline text-capitalize" primary-title>
           {{
-            $t("setInterval")
+          $t("setInterval")
           }}
         </v-card-title>
         <v-card-text class="text-xs-center">
@@ -139,26 +95,12 @@
           <br>
           <v-card class="elevation-5 mt-3">
             <v-card-text>
-              <v-switch
-                v-model="autoInterval"
-                :label="$t('turnOnAuto')"
-              />
-              <div class="center mt-4">
-                {{ $t("timeInterval") }}
-              </div>
+              <v-switch v-model="autoInterval" :label="$t('turnOnAuto')"/>
+              <div class="center mt-4">{{ $t("timeInterval") }}</div>
               <div class="center headline text-uppercase text-truncate">
                 <span>{{ interval }} {{ $tc("perSec", interval) }}</span>
               </div>
-              <v-slider
-                v-model="interval"
-                class="px-2"
-                thumb-label
-                always-dirty
-                ticks
-                min="1"
-                max="30"
-                @start="autoInterval = false"
-              />
+              <v-text-field class="mt-4" v-model="interval" outline :label="$t('setInterval')"></v-text-field>
             </v-card-text>
           </v-card>
         </v-card-text>
@@ -166,10 +108,8 @@
     </v-dialog>
     <v-bottom-sheet v-model="shareMenu">
       <v-card>
-        <v-card-title class="display-1 text-capitalize">
-          {{ $t("share") }}
-        </v-card-title>
-        <v-divider />
+        <v-card-title class="display-1 text-capitalize">{{ $t("share") }}</v-card-title>
+        <v-divider/>
         <v-list dense>
           <v-list-tile
             @click="
@@ -204,16 +144,9 @@
         </v-list>
       </v-card>
     </v-bottom-sheet>
-    <v-layout
-      wrap
-      class="mb-4 center"
-    >
+    <v-layout wrap class="mb-4 center">
       <v-card class="px-3 my-1 mr-2">
-        <v-switch
-          v-model="autoUpdate"
-          :loading="liveIsOn"
-          :label="$t('liveData')"
-        />
+        <v-switch v-model="autoUpdate" :loading="liveIsOn" :label="$t('liveData')"/>
       </v-card>
       <v-card
         hover
@@ -225,27 +158,16 @@
         <strong>{{ interval }}</strong>
         {{ $tc("perSec", interval) }}
       </v-card>
-      <v-btn
-        class="my-1"
-        style="height: inherit"
-        @click.stop="shareMenu = true"
-      >
-        <v-icon class="my-2">
-          share
-        </v-icon>
+      <v-btn class="my-1" style="height: inherit" @click.stop="shareMenu = true">
+        <v-icon class="my-2">share</v-icon>
         &nbsp;{{ $t("share") }}
       </v-btn>
     </v-layout>
 
-    <v-expansion-panel
-      v-model="panel"
-      expand
-    >
+    <v-expansion-panel v-model="panel" expand>
       <v-expansion-panel-content ripple>
-        <div slot="header">
-          {{ $t('data') }}
-        </div>
-        <v-divider />
+        <div slot="header">{{ $t('data') }}</div>
+        <v-divider/>
         <v-data-table
           :headers="headers"
           :items="items"
@@ -255,10 +177,7 @@
           :rows-per-page-items="rowsNums"
           class="ma-1 elevation-1"
         >
-          <template
-            slot="headers"
-            slot-scope="props"
-          >
+          <template slot="headers" slot-scope="props">
             <tr>
               <th
                 v-for="header in props.headers"
@@ -270,26 +189,15 @@
                 ]"
                 @click="changeSort(header.value)"
               >
-                <v-icon small>
-                  arrow_upward
-                </v-icon>
+                <v-icon small>arrow_upward</v-icon>
                 {{ header.text }}
               </th>
             </tr>
           </template>
-          <template
-            slot="items"
-            slot-scope="props"
-          >
+          <template slot="items" slot-scope="props">
             <v-fade-transition>
               <tr>
-                <td
-                  v-for="data in props.item"
-                  :key="data.date"
-                  class="center pa-0"
-                >
-                  {{ data }}
-                </td>
+                <td v-for="data in props.item" :key="data.date" class="center pa-0">{{ data }}</td>
               </tr>
             </v-fade-transition>
           </template>
@@ -297,9 +205,7 @@
       </v-expansion-panel-content>
     </v-expansion-panel>
     <v-card class="mt-4 pa-3 elevation-3">
-      <p class="center">
-        {{ $t('chooseData') }}
-      </p>
+      <p class="center">{{ $t('chooseData') }}</p>
       <line-chart
         v-if="loaded"
         style="max-height: 70vh; cursor: grab"
@@ -380,11 +286,11 @@ export default {
       return this.interval;
     },
     linkText() {
-      return "https://cloud.logb.hu/view/" + this.id;
+      return "https://app.logb.hu/open/" + this.id;
     },
     qrText() {
       if (this.minify) return "M/" + this.id;
-      return "https://cloud.logb.hu/view/" + this.id;
+      return "https://app.logb.hu/open/" + this.id;
     },
     vMin() {
       let maxW = Math.max(
@@ -432,6 +338,7 @@ export default {
   },
   created() {
     this.setData(this.id);
+    if (this.$route.params.live == "live") this.autoUpdate = true;
   },
   beforeDestroy() {
     clearInterval(this.updaterLoop);

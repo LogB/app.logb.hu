@@ -23,12 +23,13 @@ export default new Router({
       component: () => import(/* webpackChunkName: "my-measurements" */ './views/MyMeas.vue'),
     },
     {
-      path: "/view/:id",
+      path: "/view/:id/:live?",
       name: "view",
       component: () => import(/* webpackChunkName: "view-measurement" */ './views/View.vue'),
     },
+    { path: '/view', redirect: '/open' },
     {
-      path: "/view",
+      path: "/open/:mode?/:id?/:live?",
       name: "open",
       component: () => import(/* webpackChunkName: "open-measurement" */ './views/Open.vue'),
     },

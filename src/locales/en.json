@@ -72,6 +72,7 @@
   "viewMeas": "View",
   "codeGenerator": "CodeGenerator",
   "whatIsLogB": "What is LogB?",
+  "device_id": "Device ID",
   "values": {
     "TEMP": "Temperature",
     "HUM": "Humidity",

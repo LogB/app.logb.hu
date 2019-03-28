@@ -27,7 +27,7 @@
       <v-layout class="pa-0" justify-center>
         <v-footer color="transparent">
           <span class="mt-1 center">
-            v0.1.8
+            v0.20
             <br>2019 -
             <span class="logb_type">
               LogB

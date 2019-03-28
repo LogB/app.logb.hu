@@ -183,8 +183,8 @@
           <!-- <v-btn>{{$t('clickToCopy')}}</v-btn> -->
           <v-card>
             <v-card-text>
-              <code class="overflow-x-hidden">
-                <pre class="select_all">#include "logb.h"
+              <code>{{codeFromPre}}</code>
+              <pre ref="code" v-show="false">#include "logb.h"
 Settings set;<span v-for="i in usedSensors" :key="i+'1'">{{ codePreSetup(i) }}</span>
 void setup() {<template v-if="selectedOutputs.includes('a')"><br>Serial.begin(115200);</template><span
   v-if="selectedOutputs.includes('c')"
@@ -210,7 +210,6 @@ set.previousMillis = set.currentMillis;
 }
 }
 </pre>
-              </code>
             </v-card-text>
           </v-card>
         </v-card>
@@ -335,6 +334,9 @@ export default {
       text += " ";
       if (this.timeInterval == 0) text += this.$t("doesNotWait");
       return text;
+    },
+    codeFromPre() {
+      return this.$refs.code.$el.innerText;
     }
   },
   methods: {
