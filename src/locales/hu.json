@@ -69,6 +69,7 @@
   "start": "elindult",
   "username": "Felhasználónév",
   "viewMeas": "Megtekintés",
+  "openMeas": "Megnyitás",
   "codeGenerator": "KódGenerátor",
   "whatIsLogB": "Mi az a LogB?",
   "device_id": "Eszköz ID",

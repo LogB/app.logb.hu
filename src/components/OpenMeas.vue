@@ -26,28 +26,32 @@
         dismissible
         type="error"
       >{{ errorText }}</v-alert>
-      <v-text-field
-        v-model="id"
-        mask="AAA-###"
-        maxlength="6"
-        counter
-        class="headline text-capitalize"
-        :label="$t('measurement_id')"
-        @keydown.enter="$router.push('/view/' + id.toLowerCase())"
-      />
-      <v-btn outline color="primary" @click="go()">
-        <v-icon>launch</v-icon>
-        &nbsp;{{ $t("viewMeas") }}
-      </v-btn>
-      <v-btn outline @click="qrReader = true">
-        <v-icon>code</v-icon>
-        &nbsp;{{ $t("open.scanQr") }}
-      </v-btn>
-      <v-text-field v-model="did" :label="$t('device_id')"/>
-      <v-btn outline color="primary" @click="getID()">
-        <v-icon>launch</v-icon>
-        &nbsp;{{ $t("viewMeas") }}
-      </v-btn>
+      <v-layout column justify-center align-center>
+        <v-btn class="mb-5" outline @click="qrReader = true">
+          <v-icon>code</v-icon>
+          &nbsp;{{ $t("open.scanQr") }}
+        </v-btn>
+        <v-text-field
+          v-model="id"
+          mask="AAA-###"
+          maxlength="6"
+          counter
+          class="headline text-capitalize"
+          :label="$t('measurement_id')"
+          @keydown.enter="$router.push('/view/' + id.toLowerCase())"
+        />
+        <v-btn outline color="primary" @click="go()">
+          <v-icon>launch</v-icon>
+          &nbsp;{{ $t("openMeas") }}
+        </v-btn>
+        <br>
+        <h1 class="text-capitalize my-4">{{$t('or')}}</h1>
+        <v-text-field v-model="did" :label="$t('device_id')"/>
+        <v-btn outline color="primary" @click="getID()">
+          <v-icon>launch</v-icon>
+          &nbsp;{{ $t("openMeas") }}
+        </v-btn>
+      </v-layout>
     </v-flex>
   </v-container>
 </template>

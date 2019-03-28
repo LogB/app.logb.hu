@@ -70,6 +70,7 @@
   "start": "Started",
   "username": "Username",
   "viewMeas": "View",
+  "openMeas": "Open",
   "codeGenerator": "CodeGenerator",
   "whatIsLogB": "What is LogB?",
   "device_id": "Device ID",
