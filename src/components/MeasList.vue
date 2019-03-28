@@ -31,10 +31,7 @@
 </i18n>
 <template>
   <v-card>
-    <v-progress-linear
-      v-if="loading"
-      indeterminate
-    />
+    <v-progress-linear v-if="loading" indeterminate/>
     <v-data-iterator
       :loading="loading"
       :items="measList"
@@ -42,11 +39,7 @@
       :pagination.sync="pagination"
       :search="search"
     >
-      <v-layout
-        slot="header"
-        wrap
-        class="pl-3"
-      >
+      <v-layout slot="header" wrap class="pl-3">
         <v-text-field
           v-model="search"
           class="mr-4 mb-2"
@@ -56,19 +49,12 @@
           hide-details
         />
         <v-list>
-          <v-list-group
-            :value="settings"
-            no-action
-            class="mt-2"
-          >
+          <v-list-group :value="settings" no-action class="mt-2">
             <v-list-tile slot="activator">
               <v-list-tile-title>{{ $t("options") }}</v-list-tile-title>
             </v-list-tile>
             <v-list-tile class="ma-0 pa-0">
-              <v-checkbox
-                v-model="sortById"
-                :label="$t('sortById')"
-              />
+              <v-checkbox v-model="sortById" :label="$t('sortById')"/>
             </v-list-tile>
             <v-list-tile class="ma-0 pa-0">
               <v-checkbox
@@ -80,11 +66,8 @@
           </v-list-group>
         </v-list>
       </v-layout>
-      <v-expansion-panel
-        slot="item"
-        slot-scope="props"
-      >
-        <v-divider />
+      <v-expansion-panel slot="item" slot-scope="props">
+        <v-divider/>
         <v-expansion-panel-content
           lazy
           ripple
@@ -110,19 +93,12 @@
             </div>
           </div>
           <div class="pa-2">
-            <v-progress-linear
-              v-if="innerLoading"
-              indeterminate
-            />
+            <v-progress-linear v-if="innerLoading" indeterminate/>
             <v-card flat>
               <v-card-title>
                 <v-flex>
-                  <h4 v-if="props.item.measurement_alias == null">
-                    {{ $t("unnamedMeas") }}
-                  </h4>
-                  <h4 v-else>
-                    {{ props.item.measurement_alias }}
-                  </h4>
+                  <h4 v-if="props.item.measurement_alias == null">{{ $t("unnamedMeas") }}</h4>
+                  <h4 v-else>{{ props.item.measurement_alias }}</h4>
                   <v-tooltip bottom>
                     <span
                       slot="activator"
@@ -137,19 +113,11 @@
                   class="ma-0"
                   color="primary"
                   @click="goTo(props.item.measurement_id)"
-                >
-                  {{ $t("viewMeas") }}
-                </v-btn>
+                >{{ $t("viewMeas") }}</v-btn>
               </v-card-title>
-              <v-divider />
-              <v-card
-                class="pa-3 ma-2"
-                width="fit-content"
-              >
-                <v-layout
-                  column
-                  wrap
-                >
+              <v-divider/>
+              <v-card class="pa-3 ma-2" width="fit-content">
+                <v-layout column wrap>
                   <div>
                     <span class="text-capitalize font-weight-medium">{{ $t("start") }}:</span>
                     &nbsp;
@@ -164,6 +132,11 @@
                     <span class="text-capitalize font-weight-medium">{{ $t("line_count") }}:</span>
                     &nbsp;
                     <span>{{ props.item.line_count != null ? props.item.line_count : $t("none") }}</span>
+                  </div>
+                  <div>
+                    <span class="text-capitalize font-weight-medium">{{ $t("sensors_used") }}:</span>
+                    &nbsp;
+                    <span>{{ props.item.sensors_used != null ? props.item.sensors_used.split("/") : $t("none") }}</span>
                   </div>
                   <div>
                     <span class="text-capitalize font-weight-medium">{{ $t("description") }}:</span>

@@ -99,8 +99,9 @@ export default {
       });
     },
     onDecode(decodedString) {
-      if (decodedString.includes("app.logb.hu")) {
-        this.$router.push(decodedString);
+      if (decodedString.includes("app.logb.hu/view")) {
+        this.id = decodedString.split("app.logb.hu/view/").pop();
+        this.go();
       } else {
         this.decodeID(decodedString);
       }
@@ -135,9 +136,9 @@ export default {
           this.errorText = this.$t("open.browserNotSupported");
         }
         this.errorOccured = true;
+        this.qrReader = false;
       } finally {
         this.qrLoading = false;
-        this.qrReader = false;
       }
     }
   }
