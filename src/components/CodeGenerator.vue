@@ -194,7 +194,6 @@
 <script>
 import { SlickList, SlickItem } from "vue-slicksort";
 import stdInputs from "../assets/inputs.json";
-import { userInfo } from "os";
 
 export default {
   components: {
