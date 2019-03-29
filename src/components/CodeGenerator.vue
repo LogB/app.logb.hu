@@ -183,34 +183,7 @@
           <!-- <v-btn>{{$t('clickToCopy')}}</v-btn> -->
           <v-card>
             <v-card-text>
-              <code>
-                <pre ref="code">#include "logb.h"
-Settings set;<span v-for="i in usedSensors" :key="i+'1'">{{ codePreSetup(i) }}</span>
-void setup() {<template v-if="selectedOutputs.includes('a')"><br>Serial.begin(115200);</template><span
-  v-if="selectedOutputs.includes('c')"
-><br>set.device_id="{{ cloud.deviceID }}";
-set.pin="{{ cloud.pin }}";
-WiFi.begin("{{ cloud.wifiSSID }}", "{{ cloud.wifiPassword }}");
-while (WiFi.status() != WL_CONNECTED) {delay(100);}</span><span
-  v-for="i in usedSensors"
-  :key="i+'2'"
->{{ codeBegin(i) }}</span>
-{{ codeOutputs }}
-set.timeInterval={{ timeInterval }};<template v-if="toComma"><br>set.toComma=true;</template>
-}
-void loop() {
-set.currentMillis = millis();
-if (set.currentMillis - set.previousMillis >= set.timeInterval) {
-set.previousMillis = set.currentMillis;
-<span
-  v-for="i in selectedInputs"
-  :key="i+'3'"
->AddData("{{ i }}","{{ $t('values.'+[i.split("_")[1]]) }}", {{ getValue(i.split("_")[0], i.split("_")[1]) }});
-</span>Send();
-}
-}
-</pre>
-              </code>
+              <code>{{code}}</code>
             </v-card-text>
           </v-card>
         </v-card>
@@ -221,6 +194,7 @@ set.previousMillis = set.currentMillis;
 <script>
 import { SlickList, SlickItem } from "vue-slicksort";
 import stdInputs from "../assets/inputs.json";
+import { userInfo } from "os";
 
 export default {
   components: {
@@ -246,6 +220,52 @@ export default {
     };
   },
   computed: {
+    code() {
+      let code = '#include "logb.h"\nSettings set;\n';
+      this.usedSensors.forEach(e => {
+        code += this.codePreSetup(e) + "\n";
+      });
+      code += "void setup() {";
+      if (this.selectedOutputs.includes("a")) {
+        code += "Serial.begin(115200);";
+      }
+      if (this.selectedOutputs.includes("c")) {
+        code += 'set.device_id="' + this.cloud.deviceID + '";\n';
+        code += 'set.pin="' + this.cloud.pin + '";\n';
+        code +=
+          'WiFi.begin("' +
+          this.cloud.wifiSSID +
+          '","' +
+          this.cloud.wifiPassword +
+          '");\nwhile (WiFi.status() != WL_CONNECTED) {delay(100);}\n';
+      }
+      code += 'set.where="';
+      this.selectedOutputs.forEach(e => {
+        code += e + "\n";
+      });
+      code += '";';
+      this.usedSensors.forEach(e => {
+        code += this.codeBegin(e) + "\n";
+      });
+      code += "set.timeInterval=" + this.timeInterval + '";';
+      if (this.toComma) {
+        code += "\nset.toComma=true;";
+      }
+      code +=
+        "\n}\nvoid loop() {\nset.currentMillis = millis();\nif (set.currentMillis - set.previousMillis >= set.timeInterval) {\nset.previousMillis = set.currentMillis;\n";
+      this.selectedInputs.forEach(e => {
+        code +=
+          'AddData("' +
+          e +
+          '","' +
+          this.$t("values." + [e.split("_")[1]]) +
+          '",' +
+          this.getValue(e.split("_")[0], e.split("_")[1]) +
+          ");\n";
+      });
+      code += "Send();\n}\n}";
+      return code;
+    },
     outputs() {
       let out = [{ text: "Serial", value: "a" }, { text: "SD", value: "b" }];
       if (this.boardChoice == "ESP")
@@ -340,7 +360,7 @@ export default {
   methods: {
     codePreSetup(sensor) {
       let code = "";
-      code = "\n#include " + stdInputs[sensor].code.include;
+      code = '\n#include "' + stdInputs[sensor].code.include + '"';
       if (stdInputs[sensor].code.preSetup != "") {
         code += "\n" + stdInputs[sensor].code.preSetup;
       }
