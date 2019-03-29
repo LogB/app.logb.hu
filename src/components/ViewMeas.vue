@@ -168,7 +168,11 @@
       </v-card>
       <v-btn class="my-1" style="height: inherit" @click.stop="shareMenu = true">
         <v-icon class="my-2">share</v-icon>
-        &nbsp;{{ $t("share") }}
+        &nbsp; &nbsp;{{ $t("share") }}
+      </v-btn>
+      <v-btn class="my-1" style="height: inherit" color="success" @click.stop="saveData()">
+        <v-icon class="my-2">file_download</v-icon>
+        &nbsp; &nbsp; {{$t('download')}}
       </v-btn>
     </v-layout>
 
@@ -227,6 +231,8 @@
 import api from "@/api";
 import LineChart from "./LineChart.vue";
 import QRCode from "qrcode-svg";
+import Papa from "papaparse";
+import { saveAs } from "file-saver";
 
 export default {
   components: { LineChart },
@@ -408,6 +414,12 @@ export default {
       this.$clipboard(this.linkText);
       this.toastText = `${this.$t("copied")} ${this.linkText}`;
       this.snackBar = true;
+    },
+    saveData() {
+      let csv = Papa.unparse(this.measData);
+      var blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+      saveAs(blob, this.id.toUpperCase() + ".csv");
+      console.log(csv);
     }
   }
 };

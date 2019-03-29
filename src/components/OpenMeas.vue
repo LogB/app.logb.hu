@@ -38,7 +38,7 @@
           counter
           class="headline text-capitalize"
           :label="$t('measurement_id')"
-          @keydown.enter="$router.push('/view/' + id.toLowerCase())"
+          @keydown.enter="go()"
         />
         <v-btn outline color="primary" @click="go()">
           <v-icon>launch</v-icon>
@@ -112,6 +112,7 @@ export default {
     },
 
     go() {
+      if (this.id == null) return;
       let out = "/view/" + this.id.toLowerCase();
       if (this.$route.params.live == "live") {
         out += "/live";
