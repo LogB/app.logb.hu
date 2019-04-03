@@ -224,7 +224,7 @@ export default {
       this.usedSensors.forEach(e => {
         code += this.codePreSetup(e) + "\n";
       });
-      code += "void setup() {";
+      code += "void setup() {\n";
       if (this.selectedOutputs.includes("a")) {
         code += "Serial.begin(115200);";
       }
@@ -240,9 +240,9 @@ export default {
       }
       code += 'set.where="';
       this.selectedOutputs.forEach(e => {
-        code += e + "\n";
+        code += e;
       });
-      code += '";';
+      code += '";\n';
       this.usedSensors.forEach(e => {
         code += this.codeBegin(e) + "\n";
       });
