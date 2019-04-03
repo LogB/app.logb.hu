@@ -246,7 +246,7 @@ export default {
       this.usedSensors.forEach(e => {
         code += this.codeBegin(e) + "\n";
       });
-      code += "set.timeInterval=" + this.timeInterval + '";';
+      code += "set.timeInterval=" + this.timeInterval + ";";
       if (this.toComma) {
         code += "\nset.toComma=true;";
       }
