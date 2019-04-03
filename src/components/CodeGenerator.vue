@@ -226,7 +226,7 @@ export default {
       });
       code += "void setup() {\n";
       if (this.selectedOutputs.includes("a")) {
-        code += "Serial.begin(115200);";
+        code += "Serial.begin(115200);\n";
       }
       if (this.selectedOutputs.includes("c")) {
         code += 'set.device_id="' + this.cloud.deviceID + '";\n';
