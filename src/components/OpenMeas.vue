@@ -69,7 +69,8 @@ export default {
       qrReader: null,
       qrLoading: null,
       errorOccured: null,
-      errorText: null
+      errorText: null,
+      wantLive: false
     };
   },
   mounted() {
@@ -80,14 +81,15 @@ export default {
   },
   methods: {
     decodeID(text) {
+      if (text.includes("live")) this.wantLive = true;
       if (text.includes("M/")) {
         this.id = text.split("M/")[1].split("/")[0];
-        console.log(text.split("M/")[1].split("/")[0]);
         this.qrReader = false;
         this.go();
       } else {
-        if (text.substring(0, 2) == "D/") {
+        if (text.includes("D/")) {
           this.did = text.split("D/")[1].split("/")[0];
+          console.log(text.split("D/")[1].split("/")[0]);
           this.getID();
         } else {
           this.badID = true;
@@ -116,7 +118,7 @@ export default {
     go() {
       if (this.id == null) return;
       let out = "/view/" + this.id.toLowerCase();
-      if (this.$route.params.live == "live") {
+      if (this.$route.params.live == "live" || this.wantLive) {
         out += "/live";
       }
       this.$router.push(out);
