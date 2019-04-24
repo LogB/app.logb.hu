@@ -81,12 +81,13 @@ export default {
   methods: {
     decodeID(text) {
       if (text.includes("M/")) {
-        this.id = text.slice(-6);
+        this.id = text.split("M/")[1].split("/")[0];
+        console.log(text.split("M/")[1].split("/")[0]);
         this.qrReader = false;
         this.go();
       } else {
         if (text.substring(0, 2) == "D/") {
-          this.did = text.substring(2);
+          this.did = text.split("D/")[1].split("/")[0];
           this.getID();
         } else {
           this.badID = true;
@@ -107,6 +108,7 @@ export default {
         this.id = decodedString.split("app.logb.hu/view/").pop();
         this.go();
       } else {
+        this.qrReader = false;
         this.decodeID(decodedString);
       }
     },
