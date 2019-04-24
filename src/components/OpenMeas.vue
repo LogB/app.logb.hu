@@ -26,6 +26,13 @@
         dismissible
         type="error"
       >{{ errorText }}</v-alert>
+      <v-alert
+        v-model="badID"
+        transition="slide-y-transition"
+        outline
+        dismissible
+        type="error"
+      >Biztos hogy jó a QR kódot olvastál be? ( {{badText}} ?)</v-alert>
       <v-layout column justify-center align-center>
         <v-btn class="mb-5" outline @click="qrReader = true">
           <v-icon>code</v-icon>
@@ -70,7 +77,8 @@ export default {
       qrLoading: null,
       errorOccured: null,
       errorText: null,
-      wantLive: false
+      wantLive: false,
+      badText: null
     };
   },
   mounted() {
@@ -93,6 +101,7 @@ export default {
           this.getID();
         } else {
           this.badID = true;
+          this.badText = text;
         }
       }
     },
